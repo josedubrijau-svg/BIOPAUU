@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precios — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div id="nav-auth" class="nav-auth">
+    <a href="/login.html" class="nav-link">Entrar</a>
+    <a href="/registro.html" class="btn">Empieza gratis</a>
+  </div>
+</div></nav>
+
+<main>
+  <div style="width:100%;max-width:920px">
+    <div class="pricing-head">
+      <h1>Un plan. Toda la biología que cae.</h1>
+      <p>Temario oficial, ejercicios calcados a la PAU y tu plan por días. Cancela cuando quieras.</p>
+    </div>
+
+    <div id="pricing-msg" class="msg"></div>
+
+    <div class="plans">
+      <div class="plan plan--featured" id="plan-monthly">
+        <span class="plan-tag">Mensual</span>
+        <div class="plan-name">BioPAU Mensual</div>
+        <div class="price"><span id="price-monthly-label">2,99 €/mes</span></div>
+        <ul>
+          <li>Temario completo y oficial</li>
+          <li>Ejercicios con criterio real de la PAU</li>
+          <li>Tracker de días y planificación</li>
+          <li>Cancela cuando quieras</li>
+        </ul>
+        <button class="btn btn--wide" data-plan="monthly">Suscribirme <span class="arw">→</span></button>
+      </div>
+
+      <div class="plan" id="plan-annual">
+        <span class="plan-tag">Anual · ahorra</span>
+        <div class="plan-name">BioPAU Anual</div>
+        <div class="price"><span id="price-annual-label">29,99 €/año</span></div>
+        <ul>
+          <li>Todo lo del plan mensual</li>
+          <li>Dos meses gratis respecto al mensual</li>
+          <li>Ideal para todo el curso hasta la PAU</li>
+          <li>Cancela cuando quieras</li>
+        </ul>
+        <button class="btn btn--wide btn--ghost" data-plan="annual">Suscribirme un año <span class="arw">→</span></button>
+      </div>
+    </div>
+
+    <p class="pricing-note">Pago seguro con Stripe · No guardamos datos de tu tarjeta</p>
+  </div>
+</main>
+
+<footer><div class="foot-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div class="links">
+    <a href="/cuenta.html">Mi cuenta</a>
+    <a href="/index.html">Inicio</a>
+    <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">Contenidos oficiales</a>
+  </div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/pricing.js"></script>
+</body>
+</html>

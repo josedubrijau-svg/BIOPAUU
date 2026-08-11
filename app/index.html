@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — BioPAU VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body data-requires-plan data-page="dashboard">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+
+  <div class="main">
+    <header id="topbar"></header>
+
+    <div class="content protected">
+
+      <!-- Aviso si falta ejecutar dashboard-schema.sql -->
+      <div class="notice" id="setup-notice">
+        <span>⚙️</span>
+        <span><b>Falta un paso:</b> ejecuta <code>supabase/dashboard-schema.sql</code> en el SQL Editor de Supabase
+        para guardar el progreso, la racha y el avatar. Mientras tanto verás los contadores a cero.</span>
+      </div>
+
+      <!-- 1. Saludo dinámico -->
+      <section class="hello">
+        <h1 id="hello-title" class="sk">Cargando…</h1>
+        <p id="hello-sub" class="sk">Preparando tu panel</p>
+      </section>
+
+      <!-- 2. Estado del alumno + 3. Cuenta atrás -->
+      <div class="grid grid--top">
+
+        <section class="card">
+          <span class="card-sub">Tu progreso</span>
+          <div class="status" style="margin-top:16px">
+            <div class="ring">
+              <svg viewBox="0 0 120 120">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#ADE80C"/>
+                    <stop offset="100%" stop-color="#5FD3A6"/>
+                  </linearGradient>
+                </defs>
+                <circle class="track" cx="60" cy="60" r="50"></circle>
+                <circle class="bar" id="ring-bar" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="ring-label">
+                <span class="pct sk" id="ring-pct">0%</span>
+                <span class="cap">del curso</span>
+              </div>
+            </div>
+
+            <div class="status-info">
+              <div class="level-row">
+                <span class="level-badge sk" id="level-num">Nivel 1</span>
+                <span class="level-name sk" id="level-name">—</span>
+              </div>
+              <p class="level-next sk" id="level-next">Calculando tu nivel…</p>
+
+              <div class="stat-row">
+                <div class="stat stat--fire">
+                  <div class="v sk" id="stat-streak">0</div>
+                  <div class="k">🔥 Racha</div>
+                </div>
+                <div class="stat">
+                  <div class="v sk" id="stat-best">0</div>
+                  <div class="k">Mejor racha</div>
+                </div>
+                <div class="stat">
+                  <div class="v sk" id="stat-topics">0/0</div>
+                  <div class="k">Temas</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+              <div class="avatar avatar--lg" id="avatar-big"></div>
+              <button class="btn btn--ghost btn--sm" data-action="avatar">Cambiar avatar</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card countdown">
+          <span class="card-sub">Selectividad · Biología</span>
+          <h2 style="margin-top:6px">La cuenta atrás ya corre</h2>
+          <div class="cd-units">
+            <div class="cd-unit"><div class="n" id="cd-d">—</div><div class="l">Días</div></div>
+            <div class="cd-unit"><div class="n" id="cd-h">—</div><div class="l">Horas</div></div>
+            <div class="cd-unit"><div class="n" id="cd-m">—</div><div class="l">Min</div></div>
+            <div class="cd-unit"><div class="n" id="cd-s">—</div><div class="l">Seg</div></div>
+          </div>
+          <p class="cd-note">Fecha orientativa · se ajustará al calendario oficial</p>
+        </section>
+      </div>
+
+      <!-- 4. Módulos principales -->
+      <h2 style="margin-top:8px;font-size:1.1rem">Tu área de estudio</h2>
+      <div class="grid grid--mods">
+
+        <a class="module" href="/app/apuntes.html">
+          <div>
+            <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5zM4 17.5h16"/></svg></div>
+            <h3 style="margin-top:16px">Apuntes</h3>
+            <p>Todo el temario oficial, ordenado por bloques y listo para repasar.</p>
+          </div>
+          <div>
+            <div class="m-meta" id="mod-apuntes-meta">Cargando…</div>
+            <div class="m-go" style="margin-top:8px">Abrir <span class="arw">→</span></div>
+          </div>
+        </a>
+
+        <a class="module" href="/app/examenes.html">
+          <div>
+            <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l4 4v16H4V2zM14 2v5h5M8 12h8M8 16h5"/></svg></div>
+            <h3 style="margin-top:16px">Exámenes y ejercicios</h3>
+            <p>Exámenes de PAU por años y ejercicios clasificados por tema.</p>
+          </div>
+          <div>
+            <div class="m-meta" id="mod-examenes-meta">Cargando…</div>
+            <div class="m-go" style="margin-top:8px">Practicar <span class="arw">→</span></div>
+          </div>
+        </a>
+
+        <a class="module" href="/app/calendario.html">
+          <div>
+            <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg></div>
+            <h3 style="margin-top:16px">Tracker / Calendario</h3>
+            <p>Organiza tus días de estudio y no pierdas la racha.</p>
+          </div>
+          <div>
+            <div class="m-meta">Planifica a tu ritmo</div>
+            <div class="m-go" style="margin-top:8px">Organizar <span class="arw">→</span></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 5. Sugerencias + progreso por bloque -->
+      <div class="grid grid--bottom">
+        <section class="card">
+          <span class="card-sub">Sugerencias para ti</span>
+          <h2 style="margin-top:6px">¿Y ahora qué estudio?</h2>
+          <div class="sugg" id="suggestions">
+            <p style="color:var(--txt-dim)">Analizando tu progreso…</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <span class="card-sub">Por bloques</span>
+          <h2 style="margin-top:6px">Cómo llevas el temario</h2>
+          <div class="blocks" id="blocks"></div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de avatar -->
+<div class="modal" id="avatar-modal" role="dialog" aria-modal="true" aria-label="Elegir avatar">
+  <div class="modal-box">
+    <button class="modal-close" id="avatar-close" aria-label="Cerrar">×</button>
+    <h3>Elige tu avatar</h3>
+    <p>Te acompañará por toda tu área de estudio.</p>
+    <div class="avatar-grid" id="avatar-grid"></div>
+    <div class="modal-actions">
+      <button class="btn btn--ghost btn--sm" id="avatar-cancel">Cancelar</button>
+      <button class="btn btn--sm" id="avatar-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

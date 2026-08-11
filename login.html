@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar sesión — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+<body data-guest-only>
+<nav><div class="nav-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div id="nav-auth" class="nav-auth">
+    <a href="/login.html" class="nav-link">Entrar</a>
+    <a href="/registro.html" class="btn">Empieza gratis</a>
+  </div>
+</div></nav>
+
+<main>
+  <div class="card">
+    <span class="eyebrow">Bienvenido de nuevo</span>
+    <h1>Inicia sesión.</h1>
+    <p class="sub">Sigue donde lo dejaste con la biología de la PAU.</p>
+
+    <div id="form-msg" class="msg"></div>
+    <form id="form-login" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Tu contraseña" required>
+      </div>
+      <div class="row-between">
+        <span></span>
+        <a href="/recuperar-password.html" class="link">¿Has olvidado tu contraseña?</a>
+      </div>
+      <button type="submit" class="btn btn--wide">Iniciar sesión <span class="arw">→</span></button>
+    </form>
+
+    <p class="alt">¿Aún no tienes cuenta? <a href="/registro.html" class="link">Créala gratis</a></p>
+  </div>
+</main>
+
+<footer><div class="foot-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div class="links">
+    <a href="/precios.html">Precios</a>
+    <a href="/registro.html">Crear cuenta</a>
+    <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">Contenidos oficiales</a>
+  </div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

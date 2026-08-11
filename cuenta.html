@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi cuenta — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+<body data-requires-auth>
+<nav><div class="nav-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div id="nav-auth" class="nav-auth">
+    <a href="/precios.html" class="nav-link">Precios</a>
+    <a href="/cuenta.html" class="btn">Mi cuenta</a>
+  </div>
+</div></nav>
+
+<main>
+  <div class="card card--wide protected">
+    <span class="eyebrow">Mi cuenta</span>
+    <h1>Hola de nuevo.</h1>
+
+    <div class="acc-grid">
+      <div class="acc-item"><div class="k">Usuario</div><div class="v" id="acc-username">—</div></div>
+      <div class="acc-item"><div class="k">Email</div><div class="v" id="acc-email">—</div></div>
+      <div class="acc-item"><div class="k">Miembro desde</div><div class="v" id="acc-created">—</div></div>
+      <div class="acc-item"><div class="k">Estado de la cuenta</div><div class="v"><span id="acc-status" class="badge badge--off">—</span></div></div>
+      <div class="acc-item"><div class="k">Plan</div><div class="v" id="acc-plan">—</div></div>
+      <div class="acc-item"><div class="k">Pago</div><div class="v" id="acc-payment">—</div></div>
+    </div>
+
+    <div class="acc-actions">
+      <a href="/app/" id="btn-premium" class="btn" style="display:none">Ir al área de estudio <span class="arw">→</span></a>
+      <a href="/precios.html" id="btn-subscribe" class="btn">Suscribirme <span class="arw">→</span></a>
+      <button id="btn-portal" class="btn btn--ghost" style="display:none">Gestionar suscripción</button>
+      <button data-logout class="btn btn--ghost">Cerrar sesión</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="margin-bottom:.8rem">Editar datos</h3>
+    <div id="acc-msg" class="msg"></div>
+    <form id="form-username" novalidate>
+      <div class="field">
+        <label for="username">Nombre de usuario</label>
+        <input id="username" name="username" type="text" autocomplete="username" required>
+      </div>
+      <button type="submit" class="btn">Guardar cambios</button>
+    </form>
+  </div>
+</main>
+
+<footer><div class="foot-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div class="links">
+    <a href="/precios.html">Precios</a>
+    <a href="/index.html">Inicio</a>
+    <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">Contenidos oficiales</a>
+  </div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/account.js"></script>
+</body>
+</html>

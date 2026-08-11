@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exámenes — BioPAU VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body data-requires-plan data-page="examenes">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <div class="main">
+    <header id="topbar"></header>
+    <div class="content protected">
+
+      <section class="hello">
+        <h1>Exámenes y ejercicios</h1>
+        <p>Convocatorias de la PAU ordenadas por año. Filtra por bloque para practicar lo que necesitas.</p>
+      </section>
+
+      <div id="filtros" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"></div>
+      <div id="examenes"></div>
+
+      <p style="color:var(--txt-dim);font-size:.86rem;margin-top:28px">
+        Los enunciados y las pautas de corrección se irán publicando aquí.
+        Fuente oficial: <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" style="color:var(--lime)">Generalitat de Catalunya</a>.
+      </p>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/examenes.js"></script>
+</body>
+</html>
