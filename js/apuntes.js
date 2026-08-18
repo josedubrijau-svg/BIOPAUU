@@ -16,6 +16,19 @@
   var CHIP = { pending: '', in_progress: 'chip--prog', done: 'chip--done' };
   var NEXT = { pending: 'in_progress', in_progress: 'done', done: 'pending' };
 
+  var ICONS = {
+    mito: '<path d="M4 9c0-3 3-5 8-5s8 2 8 5-3 5-8 5-8-2-8-5z" transform="rotate(20 12 12)"/><path d="M8 9c1-2 2-2 3 0s2 2 3 0 2-2 3 0" transform="rotate(20 12 12)"/>',
+    dna: '<path d="M8 2c0 5 8 7 8 12s-8 7-8 12M16 2c0 5-8 7-8 12s8 7 8 12"/><path d="M9 8h6M9 12h6M9 16h6"/>',
+    microbe: '<circle cx="12" cy="12" r="6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/>',
+    shield: '<path d="M12 2l8 3.5V11c0 5.2-3.4 8.8-8 10-4.6-1.2-8-4.8-8-10V5.5L12 2z"/>',
+    flask: '<path d="M9 3v6L4 18a2 2 0 0 0 1.8 3h12.4a2 2 0 0 0 1.8-3L15 9V3"/><path d="M8 3h8"/><path d="M7 16h10"/>',
+    tree: '<path d="M12 22V13M12 13L7 8M12 13l5-5M12 8L9 4M12 8l3-4"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>'
+  };
+  function bqIcon(name) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[name] || ICONS.target) + '</svg>';
+  }
+
   function unidadesDe(b) { return D.todasLasUnidades().filter(function (u) { return u.bloqueId === b.id; }); }
   function bloquePct(b) {
     var us = unidadesDe(b);
@@ -32,11 +45,15 @@
     box.innerHTML = D.BLOQUES.map(function (b, i) {
       var pct = bloquePct(b);
       var n = unidadesDe(b).length;
-      return '<button class="bq-card" data-bloque="' + b.id + '" style="--bc:' + b.color + ';--delay:' + (i * 40) + 'ms">' +
+      var tieneApuntes = window.BIOPAU_NOTES && window.BIOPAU_NOTES[b.id];
+      return '<button class="bq-card" data-bloque="' + b.id + '" style="--bc:' + b.color + ';--delay:' + (i * 60) + 'ms">' +
+        '<div class="bq-icon">' + bqIcon(b.icon) + '</div>' +
         '<span class="bq-name">' + b.nombre + '</span>' +
-        '<span class="bq-meta">' + bloqueDone(b) + '/' + n + ' ' + (n === 1 ? 'bloque' : 'apuntes') + '</span>' +
-        '<span class="bq-bar"><span style="width:' + pct + '%"></span></span>' +
-        '<span class="bq-pct">' + pct + '%</span>' +
+        '<span class="bq-meta">' + (tieneApuntes ? bloqueDone(b) + '/' + n + ' apartats' : 'Apunts pròximament') + '</span>' +
+        '<div>' +
+          '<div class="bq-bar"><span style="width:' + pct + '%"></span></div>' +
+          '<div class="bq-foot"><span class="bq-pct">' + pct + '%</span><span class="bq-cta">Obrir →</span></div>' +
+        '</div>' +
         '</button>';
     }).join('');
   }
@@ -90,10 +107,15 @@
     var index = 0;
     function show(i) {
       index = Math.max(0, Math.min(sections.length - 1, i));
-      sections.forEach(function (s, n) { s.classList.toggle('active-section', n === index); });
+      sections.forEach(function (s, n) {
+        var active = (n === index);
+        s.classList.toggle('active-section', active);
+        s.style.display = active ? 'block' : 'none';   // refuerzo por si el CSS tarda en cargar
+      });
       navBtns.forEach(function (b, n) { b.classList.toggle('active', n === index); });
       document.querySelector('.note-reader').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    show(0);
     navBtns.forEach(function (b, i) { b.addEventListener('click', function () { show(i); }); });
     var prev = document.getElementById('prev-section'), next = document.getElementById('next-section');
     if (prev) prev.addEventListener('click', function () { show(index - 1); });
