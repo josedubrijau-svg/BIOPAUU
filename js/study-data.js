@@ -20,11 +20,24 @@ window.BIOPAU_DATA = (function () {
   var BLOQUES = [
     {
       id: 'biomolecules',
-      nombre: 'Les biomolècules i el metabolisme',
-      desc: 'Glúcids, lípids, proteïnes i àcids nucleics, i com la cèl·lula obté i fa servir l\'energia: catabolisme, anabolisme, respiració i fotosíntesi.',
+      nombre: 'Les biomolècules',
+      desc: 'Glúcids, lípids, proteïnes i àcids nucleics: estructura i funció.',
       color: '#38BDF8',
-      icon: 'mito',
+      icon: 'dna',
       apuntes: []
+    },
+    {
+      id: 'metabolisme',
+      nombre: 'Metabolisme',
+      desc: 'Catabolisme, anabolisme autòtrof i anabolisme heteròtrof: com la cèl·lula obté i transforma matèria i energia.',
+      color: '#2DD4BF',
+      icon: 'mito',
+      apuntes: [
+        { titulo: 'Tema 1 · El control del metabolisme' },
+        { titulo: 'Tema 2 · El catabolisme' },
+        { titulo: "Tema 3 · L'anabolisme autòtrof" },
+        { titulo: "Tema 4 · L'anabolisme heteròtrof" }
+      ]
     },
     {
       id: 'genetica',

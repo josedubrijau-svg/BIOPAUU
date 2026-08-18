@@ -44,6 +44,23 @@
 .bq-cta{font-family:'Space Mono',monospace; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:#8FA396; display:flex; align-items:center; gap:5px; transition:gap .2s ease, color .2s ease}
 .bq-card:hover .bq-cta{gap:9px; color:var(--bc)}
 
+/* ---------- Lista de temas (nivel intermedio) ------------------------------ */
+.temas-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px}
+.tema-card{
+  --bc:#ADE80C; text-align:left; display:flex; flex-direction:column; gap:10px;
+  background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:22px;
+  cursor:pointer; opacity:0; transform:translateY(12px);
+  animation:bqCardIn .5s cubic-bezier(.2,.7,.2,1) forwards; animation-delay:var(--delay,0ms);
+  transition:transform .18s ease, box-shadow .22s ease, border-color .18s ease;
+}
+.tema-card:hover{transform:translateY(-4px); border-color:color-mix(in srgb, var(--bc) 55%, rgba(255,255,255,.09)); box-shadow:0 16px 36px -18px color-mix(in srgb, var(--bc) 50%, transparent)}
+.tema-card:active,.tema-card.is-pop{transform:scale(.96); transition:transform .12s ease}
+.tema-num{font-family:'Space Mono',monospace; font-size:.72rem; font-weight:700; letter-spacing:.1em; color:var(--bc)}
+.tema-title{font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:800; font-size:1.15rem; color:#EAF3E4}
+.tema-resumen{color:#9FB6A6; font-size:.86rem; line-height:1.5}
+.tema-foot{display:flex; align-items:center; justify-content:space-between; margin-top:4px}
+
 /* ---------- Contenedor de detalle ------------------------------------------ */
 .bq-detalle{display:none}
 .bq-detalle.is-open{display:block; animation:bqFadeIn .35s cubic-bezier(.2,.7,.2,1)}
@@ -113,6 +130,12 @@
 }
 .topic-tools .btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px -8px rgba(14,58,42,.5)}
 .topic-tools .btn.chip--done{background:#6C9D00; border-color:#6C9D00}
+.tema-progress{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.tema-progress .chip{font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700; padding:6px 12px; border-radius:100px;
+  border:1.5px solid var(--nr-line); background:#fff; color:var(--nr-muted); cursor:pointer; transition:all .15s ease}
+.tema-progress .chip:hover{border-color:#ADE80C; transform:translateY(-1px)}
+.tema-progress .chip.chip--prog{background:#FDF3D6; border-color:#E8C86B; color:#8A6A0E}
+.tema-progress .chip.chip--done{background:#DFF3B4; border-color:#8FBF3A; color:#3D5A0E}
 
 .topic-layout{display:grid; grid-template-columns:250px 1fr}
 .topic-nav{border-right:1px solid var(--nr-line); padding:18px; display:flex; flex-direction:column; gap:4px; background:rgba(0,0,0,.015)}
@@ -216,3 +239,10 @@
   .notes-content{padding:20px 16px}
   .note-section h3{font-size:1.5rem}
 }
+
+/* ---------- Cabeceras de grupo en la navegación del lector ---------------- */
+.nav-group-label{
+  font-family:'Space Mono',monospace; font-size:.66rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--nr-forest); opacity:.65; padding:16px 13px 6px; border-top:1px solid var(--nr-line); margin-top:4px;
+}
+.nav-group-label:first-child{border-top:0; margin-top:0; padding-top:2px}
