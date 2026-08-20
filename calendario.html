@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendari — BioPAU VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/calendario.css">
+</head>
+<body data-requires-plan data-page="calendario">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <div class="main">
+    <header id="topbar"></header>
+    <div class="content protected">
+
+      <div class="notice" id="setup-notice">
+        <span>⚙️</span>
+        <span><b>Falta un paso:</b> ejecuta <code>supabase/calendar-schema.sql</code> en Supabase para guardar anotacions, tasques i dates control.</span>
+      </div>
+
+      <section class="hello">
+        <h1>El teu calendari d'estudi</h1>
+        <p>Registra què estudies cada dia, marca les teves dates control i deixa que el sistema et digui què toca.</p>
+      </section>
+
+      <!-- Widget de recomendación -->
+      <div id="reco-widget" class="reco"></div>
+
+      <!-- Calendario -->
+      <section class="cal-card">
+        <div class="cal-head">
+          <h2 id="cal-title">—</h2>
+          <div class="cal-controls">
+            <div class="cal-views">
+              <button data-vista="mes" class="is-active">Mes</button>
+              <button data-vista="semana">Setmana</button>
+            </div>
+            <button id="cal-today" class="cal-today-btn">Avui</button>
+            <div class="cal-nav">
+              <button id="cal-prev" aria-label="Anterior">‹</button>
+              <button id="cal-next" aria-label="Següent">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="legend">
+          <span><i style="background:rgba(173,232,12,.5)"></i> Dia amb activitat</span>
+          <span><i style="background:rgba(255,255,255,.28)"></i> Avui</span>
+          <span><i style="background:#F87171"></i> Data control</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Side peek -->
+<div class="panel-backdrop" id="panel-backdrop"></div>
+<aside class="day-panel" id="day-panel"></aside>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/calendar-data.js"></script>
+<script src="/js/recommend.js"></script>
+<script src="/js/calendario.js"></script>
+</body>
+</html>
