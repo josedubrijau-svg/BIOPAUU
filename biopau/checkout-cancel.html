@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="cc.title">Pago cancelado — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/auth.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div class="nav-right">
+    <div data-lang-switch></div>
+    <div id="nav-auth" class="nav-auth">
+      <a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>
+      <a href="/registro.html" class="btn" data-i18n="nav.start_free">Empieza gratis</a>
+    </div>
+  </div>
+</div></nav>
+
+<main>
+  <div class="card" style="text-align:center">
+    <span class="eyebrow" data-i18n="cs.eyebrow">Suscripción</span>
+    <h1 data-i18n="cc.h1">El pago ha sido cancelado.</h1>
+    <p class="sub" data-i18n="cc.sub">No te hemos cobrado nada. Cuando quieras, puedes retomarlo.</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:.6rem">
+      <a href="/precios.html" class="btn"><span data-i18n="cc.back_prices">Volver a precios</span> <span class="arw">→</span></a>
+      <a href="/index.html" class="btn btn--ghost" data-i18n="cc.go_home">Ir al inicio</a>
+    </div>
+  </div>
+</main>
+
+<footer><div class="foot-in">
+  <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+  <div class="links"><a href="/precios.html" data-i18n="foot.prices">Precios</a><a href="/index.html" data-i18n="foot.home">Inicio</a></div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

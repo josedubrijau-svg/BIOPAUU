@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="meta.title">BioPAU — La biología que de verdad cae en la Selectivitat</title>
+<meta name="description" content="Temario, ejercicios y plan por días montados sobre los contenidos oficiales de Biología de la PAU de Catalunya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Caveat:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Patrick+Hand&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
+<style>
+  :root{
+    --paper:#F1F3EA;--paper-2:#FBFCF6;--pine:#0E3A2A;--pine-2:#0A2A1F;--ink:#0B1F16;--ink-soft:#3B4E44;
+    --lime:#ADE80C;--lime-deep:#8AC000;--sage:#CFDCC0;
+    --grid:rgba(14,58,42,.07);--grid-major:rgba(14,58,42,.12);
+    --display:'Bricolage Grotesque',system-ui,sans-serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;
+    --maxw:1120px;--ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--body);color:var(--ink);background-color:var(--paper);
+    line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative;
+  }
+
+  /* ---------- Notebook background (graph paper + notes that write themselves on scroll) ---------- */
+  :root{--nb-ink:#2f6a4c;--nb-pen:#c0392b}
+  .nb-grid{position:fixed;inset:0;z-index:-2;pointer-events:none;background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+      linear-gradient(var(--grid-major) 1.4px,transparent 1.4px),
+      linear-gradient(90deg,var(--grid-major) 1.4px,transparent 1.4px),
+      radial-gradient(circle at 20% 14%,rgba(120,150,90,.10),transparent 55%),
+      radial-gradient(circle at 82% 82%,rgba(110,140,95,.10),transparent 60%);
+    background-size:28px 28px,28px 28px,140px 140px,140px 140px,100% 100%,100% 100%;}
+  .nb-grid::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 170px rgba(60,80,50,.16)}
+  #nb{position:absolute;top:0;left:0;width:100%;z-index:-1;pointer-events:none;overflow:hidden;
+    font-family:'Caveat',cursive;color:var(--nb-ink);line-height:1.3}
+  #nb .nb-w{position:absolute;line-height:1.3;white-space:normal}
+  #nb .nb-w.hand{font-family:'Patrick Hand',cursive}
+  #nb .nb-w.pen{color:var(--nb-pen)}
+  #nb .nb-d{position:absolute;color:var(--nb-ink)}
+  @media(max-width:1100px){#nb{display:none}
+    .nb-grid{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px,28px 28px}
+    .nb-grid::after{box-shadow:none}}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--lime);color:var(--ink)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+  h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.03;letter-spacing:-.02em}
+  .chip{font-family:var(--mono);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--pine);
+    display:inline-flex;align-items:center;gap:.6rem;background:var(--paper-2);border:2px solid var(--ink);border-radius:40px;
+    padding:.32rem .8rem .32rem .5rem;box-shadow:3px 3px 0 rgba(14,58,42,.16)}
+  .chip svg{width:22px;height:22px;flex:0 0 auto}
+  .hl{position:relative;white-space:nowrap}
+  .hl>span{position:relative;z-index:2}
+  .hl svg{position:absolute;left:-4%;bottom:-.18em;width:108%;height:.9em;z-index:1;overflow:visible;pointer-events:none}
+  .draw{stroke:var(--lime);stroke-width:12;fill:none;stroke-linecap:round;stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600);transition:stroke-dashoffset 1s var(--ease) .15s}
+  .in .draw{stroke-dashoffset:0}
+
+  .btn{font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:.6rem;
+    padding:.92rem 1.5rem;border:2.5px solid var(--ink);border-radius:2px;background:var(--lime);color:var(--ink);cursor:pointer;
+    box-shadow:5px 5px 0 var(--ink);transition:transform .16s var(--ease),box-shadow .16s var(--ease),background .2s ease}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink);background:#c2f52a}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn .arw{transition:transform .2s var(--ease)}
+  .btn:hover .arw{transform:translateX(4px)}
+  .btn-ghost{background:transparent;box-shadow:none;border-color:transparent;padding:.5rem .2rem}
+  .btn-ghost:hover{transform:none;box-shadow:none;text-decoration:underline;text-decoration-color:var(--lime-deep);text-decoration-thickness:3px;text-underline-offset:5px}
+  .btn:focus-visible,a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--pine);outline-offset:3px}
+
+  nav{position:sticky;top:0;z-index:60;background:rgba(241,243,234,.82);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em;display:flex;align-items:center;gap:.5rem}
+  .logo .cell{width:22px;height:22px;border:2.5px solid var(--ink);border-radius:50%;position:relative;background:var(--lime);display:inline-block}
+  .logo .cell::after{content:"";position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+  .logo b{color:var(--pine)}
+  nav .btn{font-size:.92rem;padding:.62rem 1.1rem;box-shadow:3px 3px 0 var(--ink)}
+  nav .btn:hover{box-shadow:5px 5px 0 var(--ink)}
+  .nav-auth{display:flex;align-items:center;gap:16px}
+  .nav-link{font-family:var(--display);font-weight:700;font-size:.95rem}
+  .nav-link:hover{text-decoration:underline;text-decoration-color:var(--lime-deep);text-decoration-thickness:3px;text-underline-offset:5px}
+  @media(max-width:560px){.nav-link{display:none}}
+
+  section{position:relative}
+  .pad{padding:clamp(70px,9vw,124px) 0}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+  /* landing animation when you arrive at a section from the cell */
+  .landed{animation:landed .8s var(--ease);outline:4px solid rgba(173,232,12,0);outline-offset:8px}
+  @keyframes landed{
+    0%{transform:scale(.955);outline-color:rgba(173,232,12,0)}
+    28%{outline-color:rgba(173,232,12,1)}
+    46%{transform:scale(1.02)}
+    100%{transform:scale(1);outline-color:rgba(173,232,12,0)}
+  }
+
+  /* ---------- Countdown ---------- */
+  .countdown{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem 1.4rem;
+    background:var(--pine);color:var(--paper);border:2.5px solid var(--ink);border-radius:3px;padding:.7rem 1.1rem;box-shadow:6px 6px 0 rgba(14,58,42,.22);margin-bottom:2rem}
+  .cd-label{font-family:var(--mono);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--lime)}
+  .cd-units{display:flex;gap:.55rem}
+  .cd-u{background:var(--pine-2);border:1.5px solid rgba(207,224,214,.28);border-radius:3px;padding:.35rem .55rem;text-align:center;min-width:52px}
+  .cd-u b{font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1;display:block;color:var(--paper);font-variant-numeric:tabular-nums}
+  .cd-u span{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#a9c2b6}
+  .cd-cry{font-family:var(--display);font-weight:700;font-size:.98rem;color:var(--lime);letter-spacing:-.01em}
+
+  /* ---------- Hero ---------- */
+  .hero{padding-top:clamp(34px,4vw,58px);padding-bottom:clamp(50px,7vw,96px);text-align:center}
+  .hero h1{font-size:clamp(2.5rem,6vw,4.5rem);margin:.2rem auto 1.1rem;max-width:16ch}
+  .hero h1 .quiet{color:var(--ink);display:block}
+  .hero-sub{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--ink-soft);max-width:44ch;margin:0 auto 1.9rem;font-weight:500}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center}
+  .cta-note{font-family:var(--mono);font-size:.82rem;color:var(--pine);margin:1.1rem auto 0;max-width:42ch}
+
+  /* ---------- 3D stage (decorative) ---------- */
+  .explorer{margin-top:clamp(30px,5vw,54px)}
+  .explorer .lead-line{font-family:var(--mono);font-size:.82rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:.4rem;text-transform:uppercase}
+  .stage{position:relative;width:min(560px,90vw);height:min(560px,90vw);margin:0 auto;touch-action:none;cursor:grab;user-select:none}
+  .stage::before{content:"";position:absolute;inset:-8%;z-index:0;pointer-events:none;border-radius:50%;
+    background:radial-gradient(circle at 50% 46%,rgba(173,232,12,.30),rgba(173,232,12,.07) 46%,transparent 68%);filter:blur(12px)}
+  .stage.grabbing{cursor:grabbing}
+  .stage.pointer{cursor:pointer}
+  .stage canvas{position:relative;z-index:1;display:block;width:100%;height:100%}
+  .stage .fallback{position:absolute;inset:0;z-index:1;display:grid;place-items:center}
+
+  /* ---------- Problem ---------- */
+  .problem{background:var(--pine);color:var(--paper);border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);text-align:center;
+    background-image:radial-gradient(circle at 12% 20%,rgba(173,232,12,.10),transparent 40%),radial-gradient(circle at 88% 85%,rgba(173,232,12,.08),transparent 42%)}
+  .problem h2{font-size:clamp(2rem,4.5vw,3.3rem);color:var(--paper);max-width:20ch;margin:0 auto .5rem}
+  .problem h2 em{font-style:normal;color:var(--lime)}
+  .problem .lead{color:#cfe0d6;font-size:1.1rem;max-width:54ch;margin:0 auto 2.6rem;font-weight:500}
+  .pains{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:820px;margin:0 auto;text-align:left}
+  .pain{border:2px solid rgba(207,224,214,.28);border-radius:3px;padding:20px 22px;background:rgba(10,42,31,.5);transition:border-color .25s ease,transform .25s var(--ease)}
+  .pain:hover{border-color:var(--lime);transform:translateY(-3px)}
+  .pain .x{font-family:var(--display);font-weight:800;color:var(--lime);font-size:1.3rem;line-height:1;margin-bottom:.5rem;display:block}
+  .pain p{color:#dce9e1;font-size:1.02rem;font-weight:500}
+  .pain p b{color:var(--paper)}
+
+  /* ---------- Benefits ---------- */
+  .sol{text-align:center}
+  .sol h2{font-size:clamp(2rem,4.5vw,3.35rem);max-width:20ch;margin:0 auto .5rem}
+  .sol .lead{color:var(--ink-soft);font-size:1.12rem;max-width:52ch;margin:0 auto 2.8rem;font-weight:500}
+  .bens{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;max-width:900px;margin:0 auto}
+  .ben{background:var(--paper-2);border:2.5px solid var(--ink);border-radius:3px;padding:34px 30px;box-shadow:7px 7px 0 rgba(14,58,42,.14);
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease);display:flex;flex-direction:column;align-items:center;text-align:center}
+  .ben:hover{transform:translateY(-5px);box-shadow:11px 13px 0 rgba(14,58,42,.2)}
+  .ben .org{width:74px;height:74px;margin:0 0 1.1rem}
+  .ben .org svg{width:100%;height:100%;overflow:visible}
+  .ben h3{font-size:1.42rem;margin-bottom:.55rem}
+  .ben p{color:var(--ink-soft);font-weight:500;font-size:1.02rem;max-width:34ch}
+  .ben p b{color:var(--ink)}
+  .ben .spin{transform-box:fill-box;transform-origin:center;animation:rot 16s linear infinite}
+  .ben:hover .spin{animation-duration:3.4s}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .ben .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 3.4s ease-in-out infinite}
+  .ben:hover .pulse{animation-duration:1s}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .ben .bob{transform-box:fill-box;transform-origin:center;animation:bobo 3s ease-in-out infinite}
+  .ben:hover .bob{animation-duration:.9s}
+  @keyframes bobo{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .ben.shield{background:var(--pine);color:var(--paper);cursor:pointer;position:relative;overflow:hidden}
+  .ben.shield::after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(173,232,12,.3),transparent 62%);right:-90px;top:-90px;filter:blur(10px);transition:transform .4s var(--ease)}
+  .ben.shield:hover::after{transform:scale(1.25)}
+  .ben.shield h3{color:var(--paper)}.ben.shield p{color:#cfe0d6}.ben.shield p b{color:var(--paper)}
+  .ben.shield .crest{position:relative;z-index:2;width:82px;height:90px;margin:0 0 1rem;transition:transform .35s var(--ease)}
+  .ben.shield:hover .crest{transform:translateY(-4px) rotate(-3deg)}
+  .ben.shield .verify{position:relative;z-index:2;display:inline-flex;align-items:center;gap:.5rem;margin-top:1.05rem;font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--ink);background:var(--lime);border:2px solid var(--ink);border-radius:2px;padding:.45rem .8rem;box-shadow:3px 3px 0 rgba(0,0,0,.35);transition:transform .16s var(--ease)}
+  .ben.shield:hover .verify{transform:translate(-2px,-2px)}
+  .ben.shield .verify .arw{transition:transform .2s var(--ease)}
+  .ben.shield:hover .verify .arw{transform:translate(2px,-2px)}
+
+  /* ---------- Testimonial ---------- */
+  .testi{text-align:center}
+  .testi-card{background:var(--paper-2);border:2.5px solid var(--ink);border-radius:3px;padding:clamp(30px,5vw,56px);position:relative;
+    box-shadow:10px 12px 0 rgba(14,58,42,.14);max-width:820px;margin:0 auto;transform:rotate(-.6deg)}
+  .testi-card::before{content:"";position:absolute;top:-15px;left:50%;transform:translateX(-50%) rotate(-3deg);width:118px;height:30px;background:rgba(173,232,12,.7);border:1px dashed rgba(14,58,42,.4)}
+  .testi .chip{margin-bottom:1.5rem}
+  .testi blockquote{font-size:clamp(1.15rem,2vw,1.5rem);font-weight:600;line-height:1.45;letter-spacing:-.01em}
+  .testi blockquote .u{background:linear-gradient(transparent 60%,rgba(173,232,12,.7) 60%);padding:0 3px}
+  .testi .sig{display:inline-flex;align-items:center;gap:16px;margin-top:2rem;text-align:left}
+  .testi .sig .scribble{font-family:'Space Mono',monospace;font-style:italic;font-size:1.7rem;color:var(--pine);transform:rotate(-6deg)}
+  .testi .sig .who{font-family:var(--mono);font-size:.9rem;color:var(--ink-soft)}
+  .testi .sig .who b{font-family:var(--display);font-size:1.15rem;color:var(--ink);display:block;letter-spacing:-.01em}
+
+  /* ---------- Final CTA ---------- */
+  .final{background:var(--pine);color:var(--paper);border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);text-align:center;overflow:hidden}
+  .final::before{content:"";position:absolute;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(173,232,12,.28),transparent 62%);top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(50px);pointer-events:none}
+  .final .inner{position:relative;z-index:2;max-width:780px;margin:0 auto}
+  .final .mitosis{width:96px;height:56px;margin:0 auto 1.2rem}
+  .final h2{font-size:clamp(2.3rem,5.5vw,4rem);color:var(--paper);margin:0 0 .4rem}
+  .final h2 em{font-style:normal;color:var(--lime)}
+  .final p{color:#cfe0d6;font-size:1.15rem;max-width:46ch;margin:0 auto 2.2rem;font-weight:500}
+  .final .btn{font-size:1.12rem;padding:1.05rem 1.9rem}
+  .final .tiny{font-family:var(--mono);font-size:.8rem;color:#9fb8ab;margin-top:1.4rem}
+
+  /* ---------- FAQ (bottom) ---------- */
+  .faq{text-align:center}
+  .faq h2{font-size:clamp(2rem,4.5vw,3.1rem);margin:0 auto 2.4rem;max-width:18ch}
+  .faq-list{max-width:820px;margin:0 auto;text-align:left}
+  details{border-bottom:2px solid var(--ink);padding:6px 0;background:rgba(251,252,246,.55)}
+  details:first-of-type{border-top:2px solid var(--ink)}
+  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,2vw,1.35rem);letter-spacing:-.01em}
+  summary::-webkit-details-marker{display:none}
+  .plus{flex:0 0 auto;width:34px;height:34px;border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;position:relative;transition:background .2s ease,transform .3s var(--ease)}
+  .plus::before,.plus::after{content:"";position:absolute;background:var(--ink);border-radius:2px}
+  .plus::before{width:15px;height:2.6px}
+  .plus::after{width:2.6px;height:15px;transition:transform .3s var(--ease)}
+  details[open] .plus{background:var(--lime);transform:rotate(90deg)}
+  details[open] .plus::after{transform:scaleY(0)}
+  .faq-a{padding:0 4px 24px;max-width:64ch;color:var(--ink-soft);font-weight:500;font-size:1.06rem}
+  .faq-a b{color:var(--ink)}
+
+  footer{background:var(--pine-2);color:#b6cabf;border-top:2.5px solid var(--ink);padding:44px 0 40px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:22px}
+  footer .logo{color:var(--paper);font-size:1.15rem}
+  footer .logo b{color:var(--lime)}
+  .foot-links{display:flex;gap:26px;font-family:var(--mono);font-size:.85rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--lime)}
+  .foot-note{width:100%;margin-top:26px;padding-top:22px;border-top:1px solid rgba(182,202,191,.2);font-family:var(--mono);font-size:.76rem;color:#7f978c;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+  @media(max-width:820px){.pains{grid-template-columns:1fr}.bens{grid-template-columns:1fr}}
+  @media(max-width:560px){.wrap{padding:0 18px}nav .btn span.full{display:none}.cd-u{min-width:46px}.cd-u b{font-size:1.25rem}.cd-cry{font-size:.9rem}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none;transition:none}.draw{stroke-dashoffset:0;transition:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ NOTEBOOK BACKGROUND (decorative, writes itself as you scroll) ============ -->
+<div class="nb-grid" aria-hidden="true"></div>
+<div id="nb" aria-hidden="true">
+  <div class="nb-w" style="top:7%;left:2.5%;width:200px;font-size:21px;transform:rotate(-1.4deg);opacity:.8">G1 → S → G2 → M</div>
+  <div class="nb-d" style="top:9%;left:5%;width:52px;height:52px;border:2px solid currentColor;border-radius:50%;opacity:.35;transform:rotate(8deg)"></div>
+  <div class="nb-w hand" style="top:10.5%;right:4%;width:150px;font-size:15px;text-align:right;opacity:.5">¿qué hora es?</div>
+  <div class="nb-w" style="top:9.5%;right:5%;width:220px;font-size:20px;text-align:right;transform:rotate(1.1deg);opacity:.78">mitosis = PMAT (y no al revés)</div>
+
+  <div class="nb-w" style="top:15%;left:3%;width:230px;font-size:21px;transform:rotate(-.6deg);opacity:.8">meiosis → 4 células haploides (n)</div>
+  <div class="nb-w pen" style="top:14.5%;right:4%;width:150px;font-size:26px;text-align:right;transform:rotate(-3deg);opacity:.85">9,5 ✓</div>
+  <div class="nb-w hand" style="top:18%;left:4%;width:210px;font-size:16px;opacity:.55">entrecruzamiento = variabilidad</div>
+
+  <div class="nb-w" style="top:21%;right:3.5%;width:210px;font-size:20px;text-align:right;transform:rotate(1.2deg);opacity:.76">lítico = revienta / lisogénico = espera</div>
+  <div class="nb-w" style="top:24%;left:3%;width:230px;font-size:22px;transform:rotate(-1.2deg);opacity:.82">los virus no están vivos (insisto)</div>
+  <div class="nb-d" style="top:26%;right:6%;width:62px;height:44px;border:2px dashed currentColor;border-radius:6px;opacity:.3;transform:rotate(-4deg)"></div>
+  <div class="nb-w hand" style="top:27.5%;left:4%;width:200px;font-size:15px;opacity:.5">cápsida + ácido nucleico. ya está.</div>
+
+  <div class="nb-w" style="top:31%;right:4.5%;width:200px;font-size:20px;text-align:right;opacity:.74">priones = proteína mal plegada</div>
+  <div class="nb-w" style="top:34%;left:3.5%;width:210px;font-size:22px;transform:rotate(-1deg);opacity:.82">antígeno ≠ anticuerpo</div>
+  <div class="nb-w hand" style="top:37%;left:5%;width:170px;font-size:15px;opacity:.5">la Y famosa</div>
+
+  <div class="nb-w" style="top:38%;right:4%;width:225px;font-size:20px;text-align:right;opacity:.76">B → anticuerpos · T → respuesta celular</div>
+  <div class="nb-w" style="top:42%;left:4%;width:230px;font-size:21px;opacity:.8">memoria inmunitaria = por qué funcionan las vacunas</div>
+  <div class="nb-w pen" style="top:45%;right:4%;width:120px;font-size:26px;text-align:right;transform:rotate(-2deg);opacity:.85">10 !</div>
+
+  <div class="nb-w" style="top:49%;left:3%;width:235px;font-size:22px;transform:rotate(-1.2deg);opacity:.82">PCR: 95° → 55° → 72° y otra vez</div>
+  <div class="nb-w hand" style="top:52%;left:5%;width:180px;font-size:15px;opacity:.5">×30 ciclos. paciencia.</div>
+  <div class="nb-w" style="top:53%;right:4%;width:200px;font-size:21px;text-align:right;transform:rotate(1deg);opacity:.8">CRISPR = tijeras con GPS</div>
+  <div class="nb-d" style="top:56%;right:8%;width:56px;height:2px;background:currentColor;opacity:.35;transform:rotate(28deg)"></div>
+  <div class="nb-d" style="top:56%;right:8%;width:56px;height:2px;background:currentColor;opacity:.35;transform:rotate(-28deg)"></div>
+
+  <div class="nb-w" style="top:58%;left:4%;width:220px;font-size:20px;opacity:.76">plásmido = vector · enzimas de restricción + ligasa</div>
+  <div class="nb-w pen" style="top:61%;right:4.5%;width:170px;font-size:24px;text-align:right;transform:rotate(2deg);opacity:.85">9,2 ✓ bien</div>
+  <div class="nb-w hand" style="top:64%;left:5%;width:210px;font-size:16px;opacity:.55">esto entra seguro →</div>
+
+  <div class="nb-w" style="top:67%;right:4%;width:200px;font-size:20px;text-align:right;opacity:.74">Gram + / Gram − : la pared lo decide todo</div>
+  <div class="nb-w" style="top:70%;left:3.5%;width:215px;font-size:20px;opacity:.76">interfase = 90% del ciclo (y nadie la mira)</div>
+  <div class="nb-d" style="top:72%;left:6%;width:44px;height:44px;border:2px solid currentColor;border-radius:50%;opacity:.3"></div>
+
+  <div class="nb-w" style="top:74%;right:5%;width:190px;font-size:20px;text-align:right;opacity:.74">apoptosis = muerte programada, no accidente</div>
+  <div class="nb-w" style="top:78%;left:4%;width:210px;font-size:20px;opacity:.76">vacunas de ARNm: instrucciones, no virus</div>
+  <div class="nb-w" style="top:80%;right:5%;width:180px;font-size:19px;text-align:right;opacity:.72">clonación: Dolly, 1996</div>
+  <div class="nb-d" style="top:82%;right:8%;width:66px;height:38px;border:2px solid currentColor;border-radius:38px;opacity:.3;transform:rotate(6deg)"></div>
+
+  <div class="nb-w hand" style="top:84%;left:5%;width:200px;font-size:16px;opacity:.5">estudiar es entender, no memorizar</div>
+  <div class="nb-w" style="top:87%;right:5%;width:180px;font-size:22px;text-align:right;transform:rotate(1.5deg);opacity:.75">respira. vas bien.</div>
+  <div class="nb-w" style="top:90%;left:5%;width:200px;font-size:24px;transform:rotate(-1.2deg);opacity:.8">tú puedes con esto</div>
+  <div class="nb-w" style="top:94%;right:5%;width:210px;font-size:22px;text-align:right;opacity:.78">lo estás haciendo mejor de lo que crees</div>
+  <div class="nb-w hand" style="top:96.5%;left:6%;width:190px;font-size:16px;opacity:.5">un paso cada día ✳</div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+    <div id="nav-auth" class="nav-auth">
+      <div data-lang-switch></div>
+      <a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>
+      <a href="/registro.html" class="btn"><span class="full" data-i18n-html="nav.start_free_full">Empieza&nbsp;</span><span data-i18n="nav.free_word">gratis</span> <span class="arw">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero pad" id="top">
+  <div class="wrap">
+    <div class="countdown reveal" role="timer" aria-label="Cuenta atrás para la PAU de Biología 2027">
+      <span class="cd-label" data-i18n="cd.label">PAU de Biología · junio 2027</span>
+      <div class="cd-units">
+        <div class="cd-u"><b id="cd-d">--</b><span data-i18n="cd.days">días</span></div>
+        <div class="cd-u"><b id="cd-h">--</b><span data-i18n="cd.hours">horas</span></div>
+        <div class="cd-u"><b id="cd-m">--</b><span data-i18n="cd.min">min</span></div>
+        <div class="cd-u"><b id="cd-s">--</b><span data-i18n="cd.sec">seg</span></div>
+      </div>
+      <span class="cd-cry" data-i18n="cd.cry">El tiempo corre. ¡Comienza a entrenar!</span>
+    </div>
+
+    <h1 class="reveal d1">
+      <span class="quiet" data-i18n="hero.h1a">Te sabes la biología.</span>
+      <span data-i18n="hero.h1b">Lo que te falta es</span>
+      <span class="hl"><span data-i18n="hero.word">clavar</span>
+        <svg viewBox="0 0 220 40" preserveAspectRatio="none" aria-hidden="true"><path class="draw" style="--len:250" d="M6 30 C 60 22, 160 22, 214 28"/></svg>
+      </span> <span data-i18n="hero.h1c">la&nbsp;PAU.</span>
+    </h1>
+    <p class="hero-sub reveal d2" data-i18n-html="hero.sub">Se acabó estudiar mil apuntes random que ni tocan lo que pide la Generalitat. Aquí tienes el temario, los ejercicios y el plan, montados sobre los contenidos oficiales de <b>tu</b> examen de biología.</p>
+
+    <div class="hero-cta reveal d2">
+      <a href="/registro.html" class="btn"><span data-i18n="hero.cta1">Empieza hoy</span> <span class="arw">→</span></a>
+      <a href="#dolor" class="btn btn-ghost" data-i18n="hero.cta2">Ver cómo funciona</a>
+    </div>
+    <p class="cta-note reveal d3" data-i18n="hero.note">El esfuerzo de hoy será tu tranquilidad mañana. Empieza gratis, sin tarjeta.</p>
+
+    <!-- Decorative interactive cell (navigation only, no labels) -->
+    <div class="explorer reveal d2">
+      <p class="lead-line" data-i18n="hero.explore">Gírala · toca para explorar</p>
+      <div class="stage" id="stage" aria-label="Célula decorativa interactiva. Arrastra para girar; haz clic para navegar por la página.">
+        <div class="fallback" id="fallback" aria-hidden="true">
+          <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="140" fill="#dcecc2" stroke="#0E3A2A" stroke-width="5"/>
+            <circle cx="150" cy="150" r="130" fill="none" stroke="#0E3A2A" stroke-width="2" stroke-dasharray="3 9" opacity=".5"/>
+            <circle cx="160" cy="160" r="52" fill="#0E3A2A"/><circle cx="146" cy="146" r="14" fill="#ADE80C"/>
+            <ellipse cx="86" cy="100" rx="34" ry="17" fill="#ADE80C" stroke="#0E3A2A" stroke-width="4" transform="rotate(-22 86 100)"/>
+            <g fill="#0E3A2A"><circle cx="210" cy="96" r="7"/><circle cx="226" cy="110" r="5"/><circle cx="104" cy="206" r="6"/></g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROBLEM ============ -->
+<section class="problem pad" id="dolor">
+  <div class="wrap">
+    <h2 class="reveal d1" data-i18n-html="prob.h2">Lo peor no es que sea difícil. Es <em>no saber si vas por buen camino.</em></h2>
+    <p class="lead reveal d2" data-i18n="prob.lead">Estudias horas, pero por dentro hay una vocecita: “¿esto entra? ¿lo estoy haciendo bien? ¿me estoy dejando algo?”. Ese ruido cansa más que la propia biología. Y viene de estudiar sin un mapa que sea justo el de tu examen.</p>
+    <div class="pains">
+      <div class="pain reveal d1"><span class="x">01</span><p data-i18n-html="prob.p1">Buscas “biología selectividad” y te salen <b>mil cosas</b>… y ninguna es exactamente la de Catalunya.</p></div>
+      <div class="pain reveal d2"><span class="x">02</span><p data-i18n-html="prob.p2">Te empollas temas que <b>no caen</b> y pasas de largo por los que valen puntos de verdad.</p></div>
+      <div class="pain reveal d3"><span class="x">03</span><p data-i18n-html="prob.p3">Tienes exámenes de años sueltos, <b>sin soluciones</b> y sin saber cómo se corrige cada pregunta.</p></div>
+      <div class="pain reveal d4"><span class="x">04</span><p data-i18n-html="prob.p4">Y de fondo, el miedo que no dices en voz alta: <b>“¿y si no llego a la nota de mi carrera?”</b></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTION / BENEFITS ============ -->
+<section class="sol pad" id="solucion">
+  <div class="wrap">
+    <h2 class="reveal d1"><span data-i18n="sol.h2a">Deja de estudiar a ciegas. Estudia para aprobar</span>
+      <span class="hl"><span data-i18n="sol.word">esto</span>
+        <svg viewBox="0 0 130 46" preserveAspectRatio="none" aria-hidden="true"><path class="draw" style="--len:340" d="M12 24 C 20 8, 110 6, 118 22 C 122 34, 40 42, 14 30"/></svg>
+      </span> <span data-i18n="sol.h2b">en concreto.</span></h2>
+    <p class="lead reveal d2" data-i18n="sol.lead">Nada de sabiduría genérica. Cada pieza existe por una razón: acercarte a la nota que necesitas en la biología de la Selectivitat catalana.</p>
+
+    <div class="bens">
+      <div class="ben reveal d1" id="b-practica">
+        <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="bob"><circle cx="30" cy="40" r="16" fill="#ADE80C" stroke="#0E3A2A" stroke-width="3.5"/><circle cx="52" cy="46" r="11" fill="#0E3A2A"/><circle cx="30" cy="40" r="4" fill="#0E3A2A"/><path d="M8 62 q30 -10 60 4" stroke="#0E3A2A" stroke-width="3" fill="none" stroke-linecap="round"/></g></svg></div>
+        <h3 data-i18n="ben1.h3">Llegas al examen sin sustos</h3>
+        <p data-i18n-html="ben1.p">Practicas con ejercicios <b>calcados</b> a los que te van a poner, corregidos con el criterio real de la PAU. El día del examen ya lo has visto todo antes.</p>
+      </div>
+
+      <div class="ben reveal d2" id="b-temario">
+        <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="spin"><path d="M28 12 C 60 24, 20 40, 52 52 C 20 64, 60 20, 28 12" stroke="#0E3A2A" stroke-width="3.5" fill="none"/><path d="M52 12 C 20 24, 60 40, 28 52 C 60 64, 20 20, 52 12" stroke="#8AC000" stroke-width="3.5" fill="none"/><line x1="31" y1="20" x2="49" y2="20" stroke="#0E3A2A" stroke-width="2.6"/><line x1="27" y1="32" x2="53" y2="32" stroke="#0E3A2A" stroke-width="2.6"/><line x1="31" y1="44" x2="49" y2="44" stroke="#0E3A2A" stroke-width="2.6"/><line x1="35" y1="56" x2="45" y2="56" stroke="#0E3A2A" stroke-width="2.6"/></g></svg></div>
+        <h3 data-i18n="ben2.h3">Sabes exactamente qué estudiar</h3>
+        <p data-i18n-html="ben2.p">Solo los contenidos que marca la <b>Generalitat</b>, explicados para entenderlos de verdad, con la profundidad justa que te van a pedir. Ni una hora perdida en lo que no entra.</p>
+      </div>
+
+      <div class="ben reveal d3" id="b-ritmo">
+        <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="pulse"><ellipse cx="40" cy="40" rx="30" ry="18" fill="#ADE80C" stroke="#0E3A2A" stroke-width="3.5"/><path d="M14 40 q7 -12 14 0 q7 12 14 0 q7 -12 14 0 q7 12 12 0" stroke="#0E3A2A" stroke-width="3.2" fill="none" stroke-linecap="round"/></g></svg></div>
+        <h3 data-i18n="ben3.h3">Cada día sabes qué toca</h3>
+        <p data-i18n-html="ben3.p">Tracker de días y planificación hasta la fecha del examen. Abres, ves <b>tu tarea de hoy</b> y te pones. Sin dispersarte, sin decidir cada mañana por dónde empezar.</p>
+      </div>
+
+      <a class="ben shield reveal d4" id="b-oficial" href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">
+        <div class="crest"><svg viewBox="0 0 88 96" fill="none" aria-hidden="true"><path d="M44 4 L82 18 V50 C82 74 64 88 44 94 C24 88 6 74 6 50 V18 Z" fill="#ADE80C" stroke="#0B1F16" stroke-width="4"/><path d="M44 14 L72 24 V50 C72 68 59 79 44 84 C29 79 16 68 16 50 V24 Z" fill="#0E3A2A"/><path d="M31 50 l9 9 18 -20" stroke="#ADE80C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 data-i18n="ben4.h3">La tranquilidad de que es lo que entra</h3>
+        <p data-i18n-html="ben4.p">Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b>. No te lo tienes que creer: toca el escudo y compruébalo tú mismo en la web oficial de la PAU.</p>
+        <span class="verify"><span data-i18n="ben4.verify">Verificar en gencat.cat</span> <span class="arw">↗</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIAL ============ -->
+<section class="testi pad" id="porque">
+  <div class="wrap">
+    <div class="testi-card reveal">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#0E3A2A"/><path d="M8 10 q4 -3 8 0 M8 14 q4 3 8 0" stroke="#ADE80C" stroke-width="1.8" fill="none"/></svg>
+        <span data-i18n="testi.chip">¿Por qué existe BioPAU?</span>
+      </span>
+      <blockquote data-i18n-html="testi.quote">
+        Me presenté a la Selectivitat <b>cuatro veces</b>. Y no era por vago: estudiaba muchísimo… pero estudiaba <span class="u">mal</span>. Lo que no era, con apuntes que no tocaban, sin saber qué me iban a pedir de verdad. A la cuarta pillé el truco: no se trata de saber más biología, se trata de estudiar <span class="u">exactamente lo que entra</span> y practicarlo como si fuera el día del examen. Entré en la carrera que quería. Monté BioPAU para que tú no pierdas cuatro convocatorias en darte cuenta.
+      </blockquote>
+      <div class="sig">
+        <span class="scribble">Jose</span>
+        <div class="who" data-i18n-html="testi.who"><b>Jose Briceño — fundador de BioPAU</b>4 convocatorias · 1 plaza en Medicina</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final pad" id="empezar">
+  <div class="wrap inner">
+    <div class="mitosis reveal" aria-hidden="true"><svg viewBox="0 0 96 56" fill="none"><circle cx="34" cy="28" r="22" fill="#ADE80C" stroke="#0B1F16" stroke-width="4"/><circle cx="62" cy="28" r="22" fill="#0E3A2A" stroke="#0B1F16" stroke-width="4"/><line x1="34" y1="28" x2="62" y2="28" stroke="#ADE80C" stroke-width="3" stroke-dasharray="3 5"/></svg></div>
+    <h2 class="reveal d1" data-i18n-html="final.h2">El esfuerzo de hoy es tu <em>tranquilidad mañana.</em></h2>
+    <p class="reveal d2" data-i18n="final.p">El examen tiene fecha. Tu plaza también. Ponte con la biología que de verdad cae, sigue el plan y llega tranquilo el día que importa.</p>
+    <a href="/registro.html" class="btn reveal d3"><span data-i18n="final.cta">Empieza hoy, gratis</span> <span class="arw">→</span></a>
+    <p class="tiny reveal d3" data-i18n="final.tiny">Sin tarjeta · Acceso al temario y a los primeros ejercicios · Cancela cuando quieras</p>
+  </div>
+</section>
+
+<!-- ============ FAQ (al final del todo) ============ -->
+<section class="faq pad" id="faq">
+  <div class="wrap">
+    <h2 class="reveal d1" data-i18n="faq.h2">Lo que te estás preguntando ahora mismo.</h2>
+    <div class="faq-list reveal d2">
+      <details open>
+        <summary><span data-i18n="faq.q1">¿Esto es para la Selectivitat de Catalunya en concreto?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a1">Sí, es lo único que hace. Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b> para la Biología de la PAU, con el formato y el criterio de corrección catalanes. Nada de temario genérico de otras comunidades que luego no te sirve.</div>
+      </details>
+      <details>
+        <summary><span data-i18n="faq.q2">Voy fatal de tiempo. ¿Sirve igual?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a2">Para eso está el plan por días. Le dices cuándo es tu examen y te dice <b>qué hacer hoy</b>, aunque empieces tarde. En vez de agobiarte con todo a la vez, aprovechas cada día que te queda.</div>
+      </details>
+      <details>
+        <summary><span data-i18n="faq.q3">¿Tengo que saber ya de biología para empezar?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a3">No. El temario está explicado <b>desde cero</b> para entenderlo, y los ejercicios van de menos a más. Empieces donde empieces, te lleva de la mano hasta el nivel del examen.</div>
+      </details>
+      <details>
+        <summary><span data-i18n="faq.q4">¿Los ejercicios se parecen de verdad al examen?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a4">Están hechos calcando el <b>formato y el criterio de corrección de la PAU</b>. Practicas justo el tipo de pregunta que te van a poner, y ves cómo se puntúa cada parte. Cero sorpresas el día D.</div>
+      </details>
+      <details>
+        <summary><span data-i18n="faq.q5">¿Puedo probar antes de pagar?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a5">Sí. Empiezas <b>gratis y sin tarjeta</b>, entras al temario y a los primeros ejercicios, y decides tú si es lo tuyo. Sin compromiso y sin letra pequeña.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+      <div class="foot-links">
+        <a href="#dolor" data-i18n="foot.problem">El problema</a>
+        <a href="#solucion" data-i18n="foot.solution">La solución</a>
+        <a href="/precios.html" data-i18n="foot.prices">Precios</a>
+        <a href="#faq" data-i18n="foot.faq">Preguntas</a>
+        <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" data-i18n="foot.official">Contenidos oficiales</a>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span data-i18n="foot.legal">© 2026 BioPAU · Hecho por alguien que se presentó a la Selectivitat 4 veces para que tú no tengas que hacerlo.</span>
+      <span data-i18n="foot.independent">Recurso de estudio independiente. No afiliado a la Generalitat de Catalunya.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Countdown ----
+     El calendario oficial de la PAU 2027 aún no está publicado (fuente: Oficina d'Accés
+     a la Universitat, Generalitat). Se celebrará en junio de 2027. Cuando salga la fecha
+     exacta del examen de Biología, edita SOLO la línea de abajo. */
+  var TARGET = new Date('2027-06-09T09:00:00+02:00').getTime();
+  function pad(n){return (n<10?'0':'')+n;}
+  function tick(){
+    var diff=TARGET-Date.now(); if(diff<0) diff=0;
+    var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000),e;
+    if(e=document.getElementById('cd-d')) e.textContent=d;
+    if(e=document.getElementById('cd-h')) e.textContent=pad(h);
+    if(e=document.getElementById('cd-m')) e.textContent=pad(m);
+    if(e=document.getElementById('cd-s')) e.textContent=pad(s);
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---- Reveal on scroll ---- */
+  (function(){
+    var els=document.querySelectorAll('.reveal, .hl');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e);});
+  })();
+
+  /* ---- FAQ single-open ---- */
+  (function(){
+    var all=document.querySelectorAll('.faq-list details');
+    all.forEach(function(d){d.addEventListener('toggle',function(){if(d.open){all.forEach(function(o){if(o!==d)o.open=false;});}});});
+  })();
+
+  /* ---- Animated navigation (eased scroll + arrival pop) ---- */
+  function easeInOut(t){return t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+  function targetYof(el){
+    var r=el.getBoundingClientRect(), abs=r.top+window.scrollY;
+    var y=abs-(window.innerHeight-el.offsetHeight)/2;
+    var max=document.documentElement.scrollHeight-window.innerHeight;
+    return Math.max(0,Math.min(max,y));
+  }
+  function landOn(el){
+    if(!el) return;
+    el.classList.remove('landed'); void el.offsetWidth; el.classList.add('landed');
+    setTimeout(function(){el.classList.remove('landed');},900);
+  }
+  function navigateTo(id, land){
+    var el=document.getElementById(id); if(!el) return;
+    var toY=targetYof(el), fromY=window.scrollY, dist=toY-fromY;
+    if(reduce || Math.abs(dist)<4){ window.scrollTo(0,toY); if(land) landOn(el); return; }
+    var dur=Math.min(1200, Math.max(650, Math.abs(dist)*0.6)), start=performance.now();
+    (function step(now){
+      var p=Math.min(1,(now-start)/dur);
+      window.scrollTo(0, fromY+dist*easeInOut(p));
+      if(p<1){requestAnimationFrame(step);} else if(land){landOn(el);}
+    })(performance.now());
+    if(land){ setTimeout(function(){landOn(el);}, dur*0.62); }
+  }
+  // eased scroll for every in-page anchor (nav, ctas, footer)
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
+    if(!a) return; var href=a.getAttribute('href');
+    if(!href||href==='#'||href.length<2) return;
+    var el=document.getElementById(href.slice(1)); if(!el) return;
+    e.preventDefault(); navigateTo(el.id,false);
+  });
+
+  /* ---- Decorative interactive 3D cell ---- */
+  (function(){
+    var stage=document.getElementById('stage'), fallback=document.getElementById('fallback');
+    if(!stage || !window.THREE) return; // keep SVG fallback
+    var THREE=window.THREE, W=stage.clientWidth, H=stage.clientHeight;
+
+    var renderer;
+    try{ renderer=new THREE.WebGLRenderer({antialias:true, alpha:true}); }catch(err){ return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setSize(W,H);
+    if(renderer.outputEncoding!==undefined && THREE.sRGBEncoding) renderer.outputEncoding=THREE.sRGBEncoding;
+    stage.appendChild(renderer.domElement);
+    if(fallback) fallback.style.display='none';
+
+    var scene=new THREE.Scene();
+    var camera=new THREE.PerspectiveCamera(42, W/H, 0.1, 100); camera.position.set(0,0,6.5);
+
+    // soft reflection environment (gradient) for glossy materials
+    function makeEnv(){
+      var c=document.createElement('canvas'); c.width=64; c.height=32; var x=c.getContext('2d');
+      var g=x.createLinearGradient(0,0,0,32);
+      g.addColorStop(0,'#0A2A1F'); g.addColorStop(.5,'#8fd21f'); g.addColorStop(1,'#F4F6EC');
+      x.fillStyle=g; x.fillRect(0,0,64,32);
+      var t=new THREE.CanvasTexture(c); t.mapping=THREE.EquirectangularReflectionMapping; return t;
+    }
+    var envTex=makeEnv();
+
+    scene.add(new THREE.AmbientLight(0xffffff,0.72));
+    var key=new THREE.DirectionalLight(0xffffff,1.0); key.position.set(4,6,8); scene.add(key);
+    var rimLime=new THREE.PointLight(0xADE80C,0.9,60); rimLime.position.set(-5,2,4); scene.add(rimLime);
+    var rimCool=new THREE.PointLight(0xbfe0ff,0.5,60); rimCool.position.set(3,-4,-5); scene.add(rimCool);
+
+    function glossy(color,o){o=o||{};return new THREE.MeshStandardMaterial({color:color,roughness:o.rough!=null?o.rough:0.32,metalness:o.metal!=null?o.metal:0.05,emissive:new THREE.Color(o.emissive||0x000000),emissiveIntensity:o.ei||0,envMap:envTex,envMapIntensity:o.env!=null?o.env:0.7});}
+
+    var cell=new THREE.Group(); cell.rotation.set(0.2,-0.5,0); scene.add(cell);
+
+    // --- fresnel membrane (glowing rim) ---
+    var memMat=new THREE.ShaderMaterial({
+      uniforms:{uColor:{value:new THREE.Color(0xB6F135)},uCore:{value:new THREE.Color(0x2b7d46)},uTime:{value:0}},
+      vertexShader:[
+        'varying vec3 vN;varying vec3 vP;',
+        'void main(){vN=normalize(mat3(modelMatrix)*normal);vec4 wp=modelMatrix*vec4(position,1.0);vP=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}'
+      ].join('\n'),
+      fragmentShader:[
+        'uniform vec3 uColor;uniform vec3 uCore;uniform float uTime;varying vec3 vN;varying vec3 vP;',
+        'void main(){vec3 V=normalize(cameraPosition-vP);float f=pow(1.0-abs(dot(normalize(vN),V)),2.6);',
+        'float pulse=0.92+0.08*sin(uTime*1.5);vec3 col=mix(uCore,uColor,f);',
+        'gl_FragColor=vec4(col, f*0.85*pulse+0.05);}'
+      ].join('\n'),
+      transparent:true, depthWrite:false, side:THREE.FrontSide
+    });
+    var membrane=new THREE.Mesh(new THREE.SphereGeometry(2.35,64,64), memMat); cell.add(membrane);
+    // faint inner body
+    cell.add(new THREE.Mesh(new THREE.SphereGeometry(2.3,48,48),
+      new THREE.MeshStandardMaterial({color:0xcfe8a0,transparent:true,opacity:0.06,roughness:1,depthWrite:false})));
+
+    // --- inner particles (depth) ---
+    (function(){
+      var n=90, pos=new Float32Array(n*3);
+      for(var i=0;i<n;i++){var r=Math.random()*1.9, th=Math.random()*6.283, ph=Math.acos(2*Math.random()-1);
+        pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.sin(ph)*Math.sin(th); pos[i*3+2]=r*Math.cos(ph);}
+      var pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      var pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0xADE80C,size:0.05,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending}));
+      cell.add(pts);
+    })();
+
+    var tmp=new THREE.Vector3(), organelles=[];
+    function reg(group,target){
+      group.userData={target:target,baseY:group.position.y,phase:Math.random()*6.28};
+      // invisible easy-to-click hitbox
+      var hb=new THREE.Mesh(new THREE.SphereGeometry(0.62,12,12),new THREE.MeshBasicMaterial({colorWrite:false,depthWrite:false}));
+      group.add(hb);
+      organelles.push(group); cell.add(group); return group;
+    }
+
+    // NÚCLEO = ADN doble hélice + envoltura + nucleolo  -> temario
+    (function(){
+      var g=new THREE.Group(); g.position.set(0,0,0.02);
+      var N=44,turns=2.3,ht=1.55,rad=0.34;
+      function strand(phase,mat){var pv=[];for(var i=0;i<=N;i++){var t=i/N,a=t*turns*6.2832+phase;pv.push(new THREE.Vector3(Math.cos(a)*rad,(t-0.5)*ht,Math.sin(a)*rad));}
+        return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pv),100,0.05,10,false),mat);}
+      var dna=new THREE.Group();
+      dna.add(strand(0,glossy(0xADE80C,{emissive:0x2e4400,ei:0.35,env:0.9})));
+      dna.add(strand(Math.PI,glossy(0x7fbf14,{env:0.8})));
+      var rungMat=glossy(0x0E3A2A,{rough:0.5,env:0.4});
+      for(var i=3;i<N-1;i+=4){var t=i/N,a=t*turns*6.2832;
+        var p1=new THREE.Vector3(Math.cos(a)*rad,(t-0.5)*ht,Math.sin(a)*rad);
+        var p2=new THREE.Vector3(Math.cos(a+Math.PI)*rad,(t-0.5)*ht,Math.sin(a+Math.PI)*rad);
+        var cyl=new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,p1.distanceTo(p2),8),rungMat);
+        cyl.position.copy(p1.clone().add(p2).multiplyScalar(0.5));
+        cyl.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),p2.clone().sub(p1).normalize());
+        dna.add(cyl);
+      }
+      dna.userData.isDNA=true; g.add(dna);
+      // translucent nuclear envelope
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.92,40,40),
+        new THREE.MeshStandardMaterial({color:0x0E3A2A,transparent:true,opacity:0.10,roughness:.8,depthWrite:false})));
+      g.userData._dna=dna;
+      reg(g,'b-temario');
+    })();
+
+    // RIBOSOMAS -> practica
+    (function(){
+      var g=new THREE.Group(); g.position.set(1.4,0.35,0.5);
+      var m=glossy(0xADE80C,{rough:0.28,env:0.9});
+      [[0,0,0,0.22],[0.28,0.14,0.08,0.15],[0.14,-0.26,0.16,0.16],[-0.22,0.1,-0.12,0.14],[0.05,0.3,-0.05,0.13]].forEach(function(p){
+        var b=new THREE.Mesh(new THREE.SphereGeometry(p[3],24,24),m); b.position.set(p[0],p[1],p[2]); g.add(b);
+      });
+      reg(g,'b-practica');
+    })();
+
+    // MITOCONDRIA -> ritmo
+    (function(){
+      var g=new THREE.Group(); g.position.set(-1.28,-0.55,0.62);
+      var body=new THREE.Mesh(new THREE.SphereGeometry(0.5,40,40),glossy(0x9ed406,{rough:0.32,env:0.75}));
+      body.scale.set(1.75,0.82,0.82); body.rotation.z=0.5; g.add(body);
+      // cristae hint
+      var cr=new THREE.Mesh(new THREE.TorusGeometry(0.32,0.03,8,40),glossy(0x0E3A2A,{rough:.6,env:.3}));
+      cr.rotation.set(1.3,0,0.5); g.add(cr);
+      reg(g,'b-ritmo');
+    })();
+
+    // VESÍCULA (oficial) -> oficial
+    (function(){
+      var g=new THREE.Group(); g.position.set(0.42,1.18,-0.82);
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.34,32,32),glossy(0xc2f52a,{rough:0.22,env:1.0})));
+      g.add(new THREE.Mesh(new THREE.TorusGeometry(0.44,0.06,14,36),glossy(0x0E3A2A,{rough:.5,env:.4})));
+      reg(g,'b-oficial');
+    })();
+
+    // ---- interaction (drag to rotate, click to navigate) ----
+    var ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+    var dragging=false,lastX=0,lastY=0,moved=0,downT=0,velY=0,velX=0,hovered=null,punchT=0;
+
+    function setNDC(cx,cy){var r=stage.getBoundingClientRect();ndc.x=((cx-r.left)/r.width)*2-1;ndc.y=-((cy-r.top)/r.height)*2+1;}
+    function pick(){ray.setFromCamera(ndc,camera);var hit=ray.intersectObject(cell,true);for(var i=0;i<hit.length;i++){var o=hit[i].object;while(o){if(o.userData&&o.userData.target)return o;o=o.parent;}}return null;}
+
+    stage.addEventListener('pointerdown',function(e){dragging=true;moved=0;downT=Date.now();lastX=e.clientX;lastY=e.clientY;velY=0;velX=0;stage.classList.add('grabbing');if(stage.setPointerCapture)stage.setPointerCapture(e.pointerId);});
+    stage.addEventListener('pointermove',function(e){
+      setNDC(e.clientX,e.clientY);
+      if(dragging){var dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;
+        cell.rotation.y+=dx*0.008;cell.rotation.x+=dy*0.008;velY=dx*0.008;velX=dy*0.008;moved+=Math.abs(dx)+Math.abs(dy);}
+      else{hovered=pick();stage.classList.toggle('pointer',!!hovered);}
+    });
+    function endDrag(e){
+      if(!dragging)return;dragging=false;stage.classList.remove('grabbing');
+      if(moved<6 && (Date.now()-downT)<400){setNDC(e.clientX,e.clientY);var node=pick();if(node){punchT=performance.now();navigateTo(node.userData.target,true);}}
+    }
+    stage.addEventListener('pointerup',endDrag);
+    stage.addEventListener('pointercancel',function(){dragging=false;stage.classList.remove('grabbing');});
+    stage.addEventListener('pointerleave',function(){hovered=null;stage.classList.remove('pointer');});
+
+    var clock=(window.performance?performance.now():Date.now());
+    function animate(){
+      requestAnimationFrame(animate);
+      var t=(window.performance?performance.now():Date.now())*0.001;
+      memMat.uniforms.uTime.value=t;
+
+      if(!dragging){cell.rotation.y+=velY;cell.rotation.x+=velX;velY*=0.95;velX*=0.95;if(!reduce)cell.rotation.y+=0.0022;}
+      cell.rotation.x=Math.max(-0.7,Math.min(0.7,cell.rotation.x));
+
+      // click "dive" punch (zoom the whole cell briefly)
+      var s=1;
+      if(punchT){var dt=(performance.now()-punchT)/560; if(dt>=1){punchT=0;} else {s=1+Math.sin(dt*Math.PI)*0.16;}}
+      cell.scale.setScalar(s);
+
+      for(var i=0;i<organelles.length;i++){
+        var o=organelles[i], f=(o===hovered)?1.22:1;
+        var cur=o.scale.x, ns=cur+(f-cur)*0.2; o.scale.setScalar(ns);
+        if(!reduce) o.position.y=o.userData.baseY+Math.sin(t*1.1+o.userData.phase)*0.05;
+        if(o.userData._dna && !reduce) o.userData._dna.rotation.y+=0.01;
+      }
+      renderer.render(scene,camera);
+    }
+    animate();
+
+    window.addEventListener('resize',function(){W=stage.clientWidth;H=stage.clientHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);},{passive:true});
+  })();
+
+  /* ---- Notebook background: handwritten notes that write themselves as you scroll ---- */
+  (function(){
+    var nb=document.getElementById('nb'); if(!nb) return;
+    var writes=[], draws=[], SPAN=240, SMOOTH=0.16, cur=window.scrollY, raf=null;
+
+    Array.prototype.forEach.call(nb.querySelectorAll('.nb-w'),function(el){
+      var full=(el.textContent||'').replace(/\s+/g,' ').trim();
+      el.textContent='';
+      var a=document.createElement('span'), b=document.createElement('span');
+      b.style.color='transparent'; b.textContent=full;
+      el.appendChild(a); el.appendChild(b);
+      el.__a=a; el.__b=b; el.__full=full; el.__n=-1; writes.push(el);
+    });
+    Array.prototype.forEach.call(nb.querySelectorAll('.nb-d'),function(el){ el.__f=-1; el.style.willChange='clip-path'; draws.push(el); });
+
+    function measure(){ var y=window.scrollY; writes.concat(draws).forEach(function(el){ el.__top=el.getBoundingClientRect().top+y; }); }
+    function paint(force){
+      var vh=window.innerHeight, line=cur+vh*0.82;
+      writes.forEach(function(el){
+        var len=el.__full.length, sp=Math.max(90,SPAN*Math.min(2,0.4+len/70));
+        var f=(line-el.__top)/sp; f=f<0?0:f>1?1:f; var n=Math.round(f*len);
+        if(n!==el.__n||force){ el.__n=n; el.__a.textContent=el.__full.slice(0,n); el.__b.textContent=el.__full.slice(n); }
+      });
+      draws.forEach(function(el){
+        var f=(line-el.__top)/170; f=f<0?0:f>1?1:f; var q=Math.round(f*20)/20;
+        if(q!==el.__f||force){ el.__f=q; el.style.clipPath=q>=1?'none':'inset(0 '+((1-q)*100).toFixed(1)+'% 0 0)'; }
+      });
+    }
+    function sync(){ nb.style.height=document.documentElement.scrollHeight+'px'; measure(); cur=window.scrollY; paint(true); }
+
+    if(reduce){ // no scroll animation: reveal everything
+      nb.style.height=document.documentElement.scrollHeight+'px';
+      writes.forEach(function(el){ el.__a.textContent=el.__full; el.__b.textContent=''; });
+      draws.forEach(function(el){ el.style.clipPath='none'; });
+      window.addEventListener('resize',function(){ nb.style.height=document.documentElement.scrollHeight+'px'; },{passive:true});
+      return;
+    }
+
+    function kick(){ if(raf) return; (function loop(){ var t=window.scrollY, d=t-cur; if(Math.abs(d)<0.4){ cur=t; paint(); raf=null; return; } cur+=d*SMOOTH; paint(); raf=requestAnimationFrame(loop); })(); }
+    window.addEventListener('scroll',kick,{passive:true});
+    window.addEventListener('resize',function(){ sync(); kick(); },{passive:true});
+    // re-measure when the page height changes (e.g. FAQ opens/closes)
+    document.querySelectorAll('.faq-list details').forEach(function(d){ d.addEventListener('toggle',function(){ setTimeout(sync,60); }); });
+    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(sync); }
+    window.addEventListener('load',sync,{passive:true});
+    sync();
+  })();
+</script>
+
+<!-- ============ Auth (sesión + navegación) ============ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

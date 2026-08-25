@@ -1,0 +1,58 @@
+/* ============================================================================
+   BioPAU — Selector de idioma (CAT / ESP)
+   Un único componente que se adapta a las páginas claras (nav) y al área
+   privada oscura (topbar). Se incluye en todas las páginas.
+   ============================================================================ */
+.lang-switch{
+  display:inline-flex;align-items:center;gap:2px;
+  padding:3px;border-radius:40px;
+  border:2px solid var(--ink,#0B1F16);
+  background:var(--paper-2,#FBFCF6);
+  box-shadow:2px 2px 0 rgba(14,58,42,.16);
+  font-family:var(--mono,'Space Mono',monospace);
+  line-height:1;flex-shrink:0;
+}
+.lang-opt{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.34rem .6rem;border:0;border-radius:40px;
+  background:transparent;cursor:pointer;
+  font-family:inherit;font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  color:var(--ink-soft,#3B4E44);
+  transition:background .18s ease,color .18s ease,transform .12s ease;
+}
+.lang-opt:hover{color:var(--ink,#0B1F16)}
+.lang-opt.is-active{
+  background:var(--lime,#ADE80C);color:var(--ink,#0B1F16);
+}
+.lang-opt .flag{
+  width:19px;height:13px;flex:0 0 auto;display:block;border-radius:2.5px;
+  box-shadow:0 0 0 1px rgba(11,31,22,.18);
+}
+.lang-opt:focus-visible{outline:2px solid var(--pine,#0E3A2A);outline-offset:2px}
+
+/* Compactado dentro de una barra de navegación con poco alto */
+nav .lang-switch{box-shadow:2px 2px 0 rgba(14,58,42,.14)}
+
+/* ---------- Variante oscura: topbar del área privada --------------------- */
+.topbar .lang-switch,
+.lang-switch--dark{
+  border-color:rgba(173,232,12,.22);
+  background:rgba(255,255,255,.04);
+  box-shadow:none;
+}
+.topbar .lang-opt,
+.lang-switch--dark .lang-opt{ color:var(--txt-soft,#9FB6A6); }
+.topbar .lang-opt:hover,
+.lang-switch--dark .lang-opt:hover{ color:var(--txt,#EAF3E4); }
+.topbar .lang-opt.is-active,
+.lang-switch--dark .lang-opt.is-active{
+  background:var(--lime,#ADE80C);color:#07150E;
+}
+.topbar .lang-opt .flag,
+.lang-switch--dark .lang-opt .flag{ box-shadow:0 0 0 1px rgba(0,0,0,.28); }
+
+/* En móvil muy estrecho, esconde las etiquetas CAT/ESP y deja solo banderas */
+@media(max-width:420px){
+  .lang-opt span{display:none}
+  .lang-opt{padding:.34rem .45rem}
+}
