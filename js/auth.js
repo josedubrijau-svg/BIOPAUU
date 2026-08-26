@@ -10,6 +10,7 @@
 (function () {
   var sb = window.sb;
   if (!sb) { console.error('BioPAU: cliente Supabase no disponible'); return; }
+  var t = function (k) { return window.BPI18n ? window.BPI18n.t(k) : k; };
 
   var ACTIVE = ['active', 'trialing'];
 
@@ -81,13 +82,14 @@
     var s = await BP.session();
     if (s) {
       box.innerHTML =
-        '<a href="/precios.html" class="nav-link">Precios</a>' +
-        '<a href="/cuenta.html" class="btn"><span class="full">Mi&nbsp;</span>cuenta <span class="arw">→</span></a>';
+        '<a href="/precios.html" class="nav-link" data-i18n="nav.prices">Precios</a>' +
+        '<a href="/cuenta.html" class="btn"><span class="full" data-i18n-html="nav.account_full">Mi&nbsp;</span><span data-i18n="nav.account_short">cuenta</span> <span class="arw">→</span></a>';
     } else {
       box.innerHTML =
-        '<a href="/login.html" class="nav-link">Entrar</a>' +
-        '<a href="/registro.html" class="btn"><span class="full">Empieza&nbsp;</span>gratis <span class="arw">→</span></a>';
+        '<a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>' +
+        '<a href="/registro.html" class="btn"><span class="full" data-i18n-html="nav.start_free_full">Empieza&nbsp;</span><span data-i18n="nav.free_word">gratis</span> <span class="arw">→</span></a>';
     }
+    if (window.BPI18n) window.BPI18n.apply(box);
   }
 
   // ---- Protección de páginas ----------------------------------------------
@@ -116,8 +118,8 @@
 
   // ---- Formularios --------------------------------------------------------
   function passwordProblem(pw) {
-    if (pw.length < 8) return 'La contraseña debe tener al menos 8 caracteres.';
-    if (!/[a-z]/i.test(pw) || !/[0-9]/.test(pw)) return 'Usa al menos una letra y un número.';
+    if (pw.length < 8) return t('auth.m_pw_len');
+    if (!/[a-z]/i.test(pw) || !/[0-9]/.test(pw)) return t('auth.m_pw_mix');
     return null;
   }
 
@@ -133,21 +135,21 @@
       var pw = form.password.value;
       var pw2 = form.password2.value;
 
-      if (!username) return BP.msg(msg, 'error', 'Elige un nombre de usuario.');
-      if (username.length < 3) return BP.msg(msg, 'error', 'El usuario debe tener al menos 3 caracteres.');
-      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', 'Introduce un email válido.');
+      if (!username) return BP.msg(msg, 'error', t('auth.m_pick_user'));
+      if (username.length < 3) return BP.msg(msg, 'error', t('auth.m_user_short'));
+      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', t('auth.m_email'));
       var pwErr = passwordProblem(pw);
       if (pwErr) return BP.msg(msg, 'error', pwErr);
-      if (pw !== pw2) return BP.msg(msg, 'error', 'Las contraseñas no coinciden.');
+      if (pw !== pw2) return BP.msg(msg, 'error', t('auth.m_pw_match'));
 
-      BP.loading(btn, true, 'Creando cuenta…');
+      BP.loading(btn, true, t('auth.ld_register'));
       BP.msg(msg, '', '');
       try {
         // ¿username libre? (comprobación amable; la BD lo garantiza igualmente)
         var avail = await sb.rpc('username_available', { name: username });
         if (avail && avail.data === false) {
           BP.loading(btn, false);
-          return BP.msg(msg, 'error', 'Ese nombre de usuario ya está cogido.');
+          return BP.msg(msg, 'error', t('auth.m_user_taken'));
         }
 
         var res = await sb.auth.signUp({
@@ -158,29 +160,29 @@
 
         if (res.error) {
           BP.loading(btn, false);
-          var m = /already registered|exists/i.test(res.error.message) ? 'Ese email ya tiene cuenta. Inicia sesión.' : res.error.message;
+          var m = /already registered|exists/i.test(res.error.message) ? t('auth.m_email_exists') : res.error.message;
           return BP.msg(msg, 'error', m);
         }
         // Email ya en uso (Supabase devuelve identities vacío para no filtrar)
         if (res.data && res.data.user && res.data.user.identities && res.data.user.identities.length === 0) {
           BP.loading(btn, false);
-          return BP.msg(msg, 'error', 'Ese email ya tiene cuenta. Inicia sesión.');
+          return BP.msg(msg, 'error', t('auth.m_email_exists'));
         }
 
         if (res.data && res.data.session) {
           // Confirmación de email desactivada → sesión creada, entramos
-          BP.msg(msg, 'success', '¡Cuenta creada! Entrando…');
+          BP.msg(msg, 'success', t('auth.m_created_in'));
           var next = BP.qs('next') || '/precios.html';
           setTimeout(function () { window.location.href = next; }, 700);
         } else {
           // Confirmación activada → avisar
           BP.loading(btn, false);
-          BP.msg(msg, 'success', 'Cuenta creada. Te hemos enviado un email para confirmar tu dirección. Ábrelo y luego inicia sesión.');
+          BP.msg(msg, 'success', t('auth.m_created_confirm'));
           form.reset();
         }
       } catch (err) {
         BP.loading(btn, false);
-        BP.msg(msg, 'error', 'No se pudo crear la cuenta. Inténtalo de nuevo.');
+        BP.msg(msg, 'error', t('auth.m_create_fail'));
       }
     });
   }
@@ -194,20 +196,20 @@
       var btn = form.querySelector('[type="submit"]');
       var email = form.email.value.trim();
       var pw = form.password.value;
-      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', 'Introduce un email válido.');
-      if (!pw) return BP.msg(msg, 'error', 'Escribe tu contraseña.');
+      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', t('auth.m_email'));
+      if (!pw) return BP.msg(msg, 'error', t('auth.m_pw_write'));
 
-      BP.loading(btn, true, 'Iniciando sesión…');
+      BP.loading(btn, true, t('auth.ld_login'));
       BP.msg(msg, '', '');
       var res = await sb.auth.signInWithPassword({ email: email, password: pw });
       if (res.error) {
         BP.loading(btn, false);
         var m = /Email not confirmed/i.test(res.error.message)
-          ? 'Confirma tu email antes de entrar (revisa tu bandeja).'
-          : 'El email o la contraseña no son correctos.';
+          ? t('auth.m_confirm_email')
+          : t('auth.m_bad_login');
         return BP.msg(msg, 'error', m);
       }
-      BP.msg(msg, 'success', 'Sesión iniciada. Redirigiendo…');
+      BP.msg(msg, 'success', t('auth.m_logged_in'));
       var next = BP.qs('next') || '/cuenta.html';
       setTimeout(function () { window.location.href = next; }, 500);
     });
@@ -221,14 +223,14 @@
       e.preventDefault();
       var btn = form.querySelector('[type="submit"]');
       var email = form.email.value.trim();
-      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', 'Introduce un email válido.');
-      BP.loading(btn, true, 'Enviando…');
+      if (!/^\S+@\S+\.\S+$/.test(email)) return BP.msg(msg, 'error', t('auth.m_email'));
+      BP.loading(btn, true, t('auth.ld_sending'));
       var res = await sb.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + '/actualizar-password.html'
       });
       BP.loading(btn, false);
       // Respondemos siempre igual para no revelar si el email existe
-      BP.msg(msg, 'success', 'Si ese email tiene cuenta, te hemos enviado un enlace para restablecer la contraseña. Revisa tu bandeja (y spam).');
+      BP.msg(msg, 'success', t('auth.m_recover_sent'));
       if (!res.error) form.reset();
     });
   }
@@ -241,7 +243,7 @@
     // En esta página, Supabase crea una sesión de recuperación desde el enlace del email.
     sb.auth.onAuthStateChange(function (event) {
       if (event === 'PASSWORD_RECOVERY') {
-        BP.msg(msg, 'success', 'Enlace válido. Escribe tu nueva contraseña.');
+        BP.msg(msg, 'success', t('auth.m_link_ok'));
       }
     });
 
@@ -252,16 +254,16 @@
       var pw2 = form.password2.value;
       var pwErr = passwordProblem(pw);
       if (pwErr) return BP.msg(msg, 'error', pwErr);
-      if (pw !== pw2) return BP.msg(msg, 'error', 'Las contraseñas no coinciden.');
+      if (pw !== pw2) return BP.msg(msg, 'error', t('auth.m_pw_match'));
 
       var s = await BP.session();
-      if (!s) return BP.msg(msg, 'error', 'El enlace no es válido o ha caducado. Solicita uno nuevo.');
+      if (!s) return BP.msg(msg, 'error', t('auth.m_link_bad'));
 
-      BP.loading(btn, true, 'Guardando…');
+      BP.loading(btn, true, t('auth.ld_saving'));
       var res = await sb.auth.updateUser({ password: pw });
       BP.loading(btn, false);
       if (res.error) return BP.msg(msg, 'error', res.error.message);
-      BP.msg(msg, 'success', 'Contraseña actualizada. Redirigiendo a tu cuenta…');
+      BP.msg(msg, 'success', t('auth.m_pw_updated'));
       setTimeout(function () { window.location.href = '/cuenta.html'; }, 900);
     });
   }

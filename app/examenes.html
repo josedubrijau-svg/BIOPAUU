@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exámenes — BioPAU VIP</title>
+<title data-i18n="ex.title">Exámenes — BioPAU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
 </head>
 <body data-requires-plan data-page="examenes">
 
@@ -18,16 +20,15 @@
     <div class="content protected">
 
       <section class="hello">
-        <h1>Exámenes y ejercicios</h1>
-        <p>Convocatorias de la PAU ordenadas por año. Filtra por bloque para practicar lo que necesitas.</p>
+        <h1 data-i18n="ex.h1">Exámenes y ejercicios</h1>
+        <p data-i18n="ex.intro">Convocatorias de la PAU ordenadas por año. Filtra por bloque para practicar lo que necesitas.</p>
       </section>
 
       <div id="filtros" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"></div>
       <div id="examenes"></div>
 
       <p style="color:var(--txt-dim);font-size:.86rem;margin-top:28px">
-        Los enunciados y las pautas de corrección se irán publicando aquí.
-        Fuente oficial: <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" style="color:var(--lime)">Generalitat de Catalunya</a>.
+        <span data-i18n="ex.foot">Los enunciados y las pautas de corrección se irán publicando aquí. Fuente oficial: </span><a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" style="color:var(--lime)">Generalitat de Catalunya</a>.
       </p>
 
     </div>

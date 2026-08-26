@@ -70,12 +70,15 @@ window.BPData = (function () {
 
   function blockProgress() {
     return D.BLOQUES.map(function (b) {
-      var done = 0;
-      b.temas.forEach(function (t) { if (statusOf(t.id) === 'done') done++; });
+      // Unidades del bloque = sus apuntes; si no tiene, el propio bloque cuenta como 1
+      var unidades = (b.apuntes && b.apuntes.length)
+        ? b.apuntes.map(function (a, i) { return b.id + '-' + (i + 1); })
+        : [b.id];
+      var done = unidades.filter(function (id) { return statusOf(id) === 'done'; }).length;
       return {
         id: b.id, nombre: b.nombre, color: b.color,
-        done: done, total: b.temas.length,
-        pct: b.temas.length ? Math.round((done / b.temas.length) * 100) : 0
+        done: done, total: unidades.length,
+        pct: unidades.length ? Math.round((done / unidades.length) * 100) : 0
       };
     });
   }
@@ -119,11 +122,12 @@ window.BPData = (function () {
     push(pendientes, limit - out.length);
     push(repasos, limit - out.length);    // si aún sobra sitio, más repasos
 
+    var t = function (k, v) { return window.BPI18n ? window.BPI18n.t(k, v) : k; };
     return out.slice(0, limit).map(function (x) {
       var msg;
-      if (x.status === 'in_progress') msg = 'Lo dejaste a medias. ¿Lo rematas hoy?';
-      else if (x.status === 'pending') msg = 'Aún no lo has tocado. Buen momento para empezar.';
-      else msg = 'Hace ' + x.dias + ' días que no repasas esto. Dale un vistazo.';
+      if (x.status === 'in_progress') msg = t('sugg.inprogress');
+      else if (x.status === 'pending') msg = t('sugg.pending');
+      else msg = t('sugg.review', { n: x.dias });
       return { tema: x.tema, status: x.status, mensaje: msg };
     });
   }

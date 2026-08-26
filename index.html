@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BioPAU — La biología que de verdad cae en la Selectivitat</title>
+<title data-i18n="meta.title">BioPAU — La biología que de verdad cae en la Selectivitat</title>
 <meta name="description" content="Temario, ejercicios y plan por días montados sobre los contenidos oficiales de Biología de la PAU de Catalunya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Caveat:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Patrick+Hand&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
 <style>
   :root{
     --paper:#F1F3EA;--paper-2:#FBFCF6;--pine:#0E3A2A;--pine-2:#0A2A1F;--ink:#0B1F16;--ink-soft:#3B4E44;
@@ -284,8 +286,9 @@
   <div class="wrap nav-in">
     <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
     <div id="nav-auth" class="nav-auth">
-      <a href="/login.html" class="nav-link">Entrar</a>
-      <a href="/registro.html" class="btn"><span class="full">Empieza&nbsp;</span>gratis <span class="arw">→</span></a>
+      <div data-lang-switch></div>
+      <a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>
+      <a href="/registro.html" class="btn"><span class="full" data-i18n-html="nav.start_free_full">Empieza&nbsp;</span><span data-i18n="nav.free_word">gratis</span> <span class="arw">→</span></a>
     </div>
   </div>
 </nav>
@@ -294,34 +297,34 @@
 <header class="hero pad" id="top">
   <div class="wrap">
     <div class="countdown reveal" role="timer" aria-label="Cuenta atrás para la PAU de Biología 2027">
-      <span class="cd-label">PAU de Biología · junio 2027</span>
+      <span class="cd-label" data-i18n="cd.label">PAU de Biología · junio 2027</span>
       <div class="cd-units">
-        <div class="cd-u"><b id="cd-d">--</b><span>días</span></div>
-        <div class="cd-u"><b id="cd-h">--</b><span>horas</span></div>
-        <div class="cd-u"><b id="cd-m">--</b><span>min</span></div>
-        <div class="cd-u"><b id="cd-s">--</b><span>seg</span></div>
+        <div class="cd-u"><b id="cd-d">--</b><span data-i18n="cd.days">días</span></div>
+        <div class="cd-u"><b id="cd-h">--</b><span data-i18n="cd.hours">horas</span></div>
+        <div class="cd-u"><b id="cd-m">--</b><span data-i18n="cd.min">min</span></div>
+        <div class="cd-u"><b id="cd-s">--</b><span data-i18n="cd.sec">seg</span></div>
       </div>
-      <span class="cd-cry">El tiempo corre. ¡Comienza a entrenar!</span>
+      <span class="cd-cry" data-i18n="cd.cry">El tiempo corre. ¡Comienza a entrenar!</span>
     </div>
 
     <h1 class="reveal d1">
-      <span class="quiet">Te sabes la biología.</span>
-      Lo que te falta es
-      <span class="hl"><span>clavar</span>
+      <span class="quiet" data-i18n="hero.h1a">Te sabes la biología.</span>
+      <span data-i18n="hero.h1b">Lo que te falta es</span>
+      <span class="hl"><span data-i18n="hero.word">clavar</span>
         <svg viewBox="0 0 220 40" preserveAspectRatio="none" aria-hidden="true"><path class="draw" style="--len:250" d="M6 30 C 60 22, 160 22, 214 28"/></svg>
-      </span> la&nbsp;PAU.
+      </span> <span data-i18n="hero.h1c">la&nbsp;PAU.</span>
     </h1>
-    <p class="hero-sub reveal d2">Se acabó estudiar mil apuntes random que ni tocan lo que pide la Generalitat. Aquí tienes el temario, los ejercicios y el plan, montados sobre los contenidos oficiales de <b>tu</b> examen de biología.</p>
+    <p class="hero-sub reveal d2" data-i18n-html="hero.sub">Se acabó estudiar mil apuntes random que ni tocan lo que pide la Generalitat. Aquí tienes el temario, los ejercicios y el plan, montados sobre los contenidos oficiales de <b>tu</b> examen de biología.</p>
 
     <div class="hero-cta reveal d2">
-      <a href="/registro.html" class="btn">Empieza hoy <span class="arw">→</span></a>
-      <a href="#dolor" class="btn btn-ghost">Ver cómo funciona</a>
+      <a href="/registro.html" class="btn"><span data-i18n="hero.cta1">Empieza hoy</span> <span class="arw">→</span></a>
+      <a href="#dolor" class="btn btn-ghost" data-i18n="hero.cta2">Ver cómo funciona</a>
     </div>
-    <p class="cta-note reveal d3">El esfuerzo de hoy será tu tranquilidad mañana. Empieza gratis, sin tarjeta.</p>
+    <p class="cta-note reveal d3" data-i18n="hero.note">El esfuerzo de hoy será tu tranquilidad mañana. Empieza gratis, sin tarjeta.</p>
 
     <!-- Decorative interactive cell (navigation only, no labels) -->
     <div class="explorer reveal d2">
-      <p class="lead-line">Gírala · toca para explorar</p>
+      <p class="lead-line" data-i18n="hero.explore">Gírala · toca para explorar</p>
       <div class="stage" id="stage" aria-label="Célula decorativa interactiva. Arrastra para girar; haz clic para navegar por la página.">
         <div class="fallback" id="fallback" aria-hidden="true">
           <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
@@ -340,13 +343,13 @@
 <!-- ============ PROBLEM ============ -->
 <section class="problem pad" id="dolor">
   <div class="wrap">
-    <h2 class="reveal d1">Lo peor no es que sea difícil. Es <em>no saber si vas por buen camino.</em></h2>
-    <p class="lead reveal d2">Estudias horas, pero por dentro hay una vocecita: “¿esto entra? ¿lo estoy haciendo bien? ¿me estoy dejando algo?”. Ese ruido cansa más que la propia biología. Y viene de estudiar sin un mapa que sea justo el de tu examen.</p>
+    <h2 class="reveal d1" data-i18n-html="prob.h2">Lo peor no es que sea difícil. Es <em>no saber si vas por buen camino.</em></h2>
+    <p class="lead reveal d2" data-i18n="prob.lead">Estudias horas, pero por dentro hay una vocecita: “¿esto entra? ¿lo estoy haciendo bien? ¿me estoy dejando algo?”. Ese ruido cansa más que la propia biología. Y viene de estudiar sin un mapa que sea justo el de tu examen.</p>
     <div class="pains">
-      <div class="pain reveal d1"><span class="x">01</span><p>Buscas “biología selectividad” y te salen <b>mil cosas</b>… y ninguna es exactamente la de Catalunya.</p></div>
-      <div class="pain reveal d2"><span class="x">02</span><p>Te empollas temas que <b>no caen</b> y pasas de largo por los que valen puntos de verdad.</p></div>
-      <div class="pain reveal d3"><span class="x">03</span><p>Tienes exámenes de años sueltos, <b>sin soluciones</b> y sin saber cómo se corrige cada pregunta.</p></div>
-      <div class="pain reveal d4"><span class="x">04</span><p>Y de fondo, el miedo que no dices en voz alta: <b>“¿y si no llego a la nota de mi carrera?”</b></p></div>
+      <div class="pain reveal d1"><span class="x">01</span><p data-i18n-html="prob.p1">Buscas “biología selectividad” y te salen <b>mil cosas</b>… y ninguna es exactamente la de Catalunya.</p></div>
+      <div class="pain reveal d2"><span class="x">02</span><p data-i18n-html="prob.p2">Te empollas temas que <b>no caen</b> y pasas de largo por los que valen puntos de verdad.</p></div>
+      <div class="pain reveal d3"><span class="x">03</span><p data-i18n-html="prob.p3">Tienes exámenes de años sueltos, <b>sin soluciones</b> y sin saber cómo se corrige cada pregunta.</p></div>
+      <div class="pain reveal d4"><span class="x">04</span><p data-i18n-html="prob.p4">Y de fondo, el miedo que no dices en voz alta: <b>“¿y si no llego a la nota de mi carrera?”</b></p></div>
     </div>
   </div>
 </section>
@@ -354,36 +357,36 @@
 <!-- ============ SOLUTION / BENEFITS ============ -->
 <section class="sol pad" id="solucion">
   <div class="wrap">
-    <h2 class="reveal d1">Deja de estudiar a ciegas. Estudia para aprobar
-      <span class="hl"><span>esto</span>
+    <h2 class="reveal d1"><span data-i18n="sol.h2a">Deja de estudiar a ciegas. Estudia para aprobar</span>
+      <span class="hl"><span data-i18n="sol.word">esto</span>
         <svg viewBox="0 0 130 46" preserveAspectRatio="none" aria-hidden="true"><path class="draw" style="--len:340" d="M12 24 C 20 8, 110 6, 118 22 C 122 34, 40 42, 14 30"/></svg>
-      </span> en concreto.</h2>
-    <p class="lead reveal d2">Nada de sabiduría genérica. Cada pieza existe por una razón: acercarte a la nota que necesitas en la biología de la Selectivitat catalana.</p>
+      </span> <span data-i18n="sol.h2b">en concreto.</span></h2>
+    <p class="lead reveal d2" data-i18n="sol.lead">Nada de sabiduría genérica. Cada pieza existe por una razón: acercarte a la nota que necesitas en la biología de la Selectivitat catalana.</p>
 
     <div class="bens">
       <div class="ben reveal d1" id="b-practica">
         <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="bob"><circle cx="30" cy="40" r="16" fill="#ADE80C" stroke="#0E3A2A" stroke-width="3.5"/><circle cx="52" cy="46" r="11" fill="#0E3A2A"/><circle cx="30" cy="40" r="4" fill="#0E3A2A"/><path d="M8 62 q30 -10 60 4" stroke="#0E3A2A" stroke-width="3" fill="none" stroke-linecap="round"/></g></svg></div>
-        <h3>Llegas al examen sin sustos</h3>
-        <p>Practicas con ejercicios <b>calcados</b> a los que te van a poner, corregidos con el criterio real de la PAU. El día del examen ya lo has visto todo antes.</p>
+        <h3 data-i18n="ben1.h3">Llegas al examen sin sustos</h3>
+        <p data-i18n-html="ben1.p">Practicas con ejercicios <b>calcados</b> a los que te van a poner, corregidos con el criterio real de la PAU. El día del examen ya lo has visto todo antes.</p>
       </div>
 
       <div class="ben reveal d2" id="b-temario">
         <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="spin"><path d="M28 12 C 60 24, 20 40, 52 52 C 20 64, 60 20, 28 12" stroke="#0E3A2A" stroke-width="3.5" fill="none"/><path d="M52 12 C 20 24, 60 40, 28 52 C 60 64, 20 20, 52 12" stroke="#8AC000" stroke-width="3.5" fill="none"/><line x1="31" y1="20" x2="49" y2="20" stroke="#0E3A2A" stroke-width="2.6"/><line x1="27" y1="32" x2="53" y2="32" stroke="#0E3A2A" stroke-width="2.6"/><line x1="31" y1="44" x2="49" y2="44" stroke="#0E3A2A" stroke-width="2.6"/><line x1="35" y1="56" x2="45" y2="56" stroke="#0E3A2A" stroke-width="2.6"/></g></svg></div>
-        <h3>Sabes exactamente qué estudiar</h3>
-        <p>Solo los contenidos que marca la <b>Generalitat</b>, explicados para entenderlos de verdad, con la profundidad justa que te van a pedir. Ni una hora perdida en lo que no entra.</p>
+        <h3 data-i18n="ben2.h3">Sabes exactamente qué estudiar</h3>
+        <p data-i18n-html="ben2.p">Solo los contenidos que marca la <b>Generalitat</b>, explicados para entenderlos de verdad, con la profundidad justa que te van a pedir. Ni una hora perdida en lo que no entra.</p>
       </div>
 
       <div class="ben reveal d3" id="b-ritmo">
         <div class="org"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><g class="pulse"><ellipse cx="40" cy="40" rx="30" ry="18" fill="#ADE80C" stroke="#0E3A2A" stroke-width="3.5"/><path d="M14 40 q7 -12 14 0 q7 12 14 0 q7 -12 14 0 q7 12 12 0" stroke="#0E3A2A" stroke-width="3.2" fill="none" stroke-linecap="round"/></g></svg></div>
-        <h3>Cada día sabes qué toca</h3>
-        <p>Tracker de días y planificación hasta la fecha del examen. Abres, ves <b>tu tarea de hoy</b> y te pones. Sin dispersarte, sin decidir cada mañana por dónde empezar.</p>
+        <h3 data-i18n="ben3.h3">Cada día sabes qué toca</h3>
+        <p data-i18n-html="ben3.p">Tracker de días y planificación hasta la fecha del examen. Abres, ves <b>tu tarea de hoy</b> y te pones. Sin dispersarte, sin decidir cada mañana por dónde empezar.</p>
       </div>
 
       <a class="ben shield reveal d4" id="b-oficial" href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">
         <div class="crest"><svg viewBox="0 0 88 96" fill="none" aria-hidden="true"><path d="M44 4 L82 18 V50 C82 74 64 88 44 94 C24 88 6 74 6 50 V18 Z" fill="#ADE80C" stroke="#0B1F16" stroke-width="4"/><path d="M44 14 L72 24 V50 C72 68 59 79 44 84 C29 79 16 68 16 50 V24 Z" fill="#0E3A2A"/><path d="M31 50 l9 9 18 -20" stroke="#ADE80C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>La tranquilidad de que es lo que entra</h3>
-        <p>Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b>. No te lo tienes que creer: toca el escudo y compruébalo tú mismo en la web oficial de la PAU.</p>
-        <span class="verify">Verificar en gencat.cat <span class="arw">↗</span></span>
+        <h3 data-i18n="ben4.h3">La tranquilidad de que es lo que entra</h3>
+        <p data-i18n-html="ben4.p">Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b>. No te lo tienes que creer: toca el escudo y compruébalo tú mismo en la web oficial de la PAU.</p>
+        <span class="verify"><span data-i18n="ben4.verify">Verificar en gencat.cat</span> <span class="arw">↗</span></span>
       </a>
     </div>
   </div>
@@ -395,14 +398,14 @@
     <div class="testi-card reveal">
       <span class="chip">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#0E3A2A"/><path d="M8 10 q4 -3 8 0 M8 14 q4 3 8 0" stroke="#ADE80C" stroke-width="1.8" fill="none"/></svg>
-        ¿Por qué existe BioPAU?
+        <span data-i18n="testi.chip">¿Por qué existe BioPAU?</span>
       </span>
-      <blockquote>
+      <blockquote data-i18n-html="testi.quote">
         Me presenté a la Selectivitat <b>cuatro veces</b>. Y no era por vago: estudiaba muchísimo… pero estudiaba <span class="u">mal</span>. Lo que no era, con apuntes que no tocaban, sin saber qué me iban a pedir de verdad. A la cuarta pillé el truco: no se trata de saber más biología, se trata de estudiar <span class="u">exactamente lo que entra</span> y practicarlo como si fuera el día del examen. Entré en la carrera que quería. Monté BioPAU para que tú no pierdas cuatro convocatorias en darte cuenta.
       </blockquote>
       <div class="sig">
         <span class="scribble">Jose</span>
-        <div class="who"><b>Jose Briceño — fundador de BioPAU</b>4 convocatorias · 1 plaza en Medicina</div>
+        <div class="who" data-i18n-html="testi.who"><b>Jose Briceño — fundador de BioPAU</b>4 convocatorias · 1 plaza en Medicina</div>
       </div>
     </div>
   </div>
@@ -412,37 +415,37 @@
 <section class="final pad" id="empezar">
   <div class="wrap inner">
     <div class="mitosis reveal" aria-hidden="true"><svg viewBox="0 0 96 56" fill="none"><circle cx="34" cy="28" r="22" fill="#ADE80C" stroke="#0B1F16" stroke-width="4"/><circle cx="62" cy="28" r="22" fill="#0E3A2A" stroke="#0B1F16" stroke-width="4"/><line x1="34" y1="28" x2="62" y2="28" stroke="#ADE80C" stroke-width="3" stroke-dasharray="3 5"/></svg></div>
-    <h2 class="reveal d1">El esfuerzo de hoy es tu <em>tranquilidad mañana.</em></h2>
-    <p class="reveal d2">El examen tiene fecha. Tu plaza también. Ponte con la biología que de verdad cae, sigue el plan y llega tranquilo el día que importa.</p>
-    <a href="/registro.html" class="btn reveal d3">Empieza hoy, gratis <span class="arw">→</span></a>
-    <p class="tiny reveal d3">Sin tarjeta · Acceso al temario y a los primeros ejercicios · Cancela cuando quieras</p>
+    <h2 class="reveal d1" data-i18n-html="final.h2">El esfuerzo de hoy es tu <em>tranquilidad mañana.</em></h2>
+    <p class="reveal d2" data-i18n="final.p">El examen tiene fecha. Tu plaza también. Ponte con la biología que de verdad cae, sigue el plan y llega tranquilo el día que importa.</p>
+    <a href="/registro.html" class="btn reveal d3"><span data-i18n="final.cta">Empieza hoy, gratis</span> <span class="arw">→</span></a>
+    <p class="tiny reveal d3" data-i18n="final.tiny">Sin tarjeta · Acceso al temario y a los primeros ejercicios · Cancela cuando quieras</p>
   </div>
 </section>
 
 <!-- ============ FAQ (al final del todo) ============ -->
 <section class="faq pad" id="faq">
   <div class="wrap">
-    <h2 class="reveal d1">Lo que te estás preguntando ahora mismo.</h2>
+    <h2 class="reveal d1" data-i18n="faq.h2">Lo que te estás preguntando ahora mismo.</h2>
     <div class="faq-list reveal d2">
       <details open>
-        <summary>¿Esto es para la Selectivitat de Catalunya en concreto? <span class="plus" aria-hidden="true"></span></summary>
-        <div class="faq-a">Sí, es lo único que hace. Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b> para la Biología de la PAU, con el formato y el criterio de corrección catalanes. Nada de temario genérico de otras comunidades que luego no te sirve.</div>
+        <summary><span data-i18n="faq.q1">¿Esto es para la Selectivitat de Catalunya en concreto?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a1">Sí, es lo único que hace. Todo está montado sobre los <b>contenidos oficiales de la Generalitat</b> para la Biología de la PAU, con el formato y el criterio de corrección catalanes. Nada de temario genérico de otras comunidades que luego no te sirve.</div>
       </details>
       <details>
-        <summary>Voy fatal de tiempo. ¿Sirve igual? <span class="plus" aria-hidden="true"></span></summary>
-        <div class="faq-a">Para eso está el plan por días. Le dices cuándo es tu examen y te dice <b>qué hacer hoy</b>, aunque empieces tarde. En vez de agobiarte con todo a la vez, aprovechas cada día que te queda.</div>
+        <summary><span data-i18n="faq.q2">Voy fatal de tiempo. ¿Sirve igual?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a2">Para eso está el plan por días. Le dices cuándo es tu examen y te dice <b>qué hacer hoy</b>, aunque empieces tarde. En vez de agobiarte con todo a la vez, aprovechas cada día que te queda.</div>
       </details>
       <details>
-        <summary>¿Tengo que saber ya de biología para empezar? <span class="plus" aria-hidden="true"></span></summary>
-        <div class="faq-a">No. El temario está explicado <b>desde cero</b> para entenderlo, y los ejercicios van de menos a más. Empieces donde empieces, te lleva de la mano hasta el nivel del examen.</div>
+        <summary><span data-i18n="faq.q3">¿Tengo que saber ya de biología para empezar?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a3">No. El temario está explicado <b>desde cero</b> para entenderlo, y los ejercicios van de menos a más. Empieces donde empieces, te lleva de la mano hasta el nivel del examen.</div>
       </details>
       <details>
-        <summary>¿Los ejercicios se parecen de verdad al examen? <span class="plus" aria-hidden="true"></span></summary>
-        <div class="faq-a">Están hechos calcando el <b>formato y el criterio de corrección de la PAU</b>. Practicas justo el tipo de pregunta que te van a poner, y ves cómo se puntúa cada parte. Cero sorpresas el día D.</div>
+        <summary><span data-i18n="faq.q4">¿Los ejercicios se parecen de verdad al examen?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a4">Están hechos calcando el <b>formato y el criterio de corrección de la PAU</b>. Practicas justo el tipo de pregunta que te van a poner, y ves cómo se puntúa cada parte. Cero sorpresas el día D.</div>
       </details>
       <details>
-        <summary>¿Puedo probar antes de pagar? <span class="plus" aria-hidden="true"></span></summary>
-        <div class="faq-a">Sí. Empiezas <b>gratis y sin tarjeta</b>, entras al temario y a los primeros ejercicios, y decides tú si es lo tuyo. Sin compromiso y sin letra pequeña.</div>
+        <summary><span data-i18n="faq.q5">¿Puedo probar antes de pagar?</span> <span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-a" data-i18n-html="faq.a5">Sí. Empiezas <b>gratis y sin tarjeta</b>, entras al temario y a los primeros ejercicios, y decides tú si es lo tuyo. Sin compromiso y sin letra pequeña.</div>
       </details>
     </div>
   </div>
@@ -454,16 +457,16 @@
     <div class="foot">
       <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
       <div class="foot-links">
-        <a href="#dolor">El problema</a>
-        <a href="#solucion">La solución</a>
-        <a href="/precios.html">Precios</a>
-        <a href="#faq">Preguntas</a>
-        <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">Contenidos oficiales</a>
+        <a href="#dolor" data-i18n="foot.problem">El problema</a>
+        <a href="#solucion" data-i18n="foot.solution">La solución</a>
+        <a href="/precios.html" data-i18n="foot.prices">Precios</a>
+        <a href="#faq" data-i18n="foot.faq">Preguntas</a>
+        <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" data-i18n="foot.official">Contenidos oficiales</a>
       </div>
     </div>
     <div class="foot-note">
-      <span>© 2026 BioPAU · Hecho por alguien que se presentó a la Selectivitat 4 veces para que tú no tengas que hacerlo.</span>
-      <span>Recurso de estudio independiente. No afiliado a la Generalitat de Catalunya.</span>
+      <span data-i18n="foot.legal">© 2026 BioPAU · Hecho por alguien que se presentó a la Selectivitat 4 veces para que tú no tengas que hacerlo.</span>
+      <span data-i18n="foot.independent">Recurso de estudio independiente. No afiliado a la Generalitat de Catalunya.</span>
     </div>
   </div>
 </footer>

@@ -3,28 +3,51 @@
    ============================================================================ */
 window.BPDash = (function () {
   var D = window.BIOPAU_DATA;
+  var t = function (k, v) { return window.BPI18n ? window.BPI18n.t(k, v) : k; };
+  var S = {}; // estado guardado para repintar los textos dinámicos al cambiar idioma
 
   /* ---------- 1. Saludo dinámico según la hora ----------------------------
      Se elige una frase por franja horaria, fija durante todo el día para que
      no cambie en cada recarga (usa el día del año como semilla).            */
-  var SALUDOS = {
-    madrugada: {
-      titulo: ['¡Buenas noches, {n}!', '{n}, aún en pie…', 'Modo búho, {n}.'],
-      sub: ['¿Un último esfuerzo de medianoche?', 'Repasa algo ligero y a dormir: el cerebro consolida durmiendo.', 'Media hora buena vale más que tres de sueño perdido.']
+  var SALUDOS_ALL = {
+    es: {
+      madrugada: {
+        titulo: ['¡Buenas noches, {n}!', '{n}, aún en pie…', 'Modo búho, {n}.'],
+        sub: ['¿Un último esfuerzo de medianoche?', 'Repasa algo ligero y a dormir: el cerebro consolida durmiendo.', 'Media hora buena vale más que tres de sueño perdido.']
+      },
+      manana: {
+        titulo: ['¡Buenos días, {n}!', '¡Arriba, {n}!', 'Buen día para biología, {n}.'],
+        sub: ['¿Listo para el repaso matutino?', 'La cabeza está fresca: ataca lo más difícil ahora.', 'Empieza por un tema y el resto viene solo.']
+      },
+      tarde: {
+        titulo: ['¡Buenas tardes, {n}!', '{n}, a por la tarde.', '¿Cómo va el día, {n}?'],
+        sub: ['Buen momento para practicar ejercicios de PAU.', 'Media hora de práctica ahora vale por dos mañana.', 'Elige un bloque y clávalo.']
+      },
+      noche: {
+        titulo: ['¡Buenas noches, {n}!', 'Última ronda, {n}.', '{n}, cierra el día fuerte.'],
+        sub: ['¿Repasamos lo de hoy antes de cerrar?', 'Un repaso corto fija lo que has estudiado.', 'Marca lo que has completado y descansa.']
+      }
     },
-    manana: {
-      titulo: ['¡Buenos días, {n}!', '¡Arriba, {n}!', 'Buen día para biología, {n}.'],
-      sub: ['¿Listo para el repaso matutino?', 'La cabeza está fresca: ataca lo más difícil ahora.', 'Empieza por un tema y el resto viene solo.']
-    },
-    tarde: {
-      titulo: ['¡Buenas tardes, {n}!', '{n}, a por la tarde.', '¿Cómo va el día, {n}?'],
-      sub: ['Buen momento para practicar ejercicios de PAU.', 'Media hora de práctica ahora vale por dos mañana.', 'Elige un bloque y clávalo.']
-    },
-    noche: {
-      titulo: ['¡Buenas noches, {n}!', 'Última ronda, {n}.', '{n}, cierra el día fuerte.'],
-      sub: ['¿Repasamos lo de hoy antes de cerrar?', 'Un repaso corto fija lo que has estudiado.', 'Marca lo que has completado y descansa.']
+    ca: {
+      madrugada: {
+        titulo: ['Bona nit, {n}!', '{n}, encara despert…', 'Mode mussol, {n}.'],
+        sub: ['Un últim esforç de mitjanit?', 'Repassa alguna cosa lleugera i a dormir: el cervell consolida dormint.', 'Mitja hora bona val més que tres de son perdut.']
+      },
+      manana: {
+        titulo: ['Bon dia, {n}!', 'Amunt, {n}!', 'Bon dia per a la biologia, {n}.'],
+        sub: ['A punt per al repàs del matí?', 'Tens el cap fresc: ataca el més difícil ara.', 'Comença per un tema i la resta ve sola.']
+      },
+      tarde: {
+        titulo: ['Bona tarda, {n}!', '{n}, a per la tarda.', 'Com va el dia, {n}?'],
+        sub: ['Bon moment per practicar exercicis de PAU.', 'Mitja hora de pràctica ara val per dues demà.', 'Tria un bloc i clava’l.']
+      },
+      noche: {
+        titulo: ['Bona nit, {n}!', 'Última ronda, {n}.', '{n}, tanca el dia fort.'],
+        sub: ['Repassem el d’avui abans de tancar?', 'Un repàs curt fixa el que has estudiat.', 'Marca el que has completat i descansa.']
+      }
     }
   };
+  function saludos() { var l = window.BPI18n ? window.BPI18n.get() : 'es'; return SALUDOS_ALL[l] || SALUDOS_ALL.es; }
 
   function franja(h) {
     if (h < 6) return 'madrugada';
@@ -36,7 +59,7 @@ window.BPDash = (function () {
   /* Función pura: dado un momento y un nombre, devuelve el saludo. */
   function construirSaludo(now, nombre) {
     var f = franja(now.getHours());
-    var set = SALUDOS[f];
+    var set = saludos()[f];
     var seed = Math.floor(now.getTime() / 86400000) + now.getHours();
     return {
       franja: f,
@@ -126,13 +149,13 @@ window.BPDash = (function () {
   function pintarSugerencias(items) {
     var box = document.getElementById('suggestions');
     if (!box) return;
-    if (!items.length) { box.innerHTML = '<p style="color:var(--txt-dim)">Nada pendiente ahora mismo. ¡Buen trabajo!</p>'; return; }
+    if (!items.length) { box.innerHTML = '<p style="color:var(--txt-dim)">' + t('dash.sugg_empty') + '</p>'; return; }
     box.innerHTML = items.map(function (it) {
       return '<a class="sugg-item" href="/app/apuntes.html#' + it.tema.id + '">' +
         '<span class="sugg-dot" style="background:' + it.tema.color + '"></span>' +
         '<span class="sugg-txt"><span class="t">' + it.tema.titulo + '</span>' +
         '<span class="s">' + it.mensaje + '</span></span>' +
-        '<span class="sugg-go">Ir →</span></a>';
+        '<span class="sugg-go">' + t('dash.sugg_go') + '</span></a>';
     }).join('');
   }
 
@@ -176,9 +199,9 @@ window.BPDash = (function () {
     if (cancel) cancel.addEventListener('click', closeAvatarModal);
     var save = document.getElementById('avatar-save');
     if (save) save.addEventListener('click', async function () {
-      save.disabled = true; save.textContent = 'Guardando…';
+      save.disabled = true; save.textContent = t('acc.msg_saving');
       var ok = await window.BPData.setAvatar(avatarSel);
-      save.disabled = false; save.textContent = 'Guardar';
+      save.disabled = false; save.textContent = t('modal.save');
       if (ok) {
         var big = document.getElementById('avatar-big');
         if (big) big.innerHTML = window.BPShell.avatarSVG(avatarSel);
@@ -215,25 +238,39 @@ window.BPDash = (function () {
 
     pintarAnillo(gp.pct);
     pintarBloques(window.BPData.blockProgress());
-    pintarSugerencias(window.BPData.recommendations(3));
 
     var setTxt = function (id, txt) { var el = document.getElementById(id); if (el) { el.textContent = txt; el.classList.remove('sk'); } };
     setTxt('stat-streak', st.stats.streak_days);
     setTxt('stat-best', st.stats.longest_streak);
     setTxt('stat-topics', gp.done + '/' + gp.total);
-    setTxt('level-num', 'Nivel ' + lv.numero);
-    setTxt('level-name', lv.nombre);
-    setTxt('level-next', lv.siguiente
-      ? 'Te faltan ' + lv.faltanParaSiguiente + ' temas para «' + lv.siguiente + '»'
-      : '¡Has alcanzado el nivel máximo! 🎉');
 
     var big = document.getElementById('avatar-big');
     if (big) big.innerHTML = window.BPShell.avatarSVG(st.stats.avatar_id);
 
+    // Guarda estado y pinta los textos dependientes del idioma
+    S.nombre = nombre; S.lv = lv;
+    repaintDynamic();
+
+    // Al cambiar de idioma, re-pinta saludo, nivel, metas y sugerencias
+    document.addEventListener('bp:langchange', repaintDynamic);
+  }
+
+  /* Repinta todos los textos compuestos en JS (no cubiertos por data-i18n) */
+  function repaintDynamic() {
+    var setTxt = function (id, txt) { var el = document.getElementById(id); if (el) { el.textContent = txt; el.classList.remove('sk'); } };
+    if (S.nombre != null) pintarSaludo(S.nombre);
+    if (S.lv) {
+      setTxt('level-num', t('dash.level_prefix') + ' ' + S.lv.numero);
+      setTxt('level-name', S.lv.nombre);
+      setTxt('level-next', S.lv.siguiente
+        ? t('dash.level_next', { n: S.lv.faltanParaSiguiente, name: S.lv.siguiente })
+        : t('dash.level_max'));
+    }
     var mt = document.getElementById('mod-apuntes-meta');
-    if (mt) mt.textContent = D.totalTemas + ' temas · ' + D.BLOQUES.length + ' bloques';
+    if (mt) mt.textContent = t('dash.meta_temas', { t: D.totalTemas, b: D.BLOQUES.length });
     var me = document.getElementById('mod-examenes-meta');
-    if (me) me.textContent = D.EXAMENES.length + ' convocatorias';
+    if (me) me.textContent = t('dash.meta_conv', { n: D.EXAMENES.length });
+    pintarSugerencias(window.BPData.recommendations(3));
   }
 
   document.addEventListener('DOMContentLoaded', init);

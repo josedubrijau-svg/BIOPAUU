@@ -79,38 +79,47 @@ window.BPShell = (function () {
 
   /* ---------- Definición del menú lateral --------------------------------- */
   var NAV = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', href: '/app/' },
-    { id: 'apuntes',   label: 'Apuntes',   icon: 'book',      href: '/app/apuntes.html' },
-    { id: 'examenes',  label: 'Exámenes',  icon: 'exam',      href: '/app/examenes.html' },
-    { id: 'calendario',label: 'Calendario',icon: 'calendar',  href: '/app/calendario.html' },
-    { id: 'novedades', label: 'Novedades', icon: 'sparkle',   href: '/app/novedades.html' }
+    { id: 'dashboard', i18n: 'nav.dashboard',  icon: 'dashboard', href: '/app/' },
+    { id: 'apuntes',   i18n: 'nav.apuntes',    icon: 'book',      href: '/app/apuntes.html' },
+    { id: 'examenes',  i18n: 'nav.examenes',   icon: 'exam',      href: '/app/examenes.html' },
+    { id: 'calendario',i18n: 'nav.calendario', icon: 'calendar',  href: '/app/calendario.html' },
+    { id: 'novedades', i18n: 'nav.novedades',  icon: 'sparkle',   href: '/app/novedades.html' }
   ];
   var NAV_FOOT = [
-    { id: 'avatar',  label: 'Avatar',  icon: 'user',     action: 'avatar' },
-    { id: 'ajustes', label: 'Ajustes', icon: 'settings', href: '/cuenta.html' },
-    { id: 'salir',   label: 'Salir',   icon: 'logout',   action: 'logout', danger: true }
+    { id: 'avatar',  i18n: 'nav.avatar',   icon: 'user',     action: 'avatar' },
+    { id: 'ajustes', i18n: 'nav.settings', icon: 'settings', href: '/cuenta.html' },
+    { id: 'salir',   i18n: 'nav.logout',   icon: 'logout',   action: 'logout', danger: true }
   ];
+
+  function T(key) { return window.BPI18n ? window.BPI18n.t(key) : key; }
 
   function navItem(it, activeId) {
     var cls = 'sb-item' + (it.id === activeId ? ' is-active' : '') + (it.danger ? ' sb-item--danger' : '');
     var attrs = it.action ? ' href="#" data-action="' + it.action + '"' : ' href="' + it.href + '"';
-    return '<a class="' + cls + '"' + attrs + '>' + icon(it.icon) + '<span>' + it.label + '</span></a>';
+    return '<a class="' + cls + '"' + attrs + '>' + icon(it.icon) + '<span data-i18n="' + it.i18n + '">' + T(it.i18n) + '</span></a>';
+  }
+
+  /* mapa id-de-página → clave i18n para el breadcrumb */
+  function pageKey(page) {
+    for (var i = 0; i < NAV.length; i++) if (NAV[i].id === page) return NAV[i].i18n;
+    return 'nav.dashboard';
   }
 
   /* ---------- Render ------------------------------------------------------ */
   function render(opts) {
     opts = opts || {};
     var page = document.body.getAttribute('data-page') || 'dashboard';
+    var pk = pageKey(page);
 
     var sidebar = document.getElementById('sidebar');
     if (sidebar) {
       sidebar.className = 'sidebar';
       sidebar.innerHTML =
         '<a href="/index.html" class="sb-logo"><span class="cell"></span>Bio<b>PAU</b></a>' +
-        '<nav class="sb-nav"><div class="sb-title">Estudio</div>' +
+        '<nav class="sb-nav"><div class="sb-title" data-i18n="sb.study">Estudio</div>' +
           NAV.map(function (i) { return navItem(i, page); }).join('') +
         '</nav>' +
-        '<div class="sb-foot"><div class="sb-title">Cuenta</div>' +
+        '<div class="sb-foot"><div class="sb-title" data-i18n="sb.account">Cuenta</div>' +
           NAV_FOOT.map(function (i) { return navItem(i, page); }).join('') +
         '</div>';
     }
@@ -118,16 +127,22 @@ window.BPShell = (function () {
     var topbar = document.getElementById('topbar');
     if (topbar) {
       topbar.className = 'topbar';
+      var crumbs =
+        (page !== 'dashboard'
+          ? '<a href="/app/" class="tb-crumb-link" data-i18n="nav.dashboard">' + T('nav.dashboard') + '</a><span class="tb-sep">/</span>'
+          : '') +
+        '<span class="tb-crumb" data-i18n="' + pk + '">' + T(pk) + '</span>';
       topbar.innerHTML =
         '<div class="tb-left">' +
-          '<button class="burger" data-action="menu" aria-label="Abrir menú">' + icon('menu') + '</button>' +
-          '<span class="tb-crumb">' + (opts.crumb || 'Área VIP') + '</span>' +
+          '<button class="burger" data-action="menu" aria-label="Menú">' + icon('menu') + '</button>' +
+          '<nav class="tb-crumbs" aria-label="breadcrumb">' + crumbs + '</nav>' +
         '</div>' +
         '<div class="tb-right">' +
-          '<div class="tb-pill" id="tb-streak" title="Días seguidos estudiando">' +
+          '<div data-lang-switch></div>' +
+          '<div class="tb-pill" id="tb-streak" data-i18n-attr="title:tb.streak_title">' +
             '<span class="fire">🔥</span><span id="tb-streak-n">—</span>' +
           '</div>' +
-          '<button class="tb-user" data-action="avatar" title="Cambiar avatar">' +
+          '<button class="tb-user" data-action="avatar" data-i18n-attr="title:tb.change_avatar">' +
             '<span class="avatar" id="tb-avatar">' + avatarSVG('cell') + '</span>' +
             '<span class="name" id="tb-name">…</span>' +
           '</button>' +
@@ -141,6 +156,9 @@ window.BPShell = (function () {
       document.body.appendChild(bd);
     }
     wireActions();
+
+    // Traducir e insertar el selector de idioma en la topbar
+    if (window.BPI18n) { window.BPI18n.mount(); window.BPI18n.apply(document); }
   }
 
   function toggleMenu(open) {
@@ -171,15 +189,26 @@ window.BPShell = (function () {
     });
   }
 
-  /* Rellena nombre y avatar de la topbar */
+  /* Rellena nombre y avatar de la topbar (cachea para re-pintar al cambiar idioma) */
+  var _last = { name: null, avatarId: null, streak: null };
   function setUser(name, avatarId, streak) {
+    if (name != null) _last.name = name;
+    if (avatarId != null) _last.avatarId = avatarId;
+    if (typeof streak === 'number') _last.streak = streak;
+
     var n = document.getElementById('tb-name');
     var a = document.getElementById('tb-avatar');
     var s = document.getElementById('tb-streak-n');
-    if (n && name) n.textContent = name;
-    if (a && avatarId) a.innerHTML = avatarSVG(avatarId);
-    if (s && typeof streak === 'number') s.textContent = streak + (streak === 1 ? ' día' : ' días');
+    if (n && _last.name) n.textContent = _last.name;
+    if (a && _last.avatarId) a.innerHTML = avatarSVG(_last.avatarId);
+    if (s && typeof _last.streak === 'number') {
+      s.textContent = _last.streak + ' ' + (_last.streak === 1 ? T('tb.day') : T('tb.days'));
+    }
   }
+
+  // Al cambiar el idioma, refresca el sufijo de la racha (los textos con data-i18n
+  // los repinta BPI18n solo; esto arregla el "X días" que se compone en JS).
+  document.addEventListener('bp:langchange', function () { setUser(); });
 
   return { render: render, icon: icon, avatarSVG: avatarSVG, setUser: setUser, toggleMenu: toggleMenu, NAV: NAV };
 })();

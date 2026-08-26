@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apuntes — BioPAU VIP</title>
+<title data-i18n="ap.title">Apuntes — BioPAU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/dashboard.css">
 <link rel="stylesheet" href="/css/apuntes.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
 </head>
 <body data-requires-plan data-page="apuntes">
 
@@ -20,12 +22,12 @@
 
       <div class="notice" id="setup-notice">
         <span>⚙️</span>
-        <span><b>Falta un paso:</b> ejecuta <code>supabase/dashboard-schema.sql</code> en Supabase para guardar tu progreso.</span>
+        <span data-i18n-html="dash.setup"><b>Falta un paso:</b> ejecuta <code>supabase/dashboard-schema.sql</code> en Supabase para guardar tu progreso.</span>
       </div>
 
       <section class="hello">
-        <h1>Apuntes</h1>
-        <p>Los 7 bloques oficiales de la PAU de Biología. Toca uno para ver el detalle.</p>
+        <h1 data-i18n="ap.h1">Apuntes</h1>
+        <p data-i18n="ap.blocks_intro">Los 7 bloques oficiales de la PAU de Biología. Toca uno para ver el detalle.</p>
       </section>
 
       <div id="temario" class="bq-grid"></div>

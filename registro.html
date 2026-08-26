@@ -3,59 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crear cuenta — BioPAU</title>
+<title data-i18n="reg.title">Crear cuenta — BioPAU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/auth.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
 </head>
 <body data-guest-only>
 <nav><div class="nav-in">
   <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
-  <div id="nav-auth" class="nav-auth">
-    <a href="/login.html" class="nav-link">Entrar</a>
-    <a href="/registro.html" class="btn">Empieza gratis</a>
+  <div class="nav-right">
+    <div data-lang-switch></div>
+    <div id="nav-auth" class="nav-auth">
+      <a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>
+      <a href="/registro.html" class="btn" data-i18n="nav.start_free">Empieza gratis</a>
+    </div>
   </div>
 </div></nav>
 
 <main>
   <div class="card">
-    <span class="eyebrow">Crea tu cuenta</span>
-    <h1>Empieza hoy, gratis.</h1>
-    <p class="sub">Sin tarjeta. Accede al temario y a los primeros ejercicios y decide tú.</p>
+    <span class="eyebrow" data-i18n="reg.eyebrow">Crea tu cuenta</span>
+    <h1 data-i18n="reg.h1">Empieza hoy, gratis.</h1>
+    <p class="sub" data-i18n="reg.sub">Sin tarjeta. Accede al temario y a los primeros ejercicios y decide tú.</p>
 
     <div id="form-msg" class="msg"></div>
     <form id="form-registro" novalidate>
       <div class="field">
-        <label for="username">Nombre de usuario</label>
-        <input id="username" name="username" type="text" autocomplete="username" placeholder="p. ej. laia_bio" required>
+        <label for="username" data-i18n="reg.username">Nombre de usuario</label>
+        <input id="username" name="username" type="text" autocomplete="username" placeholder="p. ej. laia_bio" data-i18n-attr="placeholder:reg.username_ph" required>
       </div>
       <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+        <label for="email" data-i18n="field.email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" data-i18n-attr="placeholder:field.email_ph" required>
       </div>
       <div class="field">
-        <label for="password">Contraseña</label>
-        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required>
-        <div class="hint">Al menos 8 caracteres, con una letra y un número.</div>
+        <label for="password" data-i18n="field.password">Contraseña</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" data-i18n-attr="placeholder:field.pw_min_ph" required>
+        <div class="hint" data-i18n="field.pw_rule">Al menos 8 caracteres, con una letra y un número.</div>
       </div>
       <div class="field">
-        <label for="password2">Repite la contraseña</label>
-        <input id="password2" name="password2" type="password" autocomplete="new-password" placeholder="Otra vez" required>
+        <label for="password2" data-i18n="field.pw_again">Repite la contraseña</label>
+        <input id="password2" name="password2" type="password" autocomplete="new-password" placeholder="Otra vez" data-i18n-attr="placeholder:field.pw_again_ph" required>
       </div>
-      <button type="submit" class="btn btn--wide">Crear cuenta <span class="arw">→</span></button>
+      <button type="submit" class="btn btn--wide"><span data-i18n="reg.submit">Crear cuenta</span> <span class="arw">→</span></button>
     </form>
 
-    <p class="alt">¿Ya tienes cuenta? <a href="/login.html" class="link">Inicia sesión</a></p>
+    <p class="alt"><span data-i18n="reg.have_account">¿Ya tienes cuenta?</span> <a href="/login.html" class="link" data-i18n="reg.login_link">Inicia sesión</a></p>
   </div>
 </main>
 
 <footer><div class="foot-in">
   <a href="/index.html" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
   <div class="links">
-    <a href="/precios.html">Precios</a>
-    <a href="/login.html">Entrar</a>
-    <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer">Contenidos oficiales</a>
+    <a href="/precios.html" data-i18n="foot.prices">Precios</a>
+    <a href="/login.html" data-i18n="foot.enter">Entrar</a>
+    <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" data-i18n="foot.official">Contenidos oficiales</a>
   </div>
 </div></footer>
 

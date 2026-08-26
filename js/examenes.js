@@ -7,12 +7,15 @@
    ============================================================================ */
 (function () {
   var D = window.BIOPAU_DATA;
+  var tr = function (k, v) { return window.BPI18n ? window.BPI18n.t(k, v) : k; };
   var filtro = 'todos';
+
+  function convLabel(c) { return c === 'Ordinaria' ? tr('ex.conv_ord') : c; }
 
   function renderFiltros() {
     var box = document.getElementById('filtros');
     if (!box) return;
-    var chips = [{ id: 'todos', nombre: 'Todos', color: '#ADE80C' }].concat(D.BLOQUES);
+    var chips = [{ id: 'todos', nombre: tr('ex.all'), color: '#ADE80C' }].concat(D.BLOQUES);
     box.innerHTML = chips.map(function (b) {
       var on = (b.id === filtro);
       return '<button class="chip' + (on ? ' chip--done' : '') + '" data-filtro="' + b.id + '">' + b.nombre + '</button>';
@@ -26,9 +29,9 @@
     }).join(' ');
     return '<div class="list-item">' +
       '<span class="idx">' + ex.anio + '</span>' +
-      '<span class="ti"><span class="t">PAU ' + ex.anio + ' · ' + ex.convocatoria + '</span>' +
+      '<span class="ti"><span class="t">PAU ' + ex.anio + ' · ' + convLabel(ex.convocatoria) + '</span>' +
       '<span class="s" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">' + bloques + '</span></span>' +
-      '<span class="chip">Próximamente</span>' +
+      '<span class="chip">' + tr('ex.soon') + '</span>' +
       '</div>';
   }
 
@@ -40,7 +43,7 @@
     });
     box.innerHTML = lista.length
       ? '<div class="list">' + lista.map(renderFila).join('') + '</div>'
-      : '<p style="color:var(--txt-dim);margin-top:18px">No hay exámenes de ese bloque todavía.</p>';
+      : '<p style="color:var(--txt-dim);margin-top:18px">' + tr('ex.empty') + '</p>';
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
@@ -52,6 +55,7 @@
 
     renderFiltros();
     render();
+    document.addEventListener('bp:langchange', function () { renderFiltros(); render(); });
 
     document.addEventListener('click', function (e) {
       var b = e.target.closest ? e.target.closest('[data-filtro]') : null;

@@ -4,6 +4,7 @@
 (function () {
   var sb = window.sb, BP = window.BP;
   if (!sb || !BP) return;
+  var t = function (k) { return window.BPI18n ? window.BPI18n.t(k) : k; };
 
   document.addEventListener('DOMContentLoaded', async function () {
     var statusEl = document.getElementById('cs-status');
@@ -11,7 +12,7 @@
     var spinner = document.getElementById('cs-spinner');
 
     var s = await BP.session();
-    if (!s) { if (statusEl) statusEl.textContent = 'Inicia sesión para ver el estado de tu suscripción.'; return; }
+    if (!s) { if (statusEl) { statusEl.setAttribute('data-i18n', 'cs.msg_login'); statusEl.textContent = t('cs.msg_login'); } return; }
 
     // Reintentar unos segundos: el webhook puede tardar un par de segundos
     var tries = 0, max = 8;
@@ -20,13 +21,13 @@
       var ok = await BP.isSubscribed();
       if (ok) {
         if (spinner) spinner.style.display = 'none';
-        if (statusEl) statusEl.textContent = '¡Pago completado correctamente! Ya tienes acceso.';
+        if (statusEl) { statusEl.setAttribute('data-i18n', 'cs.msg_done'); statusEl.textContent = t('cs.msg_done'); }
         if (actionsEl) actionsEl.style.display = '';
         return;
       }
       if (tries >= max) {
         if (spinner) spinner.style.display = 'none';
-        if (statusEl) statusEl.textContent = 'Tu pago se está confirmando. Puede tardar un momento; actualiza esta página en unos segundos o revisa “Mi cuenta”.';
+        if (statusEl) { statusEl.setAttribute('data-i18n', 'cs.msg_pending'); statusEl.textContent = t('cs.msg_pending'); }
         if (actionsEl) actionsEl.style.display = '';
         return;
       }
