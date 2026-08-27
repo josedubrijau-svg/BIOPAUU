@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-i18n="cal.title">Calendario — BioPAU</title>
+<title>Calendari — BioPAU VIP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/dashboard.css">
 <link rel="stylesheet" href="/css/calendario.css">
-<link rel="stylesheet" href="/css/i18n.css">
-<script defer src="/js/i18n.js"></script>
 </head>
 <body data-requires-plan data-page="calendario">
 
@@ -22,12 +20,12 @@
 
       <div class="notice" id="setup-notice">
         <span>⚙️</span>
-        <span data-i18n-html="cal.setup2"><b>Falta un paso:</b> ejecuta <code>supabase/calendar-schema.sql</code> en Supabase para guardar anotaciones, tareas y fechas de control.</span>
+        <span><b>Falta un paso:</b> ejecuta <code>supabase/calendar-schema.sql</code> en Supabase para guardar anotacions, tasques i dates control.</span>
       </div>
 
       <section class="hello">
-        <h1 data-i18n="cal.h1">Tu calendario de estudio</h1>
-        <p data-i18n="cal.intro2">Registra qué estudias cada día, marca tus fechas de control y deja que el sistema te diga qué toca.</p>
+        <h1>El teu calendari d'estudi</h1>
+        <p>Registra què estudies cada dia, marca les teves dates control i deixa que el sistema et digui què toca.</p>
       </section>
 
       <!-- Widget de recomendación -->
@@ -39,10 +37,10 @@
           <h2 id="cal-title">—</h2>
           <div class="cal-controls">
             <div class="cal-views">
-              <button data-vista="mes" class="is-active" data-i18n="cal.view_month">Mes</button>
-              <button data-vista="semana" data-i18n="cal.view_week">Setmana</button>
+              <button data-vista="mes" class="is-active">Mes</button>
+              <button data-vista="semana">Setmana</button>
             </div>
-            <button id="cal-today" class="cal-today-btn" data-i18n="cal.today">Avui</button>
+            <button id="cal-today" class="cal-today-btn">Avui</button>
             <div class="cal-nav">
               <button id="cal-prev" aria-label="Anterior">‹</button>
               <button id="cal-next" aria-label="Següent">›</button>
@@ -51,9 +49,9 @@
         </div>
         <div class="cal-grid" id="cal-grid"></div>
         <div class="legend">
-          <span><i style="background:rgba(173,232,12,.5)"></i> <span data-i18n="cal.leg_activity">Dia amb activitat</span></span>
-          <span><i style="background:rgba(255,255,255,.28)"></i> <span data-i18n="cal.leg_today">Avui</span></span>
-          <span><i style="background:#F87171"></i> <span data-i18n="cal.leg_control">Data control</span></span>
+          <span><i style="background:rgba(173,232,12,.5)"></i> Dia amb activitat</span>
+          <span><i style="background:rgba(255,255,255,.28)"></i> Avui</span>
+          <span><i style="background:#F87171"></i> Data control</span>
         </div>
       </section>
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="nv.title">Novedades — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
+</head>
+<body data-requires-plan data-page="novedades">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <div class="main">
+    <header id="topbar"></header>
+    <div class="content protected">
+
+      <section class="hello">
+        <h1 data-i18n="nv.h1">Novedades</h1>
+        <p data-i18n="nv.intro">Todo lo que vamos añadiendo a BioPAU.</p>
+      </section>
+
+      <div class="list">
+        <div class="list-item">
+          <span class="idx">NEW</span>
+          <span class="ti"><span class="t" data-i18n="nv.1_t">Área VIP con progreso, racha y niveles</span>
+          <span class="s" data-i18n="nv.1_s">Ya puedes marcar temas completados, mantener tu racha y subir de nivel.</span></span>
+          <span class="chip chip--done" data-i18n="nv.active">Activo</span>
+        </div>
+        <div class="list-item">
+          <span class="idx">NEW</span>
+          <span class="ti"><span class="t" data-i18n="nv.2_t">Calendario de estudio</span>
+          <span class="s" data-i18n="nv.2_s">Marca tus días de estudio y visualiza cuánto falta para la PAU.</span></span>
+          <span class="chip chip--done" data-i18n="nv.active">Activo</span>
+        </div>
+        <div class="list-item">
+          <span class="idx">SOON</span>
+          <span class="ti"><span class="t" data-i18n="nv.3_t">Contenido de los apuntes</span>
+          <span class="s" data-i18n="nv.3_s">Cada tema tendrá su desarrollo completo con esquemas.</span></span>
+          <span class="chip chip--prog" data-i18n="nv.inprogress">En curso</span>
+        </div>
+        <div class="list-item">
+          <span class="idx">SOON</span>
+          <span class="ti"><span class="t" data-i18n="nv.4_t">Preguntas aleatorias de repaso</span>
+          <span class="s" data-i18n="nv.4_s">Práctica rápida basada en los temas que más te conviene repasar.</span></span>
+          <span class="chip" data-i18n="nv.planned">Planificado</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  window.BPShell.render({ crumb: 'Novedades' });
+  await window.BPData.load();
+  var st = window.BPData.state;
+  var perfil = await window.BP.profile();
+  window.BPShell.setUser(perfil && perfil.username, st.stats.avatar_id, st.stats.streak_days);
+});
+</script>
+</body>
+</html>

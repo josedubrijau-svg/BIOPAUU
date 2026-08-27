@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="ob.title">Bienvenido a bioPau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/onboarding.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
+</head>
+<body class="ob-body" data-requires-auth>
+
+  <div class="ob-top">
+    <a href="/index.html" class="sb-logo"><span class="cell"></span>Bio<b>PAU</b></a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div data-lang-switch></div>
+      <button class="ob-skip" id="ob-skip" data-i18n="ob.skip">Saltar por ahora</button>
+    </div>
+  </div>
+
+  <div class="ob-progress"><span id="ob-bar"></span></div>
+
+  <main class="ob-main protected">
+    <div class="ob-card">
+      <div id="ob-steps"></div>
+      <div class="ob-nav" id="ob-nav">
+        <button class="ob-back" id="ob-back" hidden><span aria-hidden="true">←</span> <span data-i18n="ob.back">Atrás</span></button>
+        <button class="btn ob-next" id="ob-next"><span data-i18n="ob.next">Continuar</span> <span class="arw">→</span></button>
+      </div>
+    </div>
+  </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/profile-data.js"></script>
+<script src="/js/messages.js"></script>
+<script src="/js/onboarding.js"></script>
+</body>
+</html>
