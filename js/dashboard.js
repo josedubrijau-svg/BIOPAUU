@@ -68,12 +68,82 @@ window.BPDash = (function () {
     };
   }
 
+  function el(id) { return document.getElementById(id); }
+
+  /* Construye el "perfil" que consume el motor de mensajes. */
+  function personalProfile(nombre) {
+    var d = window.BPProfile ? window.BPProfile.all() : {};
+    var p = {};
+    for (var k in d) p[k] = d[k];
+    p._username = nombre;
+    return p;
+  }
+  /* Contexto para los mensajes: progreso, racha, inactividad, estado. */
+  function ctxFor() {
+    var st = (window.BPData && window.BPData.state) || {};
+    var stats = st.stats || {};
+    var gp = window.BPData ? window.BPData.globalProgress() : { pct: 0 };
+    var inactivos = 0;
+    if (stats.last_study_date) {
+      try {
+        var last = new Date(stats.last_study_date + 'T00:00:00');
+        inactivos = Math.max(0, Math.floor((Date.now() - last.getTime()) / 86400000));
+      } catch (e) {}
+    }
+    return {
+      pct: gp.pct, streak: stats.streak_days || 0, daysInactive: inactivos,
+      hoursWeek: 0, goalState: window.BPProfile ? window.BPProfile.goalState(gp.pct) : 'empezando'
+    };
+  }
+
   function pintarSaludo(nombre) {
-    var s = construirSaludo(new Date(), nombre);
-    var h1 = document.getElementById('hello-title');
-    var p = document.getElementById('hello-sub');
-    if (h1) { h1.textContent = s.titulo; h1.classList.remove('sk'); }
-    if (p) { p.textContent = s.sub; p.classList.remove('sk'); }
+    var prof = window.BPProfile ? window.BPProfile.all() : null;
+    var personal = prof && (prof.nickname || prof.career_goal);
+    var h1 = el('hello-title'), roleEl = el('hello-role'), p = el('hello-sub');
+
+    if (personal && window.BPMessages) {
+      var pr = personalProfile(nombre);
+      if (h1) { h1.textContent = window.BPMessages.greeting(pr, new Date()); h1.classList.remove('sk'); }
+      if (roleEl) { var rl = window.BPMessages.roleLine(pr); roleEl.textContent = rl; roleEl.style.display = rl ? '' : 'none'; }
+      if (p) { p.textContent = window.BPMessages.message(pr, ctxFor()); p.classList.remove('sk'); }
+    } else {
+      var s = construirSaludo(new Date(), nombre);
+      if (h1) { h1.textContent = s.titulo; h1.classList.remove('sk'); }
+      if (roleEl) roleEl.style.display = 'none';
+      if (p) { p.textContent = s.sub; p.classList.remove('sk'); }
+    }
+  }
+
+  /* ---------- Tarjeta de OBJETIVO ----------------------------------------- */
+  function pintarObjetivo() {
+    var card = el('obj-card'); if (!card) return;
+    var d = window.BPProfile ? window.BPProfile.all() : {};
+    var gp = window.BPData ? window.BPData.globalProgress() : { pct: 0 };
+    var full = el('obj-full'), empty = el('obj-empty');
+
+    if (!d.career_goal) {
+      if (full) full.style.display = 'none';
+      if (empty) empty.style.display = '';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    if (full) full.style.display = '';
+
+    var enter = t('obj.enter');
+    var set = function (id, v, hideIfEmpty) {
+      var e = el(id); if (!e) return;
+      e.textContent = v || '—';
+      if (hideIfEmpty && e.closest) { var row = e.closest('.obj-row'); if (row) row.style.display = v ? '' : 'none'; }
+    };
+    set('obj-career', enter + ' ' + d.career_goal);
+    set('obj-univ', d.university_goal, true);
+    set('obj-grade', d.target_grade != null && d.target_grade !== '' ? String(d.target_grade).replace('.', ',') : '', true);
+
+    var state = window.BPProfile ? window.BPProfile.goalState(gp.pct) : 'empezando';
+    var stEl = el('obj-state');
+    if (stEl) stEl.textContent = t('obj.state_' + state);
+    var pctEl = el('obj-pct'); if (pctEl) pctEl.textContent = gp.pct + '%';
+    var bar = el('obj-bar'); if (bar) setTimeout(function () { bar.style.width = gp.pct + '%'; }, 200);
   }
 
   /* ---------- 2. Anillo de progreso --------------------------------------- */
@@ -215,13 +285,23 @@ window.BPDash = (function () {
   /* ---------- Arranque ----------------------------------------------------- */
   async function init() {
     window.BPShell.render({ crumb: 'Dashboard' });
+
+    // Perfil personal. Si aún no ha hecho el onboarding, lo llevamos allí.
+    if (window.BPProfile) {
+      try { await window.BPProfile.load(); } catch (e) {}
+      if (window.BPProfile.get('onboarding_completed') !== true) {
+        window.location.replace('/onboarding.html'); return;
+      }
+      // aplica el avatar elegido en el onboarding si aún no hay stats
+    }
+
     wireAvatarModal();
     iniciarCuentaAtras();
 
     // El guard de auth.js ya garantiza sesión + suscripción activa
     var perfil = await window.BP.profile();
-    var nombre = (perfil && perfil.username) || 'crack';
-    pintarSaludo(nombre);
+    var uname = (perfil && perfil.username) || 'crack';
+    var nombre = window.BPProfile ? (window.BPProfile.displayName(uname) || uname) : uname;
 
     await window.BPData.load();
     var st = window.BPData.state;
@@ -234,24 +314,26 @@ window.BPDash = (function () {
     var gp = window.BPData.globalProgress();
     var lv = window.BPData.level();
 
-    window.BPShell.setUser(nombre, st.stats.avatar_id, st.stats.streak_days);
+    // avatar: usa el de user_stats o, si no hay, el elegido en el perfil
+    var avatarId = (st.stats && st.stats.avatar_id) || (window.BPProfile && window.BPProfile.get('avatar_id')) || 'cell';
+    window.BPShell.setUser(nombre, avatarId, st.stats.streak_days);
 
     pintarAnillo(gp.pct);
     pintarBloques(window.BPData.blockProgress());
 
-    var setTxt = function (id, txt) { var el = document.getElementById(id); if (el) { el.textContent = txt; el.classList.remove('sk'); } };
+    var setTxt = function (id, txt) { var e = document.getElementById(id); if (e) { e.textContent = txt; e.classList.remove('sk'); } };
     setTxt('stat-streak', st.stats.streak_days);
     setTxt('stat-best', st.stats.longest_streak);
     setTxt('stat-topics', gp.done + '/' + gp.total);
 
     var big = document.getElementById('avatar-big');
-    if (big) big.innerHTML = window.BPShell.avatarSVG(st.stats.avatar_id);
+    if (big) big.innerHTML = window.BPShell.avatarSVG(avatarId);
 
-    // Guarda estado y pinta los textos dependientes del idioma
+    // Guarda estado y pinta los textos dependientes del idioma / perfil
     S.nombre = nombre; S.lv = lv;
     repaintDynamic();
 
-    // Al cambiar de idioma, re-pinta saludo, nivel, metas y sugerencias
+    // Al cambiar de idioma, re-pinta saludo, objetivo, nivel, metas y sugerencias
     document.addEventListener('bp:langchange', repaintDynamic);
   }
 
@@ -259,6 +341,7 @@ window.BPDash = (function () {
   function repaintDynamic() {
     var setTxt = function (id, txt) { var el = document.getElementById(id); if (el) { el.textContent = txt; el.classList.remove('sk'); } };
     if (S.nombre != null) pintarSaludo(S.nombre);
+    pintarObjetivo();
     if (S.lv) {
       setTxt('level-num', t('dash.level_prefix') + ' ' + S.lv.numero);
       setTxt('level-name', S.lv.nombre);
