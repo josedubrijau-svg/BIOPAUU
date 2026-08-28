@@ -31,6 +31,8 @@ window.BPI18n = (function () {
   var DICT = {
     /* ---- Comunes / navegación / botones ---- */
     'nav.enter':            { ca: 'Entra',            es: 'Entrar' },
+    'nav.login':            { ca: 'Inicia sessió',    es: 'Iniciar sesión' },
+    'nav.register':         { ca: "Registra't",       es: 'Registrarse' },
     'nav.start_free':       { ca: 'Comença gratis',   es: 'Empieza gratis' },
     'nav.start_free_full':  { ca: 'Comença&nbsp;',    es: 'Empieza&nbsp;' },
     'nav.free_word':        { ca: 'gratis',           es: 'gratis' },
