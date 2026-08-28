@@ -28,10 +28,31 @@
         para guardar el progreso, la racha y el avatar. Mientras tanto verás los contadores a cero.</span>
       </div>
 
-      <!-- 1. Saludo dinámico -->
+      <!-- 1. Saludo dinámico + personal -->
       <section class="hello">
         <h1 id="hello-title" class="sk" data-i18n="dash.loading">Cargando…</h1>
-        <p id="hello-sub" class="sk" data-i18n="dash.preparing">Preparando tu panel</p>
+        <div id="hello-role" class="hello-role" style="display:none"></div>
+        <p id="hello-sub" class="sk hello-msg" data-i18n="dash.preparing">Preparando tu panel</p>
+      </section>
+
+      <!-- 1b. Objetivo personal -->
+      <section class="card obj-card" id="obj-card">
+        <div id="obj-full">
+          <span class="card-sub"><span class="obj-emoji">🎯</span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
+          <h2 id="obj-career" class="obj-career">—</h2>
+          <div class="obj-meta">
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.univ">Universidad objetivo</span><span class="obj-v" id="obj-univ">—</span></div>
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.grade">Nota objetivo</span><span class="obj-v" id="obj-grade">—</span></div>
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.state">Estado</span><span class="obj-v"><span id="obj-state" class="obj-badge">—</span> <span class="obj-pct" id="obj-pct">0%</span></span></div>
+          </div>
+          <div class="obj-track"><span id="obj-bar"></span></div>
+        </div>
+        <div id="obj-empty" class="obj-empty" style="display:none">
+          <span class="card-sub"><span class="obj-emoji">🎯</span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
+          <h3 data-i18n="obj.empty_t">Aún no tienes un objetivo</h3>
+          <p data-i18n="obj.empty_s">Cuéntanos qué quieres estudiar y bioPau se adaptará a ti.</p>
+          <a href="/onboarding.html" class="btn btn--sm"><span data-i18n="obj.empty_cta">Definir mi objetivo</span> <span class="arw">→</span></a>
+        </div>
       </section>
 
       <!-- 2. Estado del alumno + 3. Cuenta atrás -->
@@ -186,6 +207,8 @@
 <script src="/js/study-data.js"></script>
 <script src="/js/shell.js"></script>
 <script src="/js/progress.js"></script>
+<script src="/js/profile-data.js"></script>
+<script src="/js/messages.js"></script>
 <script src="/js/dashboard.js"></script>
 </body>
 </html>
