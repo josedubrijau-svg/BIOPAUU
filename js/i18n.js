@@ -378,6 +378,12 @@ window.BPI18n = (function () {
     'ex.empty':             { ca: 'Encara no hi ha exàmens d’aquest bloc.', es: 'No hay exámenes de ese bloque todavía.' },
     'ex.foot':              { ca: 'Els enunciats i les pautes de correcció es publicaran aquí. Font oficial: ', es: 'Los enunciados y las pautas de corrección se irán publicando aquí. Fuente oficial: ' },
     'ex.conv_ord':          { ca: 'Ordinària',          es: 'Ordinaria' },
+    'ex.conv_ext':          { ca: 'Extraordinària',     es: 'Extraordinaria' },
+    'ex.view':              { ca: 'Veure',              es: 'Ver' },
+    'ex.download':          { ca: 'Descarregar',        es: 'Descargar' },
+    'ex.pregunta':          { ca: 'Pregunta',           es: 'Pregunta' },
+    'ex.count_1':           { ca: '{n} convocatòria',   es: '{n} convocatoria' },
+    'ex.count_n':           { ca: '{n} convocatòries',  es: '{n} convocatorias' },
 
     /* ---- Calendario ---- */
     'cal.title':            { ca: 'Calendari — BioPAU',  es: 'Calendario — BioPAU' },

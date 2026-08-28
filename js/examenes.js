@@ -1,16 +1,32 @@
 /* ============================================================================
    BioPAU — vista EXÁMENES Y EJERCICIOS
-   Lista las convocatorias desde js/study-data.js y permite filtrar por bloque.
-
-   👉 CUANDO SUBAS LOS EXÁMENES: añade a cada entrada de EXAMENES un campo
-      "url" (PDF o página propia) y cámbialo en el botón "Abrir" de renderFila.
+   Convocatorias (PDF completo) organizadas por año y filtrables por bloque.
+   Cada examen muestra sus preguntas etiquetadas por bloque, y se puede
+   VER o DESCARGAR el enunciado en PDF. Los datos: js/examenes-data.js.
    ============================================================================ */
 (function () {
   var D = window.BIOPAU_DATA;
   var tr = function (k, v) { return window.BPI18n ? window.BPI18n.t(k, v) : k; };
   var filtro = 'todos';
 
-  function convLabel(c) { return c === 'Ordinaria' ? tr('ex.conv_ord') : c; }
+  function data() {
+    if (window.BIOPAU_EXAMENES && window.BIOPAU_EXAMENES.EXAMENES) return window.BIOPAU_EXAMENES;
+    // compatibilidad con el formato antiguo (study-data)
+    return {
+      EXAMENES: (D.EXAMENES || []).map(function (e) { return { id: e.id, anio: e.anio, convocatoria: e.convocatoria, pdf: '', preguntas: (e.bloques || []).map(function (b, i) { return { n: i + 1, bloques: [b] }; }) }; }),
+      bloquesDe: function (ex) { var s = {}; (ex.preguntas || []).forEach(function (p) { (p.bloques || []).forEach(function (b) { s[b] = 1; }); }); return Object.keys(s); }
+    };
+  }
+
+  function convLabel(c) {
+    if (c === 'Ordinaria' || c === 'Ordinària') return tr('ex.conv_ord');
+    if (c === 'Extraordinaria' || c === 'Extraordinària') return tr('ex.conv_ext');
+    return c || '';
+  }
+  function chipBloque(id, dim) {
+    var b = D.bloquePorId(id); if (!b) return '';
+    return '<span class="ex-tag' + (dim ? ' is-dim' : '') + '" style="border-color:' + b.color + '55;color:' + b.color + '">' + b.nombre + '</span>';
+  }
 
   function renderFiltros() {
     var box = document.getElementById('filtros');
@@ -22,28 +38,56 @@
     }).join('');
   }
 
-  function renderFila(ex) {
-    var bloques = ex.bloques.map(function (id) {
-      var b = D.bloquePorId(id);
-      return b ? '<span class="chip" style="border-color:' + b.color + '55;color:' + b.color + '">' + b.nombre + '</span>' : '';
-    }).join(' ');
-    return '<div class="list-item">' +
-      '<span class="idx">' + ex.anio + '</span>' +
-      '<span class="ti"><span class="t">PAU ' + ex.anio + ' · ' + convLabel(ex.convocatoria) + '</span>' +
-      '<span class="s" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">' + bloques + '</span></span>' +
-      '<span class="chip">' + tr('ex.soon') + '</span>' +
-      '</div>';
+  function tienePdf(ex) { return ex.pdf && ex.pdf.trim(); }
+
+  function renderExam(ex, DATA) {
+    var titulo = 'PAU ' + ex.anio;
+    var sub = convLabel(ex.convocatoria) + (ex.serie ? ' · ' + ex.serie : '');
+
+    // Acciones
+    var acciones;
+    if (tienePdf(ex)) {
+      acciones =
+        '<a class="btn btn--sm" href="' + ex.pdf + '" target="_blank" rel="noopener noreferrer">' + tr('ex.view') + ' <span class="arw">↗</span></a>' +
+        '<a class="btn btn--ghost btn--sm" href="' + ex.pdf + '" download>' + tr('ex.download') + '</a>';
+    } else {
+      acciones = '<span class="chip">' + tr('ex.soon') + '</span>';
+    }
+
+    // Preguntas
+    var preguntas = (ex.preguntas || []).map(function (p) {
+      var match = (filtro === 'todos') || (p.bloques || []).indexOf(filtro) !== -1;
+      var tags = (p.bloques || []).map(function (b) { return chipBloque(b, filtro !== 'todos' && !match); }).join('');
+      var tit = p.titulo || (tr('ex.pregunta') + ' ' + p.n);
+      return '<div class="ex-q' + (filtro !== 'todos' && !match ? ' is-dim' : (filtro !== 'todos' && match ? ' is-hit' : '')) + '">' +
+        '<span class="ex-qn">P' + p.n + '</span>' +
+        '<span class="ex-qt">' + tit + '</span>' +
+        '<span class="ex-qtags">' + tags + '</span></div>';
+    }).join('');
+
+    return '<article class="ex-card">' +
+      '<div class="ex-head">' +
+        '<div class="ex-id"><div class="ex-year">' + titulo + '</div><div class="ex-conv">' + sub + '</div></div>' +
+        '<div class="ex-actions">' + acciones + '</div>' +
+      '</div>' +
+      '<div class="ex-qs">' + preguntas + '</div>' +
+      '</article>';
   }
 
   function render() {
     var box = document.getElementById('examenes');
     if (!box) return;
-    var lista = D.EXAMENES.filter(function (ex) {
-      return filtro === 'todos' || ex.bloques.indexOf(filtro) !== -1;
-    });
-    box.innerHTML = lista.length
-      ? '<div class="list">' + lista.map(renderFila).join('') + '</div>'
-      : '<p style="color:var(--txt-dim);margin-top:18px">' + tr('ex.empty') + '</p>';
+    var DATA = data();
+    var lista = DATA.EXAMENES.filter(function (ex) {
+      if (filtro === 'todos') return true;
+      return DATA.bloquesDe(ex).indexOf(filtro) !== -1;
+    }).sort(function (a, b) { return b.anio - a.anio; });
+
+    if (!lista.length) { box.innerHTML = '<p style="color:var(--txt-dim);margin-top:18px">' + tr('ex.empty') + '</p>'; return; }
+
+    var count = lista.length;
+    var resumen = '<p class="ex-count">' + tr(count === 1 ? 'ex.count_1' : 'ex.count_n', { n: count }) + '</p>';
+    box.innerHTML = resumen + '<div class="ex-list">' + lista.map(function (ex) { return renderExam(ex, DATA); }).join('') + '</div>';
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
