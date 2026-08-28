@@ -33,6 +33,7 @@ window.BPI18n = (function () {
     'nav.enter':            { ca: 'Entra',            es: 'Entrar' },
     'nav.login':            { ca: 'Inicia sessió',    es: 'Iniciar sesión' },
     'nav.register':         { ca: "Registra't",       es: 'Registrarse' },
+    'nav.register_free':    { ca: "Registra't gratis", es: 'Regístrate gratis' },
     'nav.start_free':       { ca: 'Comença gratis',   es: 'Empieza gratis' },
     'nav.start_free_full':  { ca: 'Comença&nbsp;',    es: 'Empieza&nbsp;' },
     'nav.free_word':        { ca: 'gratis',           es: 'gratis' },
