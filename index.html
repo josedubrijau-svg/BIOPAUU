@@ -81,9 +81,14 @@
   nav .btn{font-size:.92rem;padding:.62rem 1.1rem;box-shadow:3px 3px 0 var(--ink)}
   nav .btn:hover{box-shadow:5px 5px 0 var(--ink)}
   .nav-auth{display:flex;align-items:center;gap:16px}
+  .nav-left{display:flex;align-items:center;gap:18px}
+  .nav-btns{display:flex;align-items:center;gap:10px}
+  nav .btn-sec{background:var(--paper-2);color:var(--ink)}
+  nav .btn-sec:hover{background:#fff}
   .nav-link{font-family:var(--display);font-weight:700;font-size:.95rem}
   .nav-link:hover{text-decoration:underline;text-decoration-color:var(--lime-deep);text-decoration-thickness:3px;text-underline-offset:5px}
-  @media(max-width:560px){.nav-link{display:none}}
+  @media(max-width:640px){.nav-left{gap:10px}.nav-btns{gap:8px}nav .btn{font-size:.82rem;padding:.5rem .8rem}}
+  @media(max-width:460px){.logo span.cell{display:none}.logo{font-size:1.15rem}}
 
   section{position:relative}
   .pad{padding:clamp(70px,9vw,124px) 0}
@@ -284,11 +289,15 @@
 <!-- ============ NAV ============ -->
 <nav>
   <div class="wrap nav-in">
-    <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+    <div class="nav-left">
+      <a href="#top" class="logo"><span class="cell"></span>Bio<b>PAU</b></a>
+      <div class="nav-btns">
+        <a href="/registro.html" class="btn" data-i18n="nav.register">Registrarse</a>
+        <a href="/login.html" class="btn btn-sec" data-i18n="nav.login">Iniciar sesión</a>
+      </div>
+    </div>
     <div id="nav-auth" class="nav-auth">
       <div data-lang-switch></div>
-      <a href="/login.html" class="nav-link" data-i18n="nav.enter">Entrar</a>
-      <a href="/registro.html" class="btn"><span class="full" data-i18n-html="nav.start_free_full">Empieza&nbsp;</span><span data-i18n="nav.free_word">gratis</span> <span class="arw">→</span></a>
     </div>
   </div>
 </nav>
