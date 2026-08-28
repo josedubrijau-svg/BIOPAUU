@@ -246,6 +246,29 @@ body[data-requires-plan]:not(.is-authed) .protected{display:none}
 .block-head .dot{width:12px;height:12px;border-radius:50%}
 .block-head h2{font-size:1.2rem}
 
+/* ---------- Exámenes (convocatorias) ------------------------------------- */
+.ex-count{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim);margin:14px 0 12px}
+.ex-list{display:flex;flex-direction:column;gap:14px}
+.ex-card{background:linear-gradient(160deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;transition:border-color .2s var(--ease),transform .2s var(--ease)}
+.ex-card:hover{border-color:rgba(173,232,12,.28)}
+.ex-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ex-id .ex-year{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;color:var(--txt)}
+.ex-id .ex-conv{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim);margin-top:2px}
+.ex-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-qs{display:flex;flex-direction:column;gap:8px;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.ex-q{display:flex;align-items:center;gap:12px;transition:opacity .2s ease}
+.ex-q.is-dim{opacity:.32}
+.ex-q.is-hit .ex-qt{color:var(--txt)}
+.ex-qn{font-family:var(--mono);font-weight:700;font-size:.72rem;color:var(--txt-dim);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:3px 8px;flex-shrink:0}
+.ex-qt{flex:1;min-width:0;font-weight:600;font-size:.95rem;color:var(--txt-soft)}
+.ex-qtags{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.ex-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid;transition:opacity .2s}
+.ex-tag.is-dim{opacity:.5}
+@media(max-width:560px){
+  .ex-q{flex-wrap:wrap}
+  .ex-qt{flex-basis:100%;order:3}
+}
+
 /* ---------- Responsive --------------------------------------------------- */
 @media(max-width:1100px){
   .grid--top,.grid--bottom{grid-template-columns:1fr}
