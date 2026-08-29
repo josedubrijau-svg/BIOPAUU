@@ -1,0 +1,58 @@
+════════════════════════════════════════════════════════════════
+  BioPAU — Idioma en el inicio + Sistema de carga/navegación
+  Guía de subida a GitHub  (4 rutas)
+════════════════════════════════════════════════════════════════
+
+QUÉ SE HA HECHO
+  1) El selector de idioma CAT/ESP vuelve al INICIO (arriba a la derecha).
+     Ya funcionaba en el resto de páginas; ahora también en la portada,
+     y el cambio se aplica en toda la web y se conserva al recargar.
+  2) Sistema GLOBAL de carga entre páginas (reutilizable, no un parche):
+     · Barra fina superior al instante en cada click (feedback inmediato).
+     · Overlay con spinner "Cargando…" si la carga tarda (>0,18 s).
+     · Estados idle / loading / success / error.
+     · Timeout de 12 s → "La conexión está tardando…" con Reintentar y
+       Volver atrás. NUNCA se queda en spinner infinito.
+     · Anti doble-click (no lanza 5 navegaciones si pulsas 5 veces).
+     · Transición suave de entrada de página.
+     · Respeta el diseño (claro en público, oscuro en el área privada),
+       accesibilidad (aria-busy, aria-live, foco, Esc) y "reduce motion".
+  Los botones de guardar/pagar ya tenían su "Guardando…/Procesando…";
+  se mantienen y ahora comparten el mismo spinner visual.
+
+────────────────────────────────────────────────────────────────
+IMPORTANTE: en cada ruta, arrastra los ARCHIVOS (no la carpeta).
+Todas las subidas REEMPLAZAN los archivos que ya había, salvo los 2
+nuevos de css/ y js/. Confirma con "Commit changes" en cada una.
+────────────────────────────────────────────────────────────────
+
+RUTA 1 — Páginas de la raíz  →  RAÍZ del repo
+  https://github.com/josedubrijau-svg/BIOPAUU/upload/main
+  Arrastra los 11 .html que están en la RAÍZ de este zip:
+    actualizar-password.html, calendario.html, checkout-cancel.html,
+    checkout-success.html, cuenta.html, index.html, login.html,
+    onboarding.html, precios.html, recuperar-password.html, registro.html
+
+RUTA 2 — Páginas del área privada  →  carpeta  /app/
+  https://github.com/josedubrijau-svg/BIOPAUU/upload/main/app
+  Arrastra los 5 .html de la carpeta "app" de este zip:
+    apuntes.html, calendario.html, examenes.html, index.html, novedades.html
+
+RUTA 3 — Estilo del loader (NUEVO)  →  carpeta  /css/
+  https://github.com/josedubrijau-svg/BIOPAUU/upload/main/css
+  Arrastra:  nav-loading.css
+
+RUTA 4 — Lógica del loader (NUEVO)  →  carpeta  /js/
+  https://github.com/josedubrijau-svg/BIOPAUU/upload/main/js
+  Arrastra:  nav-loading.js
+
+────────────────────────────────────────────────────────────────
+Tras subir las 4, espera 1–2 min al redeploy de Vercel y recarga con
+Ctrl+Shift+R (Cmd+Shift+R en Mac).
+
+CÓMO PROBARLO
+  · Navega entre secciones: verás la barra/overlay y la transición.
+  · En el móvil o con conexión lenta se nota más el feedback.
+  · Para ver el estado de error: en Chrome, DevTools › Network › "Offline"
+    y pulsa un enlace → aparece "Reintentar / Volver atrás".
+════════════════════════════════════════════════════════════════

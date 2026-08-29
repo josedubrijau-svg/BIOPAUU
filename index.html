@@ -10,6 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Caveat:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Patrick+Hand&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/i18n.css">
 <script defer src="/js/i18n.js"></script>
+<link rel="stylesheet" href="/css/nav-loading.css">
+<script defer src="/js/nav-loading.js"></script>
 <style>
   :root{
     --paper:#F1F3EA;--paper-2:#FBFCF6;--pine:#0E3A2A;--pine-2:#0A2A1F;--ink:#0B1F16;--ink-soft:#3B4E44;
@@ -81,6 +83,7 @@
   nav .btn{font-size:.92rem;padding:.62rem 1.1rem;box-shadow:3px 3px 0 var(--ink)}
   nav .btn:hover{box-shadow:5px 5px 0 var(--ink)}
   .nav-auth{display:flex;align-items:center;gap:16px}
+  .nav-right{display:flex;align-items:center}
   .nav-left{display:flex;align-items:center;gap:22px}
   .nav-btns{display:flex;align-items:center;gap:12px}
   /* Botón secundario (Iniciar sesión) */
@@ -305,6 +308,9 @@
         <a href="/registro.html" class="btn btn-cta"><span data-i18n="nav.register_free">Regístrate gratis</span> <span class="arw">→</span></a>
         <a href="/login.html" class="btn btn-sec" data-i18n="nav.login">Iniciar sesión</a>
       </div>
+    </div>
+    <div class="nav-right">
+      <div data-lang-switch></div>
     </div>
   </div>
 </nav>
