@@ -1,58 +1,62 @@
 ════════════════════════════════════════════════════════════════
-  BioPAU — Idioma en el inicio + Sistema de carga/navegación
-  Guía de subida a GitHub  (4 rutas)
+  BioPAU — FASE A · Legal + Cuenta          Guía de subida (4 rutas)
 ════════════════════════════════════════════════════════════════
 
-QUÉ SE HA HECHO
-  1) El selector de idioma CAT/ESP vuelve al INICIO (arriba a la derecha).
-     Ya funcionaba en el resto de páginas; ahora también en la portada,
-     y el cambio se aplica en toda la web y se conserva al recargar.
-  2) Sistema GLOBAL de carga entre páginas (reutilizable, no un parche):
-     · Barra fina superior al instante en cada click (feedback inmediato).
-     · Overlay con spinner "Cargando…" si la carga tarda (>0,18 s).
-     · Estados idle / loading / success / error.
-     · Timeout de 12 s → "La conexión está tardando…" con Reintentar y
-       Volver atrás. NUNCA se queda en spinner infinito.
-     · Anti doble-click (no lanza 5 navegaciones si pulsas 5 veces).
-     · Transición suave de entrada de página.
-     · Respeta el diseño (claro en público, oscuro en el área privada),
-       accesibilidad (aria-busy, aria-live, foco, Esc) y "reduce motion".
-  Los botones de guardar/pagar ya tenían su "Guardando…/Procesando…";
-  se mantienen y ahora comparten el mismo spinner visual.
+QUÉ INCLUYE ESTA FASE
+  · Páginas legales nuevas: Privacidad, Condiciones de uso, Cookies,
+    Aviso legal y un Centro de Ayuda/soporte.
+  · Footer legal profesional en el inicio y en las páginas de cuenta.
+  · Registro: aceptación OBLIGATORIA y SEPARADA de Privacidad y
+    Condiciones (el botón "Crear cuenta" está bloqueado hasta marcar
+    ambas). El consentimiento queda guardado (versión + fecha).
+  · Pantalla de primer acceso ("Antes de continuar"): si un usuario
+    entra al área privada sin haber aceptado, se le pide aceptar antes
+    de usar el producto. No se vuelve a pedir en cada login.
+  · Mostrar/ocultar contraseña (👁) en TODOS los formularios: registro,
+    login, recuperar, restablecer y cambiar contraseña.
+  · Sección "Cambiar contraseña" en tu cuenta (verifica la actual).
+  · Email de soporte visible en footer, ayuda, cuenta y en la pantalla
+    de error de conexión. Mensajes de error comprensibles.
+
+⚠️ IMPORTANTE — 2 cosas que debes personalizar tú:
+  1) EMAIL DE SOPORTE: ahora es un PLACEHOLDER "soporte@biopau.app".
+     Cámbialo por tu correo real en  js/fase-a.js  (línea SUPPORT_EMAIL,
+     está marcada con un comentario). Es el único sitio a tocar.
+  2) DATOS DEL TITULAR en las páginas legales: donde pone
+     [nombre o razón social], NIF/CIF y domicilio. Son plantillas
+     profesionales de partida; complétalas antes de publicar. No es
+     asesoramiento jurídico.
 
 ────────────────────────────────────────────────────────────────
-IMPORTANTE: en cada ruta, arrastra los ARCHIVOS (no la carpeta).
-Todas las subidas REEMPLAZAN los archivos que ya había, salvo los 2
-nuevos de css/ y js/. Confirma con "Commit changes" en cada una.
+En cada ruta, arrastra los ARCHIVOS (no la carpeta). Reemplazan salvo
+los nuevos. Confirma con "Commit changes" en cada una.
 ────────────────────────────────────────────────────────────────
 
 RUTA 1 — Páginas de la raíz  →  RAÍZ del repo
   https://github.com/josedubrijau-svg/BIOPAUU/upload/main
-  Arrastra los 11 .html que están en la RAÍZ de este zip:
-    actualizar-password.html, calendario.html, checkout-cancel.html,
-    checkout-success.html, cuenta.html, index.html, login.html,
-    onboarding.html, precios.html, recuperar-password.html, registro.html
+  Arrastra los 16 .html de la RAÍZ del zip (incluye las 5 nuevas:
+  privacidad, condiciones, cookies, aviso-legal, ayuda).
 
-RUTA 2 — Páginas del área privada  →  carpeta  /app/
+RUTA 2 — Área privada  →  carpeta  /app/
   https://github.com/josedubrijau-svg/BIOPAUU/upload/main/app
-  Arrastra los 5 .html de la carpeta "app" de este zip:
-    apuntes.html, calendario.html, examenes.html, index.html, novedades.html
+  Arrastra los 5 .html de la carpeta "app" del zip.
 
-RUTA 3 — Estilo del loader (NUEVO)  →  carpeta  /css/
+RUTA 3 — Estilos  →  carpeta  /css/
   https://github.com/josedubrijau-svg/BIOPAUU/upload/main/css
-  Arrastra:  nav-loading.css
+  Arrastra:  fase-a.css   (NUEVO)
 
-RUTA 4 — Lógica del loader (NUEVO)  →  carpeta  /js/
+RUTA 4 — Lógica  →  carpeta  /js/
   https://github.com/josedubrijau-svg/BIOPAUU/upload/main/js
-  Arrastra:  nav-loading.js
+  Arrastra:  fase-a.js (NUEVO), i18n.js, auth.js, nav-loading.js
 
 ────────────────────────────────────────────────────────────────
-Tras subir las 4, espera 1–2 min al redeploy de Vercel y recarga con
-Ctrl+Shift+R (Cmd+Shift+R en Mac).
+Tras las 4 subidas, 1–2 min de redeploy y Ctrl+Shift+R.
 
 CÓMO PROBARLO
-  · Navega entre secciones: verás la barra/overlay y la transición.
-  · En el móvil o con conexión lenta se nota más el feedback.
-  · Para ver el estado de error: en Chrome, DevTools › Network › "Offline"
-    y pulsa un enlace → aparece "Reintentar / Volver atrás".
+  · Registro: intenta crear cuenta sin marcar las casillas → el botón
+    está bloqueado. Márcalas → se activa. El ojo 👁 muestra/oculta.
+  · Footer del inicio: enlaces a Privacidad/Condiciones/Cookies/Aviso
+    legal/Ayuda/Contacto.
+  · Cuenta › pestaña "Cuenta": nueva sección "Cambiar contraseña" y
+    "Ayuda y soporte".
 ════════════════════════════════════════════════════════════════

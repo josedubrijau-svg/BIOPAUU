@@ -12,6 +12,8 @@
 <script defer src="/js/i18n.js"></script>
 <link rel="stylesheet" href="/css/nav-loading.css">
 <script defer src="/js/nav-loading.js"></script>
+<link rel="stylesheet" href="/css/fase-a.css">
+<script defer src="/js/fase-a.js"></script>
 </head>
 <body data-guest-only>
 <nav><div class="nav-in">
@@ -50,7 +52,19 @@
         <label for="password2" data-i18n="field.pw_again">Repite la contraseña</label>
         <input id="password2" name="password2" type="password" autocomplete="new-password" placeholder="Otra vez" data-i18n-attr="placeholder:field.pw_again_ph" required>
       </div>
-      <button type="submit" class="btn btn--wide"><span data-i18n="reg.submit">Crear cuenta</span> <span class="arw">→</span></button>
+      <div class="consent-block">
+        <label class="consent-row">
+          <input type="checkbox" id="accept-privacy">
+          <span><span data-i18n="consent.reg_privacy">He leído y acepto la</span>
+            <a href="/privacidad.html" target="_blank" rel="noopener" data-i18n="consent.reg_privacy_l">Política de Privacidad</a>.</span>
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" id="accept-terms">
+          <span><span data-i18n="consent.reg_terms">Acepto las</span>
+            <a href="/condiciones.html" target="_blank" rel="noopener" data-i18n="consent.reg_terms_l">Condiciones de Uso</a>.</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn--wide" disabled><span data-i18n="reg.submit">Crear cuenta</span> <span class="arw">→</span></button>
     </form>
 
     <p class="alt"><span data-i18n="reg.have_account">¿Ya tienes cuenta?</span> <a href="/login.html" class="link" data-i18n="reg.login_link">Inicia sesión</a></p>
@@ -63,6 +77,14 @@
     <a href="/precios.html" data-i18n="foot.prices">Precios</a>
     <a href="/login.html" data-i18n="foot.enter">Entrar</a>
     <a href="https://universitats.gencat.cat/ca/pau/materies-pau/biologia/" target="_blank" rel="noopener noreferrer" data-i18n="foot.official">Contenidos oficiales</a>
+  </div>
+  <div class="foot-legal">
+    <a href="/privacidad.html" data-i18n="foot.privacy">Privacidad</a><span class="sep">·</span>
+    <a href="/condiciones.html" data-i18n="foot.terms">Condiciones de uso</a><span class="sep">·</span>
+    <a href="/cookies.html" data-i18n="foot.cookies">Cookies</a><span class="sep">·</span>
+    <a href="/aviso-legal.html" data-i18n="foot.legal_notice">Aviso legal</a><span class="sep">·</span>
+    <a href="/ayuda.html" data-i18n="foot.help">Ayuda</a><span class="sep">·</span>
+    <a data-support-email href="#" data-i18n="foot.contact">Contacto</a>
   </div>
 </div></footer>
 

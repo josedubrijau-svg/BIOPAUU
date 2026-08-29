@@ -12,6 +12,8 @@
 <script defer src="/js/i18n.js"></script>
 <link rel="stylesheet" href="/css/nav-loading.css">
 <script defer src="/js/nav-loading.js"></script>
+<link rel="stylesheet" href="/css/fase-a.css">
+<script defer src="/js/fase-a.js"></script>
 <style>
   .pf-shell{max-width:1000px;margin:0 auto;padding:clamp(16px,2.6vw,30px)}
   .pf-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
@@ -229,6 +231,41 @@
             <input class="pf-in" id="username" name="username" type="text" autocomplete="username" required></label>
           <button type="submit" class="btn" data-i18n="acc.save">Guardar cambios</button>
         </form>
+      </div>
+
+      <div class="pf-section">
+        <span class="card-sub" data-i18n="acc.security_title">Cambiar contraseña</span>
+        <div id="cpw-msg" class="msg"></div>
+        <form id="form-change-password" novalidate>
+          <label class="pf-f" style="margin-bottom:12px"><span class="pf-l" data-i18n="acc.pw_current">Contraseña actual</span>
+            <input class="pf-in" name="current" type="password" autocomplete="current-password" required></label>
+          <label class="pf-f" style="margin-bottom:6px"><span class="pf-l" data-i18n="acc.pw_new">Nueva contraseña</span>
+            <input class="pf-in" name="newpw" type="password" autocomplete="new-password" required></label>
+          <div class="hint" style="margin:0 0 12px" data-i18n="acc.pw_rule">Mínimo 8 caracteres, con una letra y un número.</div>
+          <label class="pf-f" style="margin-bottom:14px"><span class="pf-l" data-i18n="acc.pw_confirm">Confirmar nueva contraseña</span>
+            <input class="pf-in" name="confirm" type="password" autocomplete="new-password" required></label>
+          <button type="submit" class="btn" data-i18n="acc.pw_save">Actualizar contraseña</button>
+        </form>
+      </div>
+
+      <div class="pf-section">
+        <span class="card-sub" data-i18n="acc.help_title">Ayuda y soporte</span>
+        <p style="color:var(--txt-soft);line-height:1.55;margin-bottom:14px" data-i18n="acc.help_text">¿Necesitas ayuda? Escríbenos o consulta las preguntas frecuentes.</p>
+        <div class="acc-actions">
+          <a href="/ayuda.html" class="btn btn--ghost"><span data-i18n="acc.help_center">Centro de ayuda</span> <span class="arw">→</span></a>
+          <a data-support-mailto data-subject="Soporte bioPau" href="#" class="btn btn--ghost" data-i18n="acc.help_contact">Contactar con soporte</a>
+        </div>
+        <p style="margin-top:12px;font-size:.9rem"><a class="acc-help-mail" data-support-email href="#">correo</a></p>
+      </div>
+
+      <div class="pf-section">
+        <span class="card-sub" data-i18n="acc.legal_title">Legal</span>
+        <div class="foot-legal" style="justify-content:flex-start;border-top:0;margin-top:0;padding-top:0">
+          <a href="/privacidad.html" data-i18n="foot.privacy">Privacidad</a><span class="sep">·</span>
+          <a href="/condiciones.html" data-i18n="foot.terms">Condiciones de uso</a><span class="sep">·</span>
+          <a href="/cookies.html" data-i18n="foot.cookies">Cookies</a><span class="sep">·</span>
+          <a href="/aviso-legal.html" data-i18n="foot.legal_notice">Aviso legal</a>
+        </div>
       </div>
     </section>
 
