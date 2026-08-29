@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/dashboard.css">
-<link rel="stylesheet" href="/css/calendario.css">
+<link rel="stylesheet" href="/css/cal-events.css">
 <link rel="stylesheet" href="/css/i18n.css">
 <script defer src="/js/i18n.js"></script>
 <link rel="stylesheet" href="/css/nav-loading.css">
@@ -24,50 +24,16 @@
     <header id="topbar"></header>
     <div class="content protected">
 
-      <div class="notice" id="setup-notice">
-        <span>⚙️</span>
-        <span data-i18n-html="cal.setup2"><b>Falta un paso:</b> ejecuta <code>supabase/calendar-schema.sql</code> en Supabase para guardar anotaciones, tareas y fechas de control.</span>
-      </div>
-
       <section class="hello">
         <h1 data-i18n="cal.h1">Tu calendario de estudio</h1>
-        <p data-i18n="cal.intro2">Registra qué estudias cada día, marca tus fechas de control y deja que el sistema te diga qué toca.</p>
+        <p data-i18n="cal.intro3">Planifica exámenes, simulacros, puntos de control y sesiones de estudio. Haz clic en un día para añadir o ver eventos.</p>
       </section>
 
-      <!-- Widget de recomendación -->
-      <div id="reco-widget" class="reco"></div>
-
-      <!-- Calendario -->
-      <section class="cal-card">
-        <div class="cal-head">
-          <h2 id="cal-title">—</h2>
-          <div class="cal-controls">
-            <div class="cal-views">
-              <button data-vista="mes" class="is-active" data-i18n="cal.view_month">Mes</button>
-              <button data-vista="semana" data-i18n="cal.view_week">Setmana</button>
-            </div>
-            <button id="cal-today" class="cal-today-btn" data-i18n="cal.today">Avui</button>
-            <div class="cal-nav">
-              <button id="cal-prev" aria-label="Anterior">‹</button>
-              <button id="cal-next" aria-label="Següent">›</button>
-            </div>
-          </div>
-        </div>
-        <div class="cal-grid" id="cal-grid"></div>
-        <div class="legend">
-          <span><i style="background:rgba(173,232,12,.5)"></i> <span data-i18n="cal.leg_activity">Dia amb activitat</span></span>
-          <span><i style="background:rgba(255,255,255,.28)"></i> <span data-i18n="cal.leg_today">Avui</span></span>
-          <span><i style="background:#F87171"></i> <span data-i18n="cal.leg_control">Data control</span></span>
-        </div>
-      </section>
+      <div id="cal-root"></div>
 
     </div>
   </div>
 </div>
-
-<!-- Side peek -->
-<div class="panel-backdrop" id="panel-backdrop"></div>
-<aside class="day-panel" id="day-panel"></aside>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/js/config.js"></script>
@@ -76,8 +42,19 @@
 <script src="/js/study-data.js"></script>
 <script src="/js/shell.js"></script>
 <script src="/js/progress.js"></script>
-<script src="/js/calendar-data.js"></script>
-<script src="/js/recommend.js"></script>
-<script src="/js/calendario.js"></script>
+<script src="/js/cal-events.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    window.BPShell.render({ crumb: 'Calendario' });
+    try { await window.BPData.load(); } catch (e) {}
+    try {
+      var st = window.BPData && window.BPData.state;
+      var perfil = window.BP ? await window.BP.profile() : null;
+      if (st) window.BPShell.setUser(perfil && perfil.username, st.stats.avatar_id, st.stats.streak_days);
+    } catch (e) {}
+    window.BPCalEvents.init();
+    if (window.BPI18n) window.BPI18n.apply(document);
+  });
+</script>
 </body>
 </html>
