@@ -118,10 +118,57 @@
 .tt-trophy{color:var(--lime)}
 .tt-empty{color:var(--txt-dim);text-align:center;padding:40px 0}
 
+/* ============================================================================
+   MODO EXAMEN (swipe) — una pregunta cada vez, sin volver atrás
+   ============================================================================ */
+.tt-exam{max-width:760px;margin:0 auto;background:linear-gradient(160deg,var(--surface),var(--bg-2));
+  border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 26px;overflow:hidden}
+@keyframes ttExamEnter{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+.tt-exam-enter{animation:ttExamEnter .38s cubic-bezier(.2,.7,.2,1) both}
+
+.tt-exam-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.tt-exam-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tt-exam-name{font-family:var(--display);font-weight:800;font-size:1.08rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt-exam-mode{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--lime)}
+.tt-exam-x{background:transparent;border:1px solid var(--line);color:var(--txt-soft);width:34px;height:34px;border-radius:9px;
+  font-size:1.3rem;line-height:1;cursor:pointer;flex:0 0 auto}
+.tt-exam-x:hover{border-color:#F87171;color:#F87171}
+
+.tt-exam-progress{height:8px;border-radius:8px;background:var(--surface-2);overflow:hidden;margin-bottom:8px}
+.tt-exam-progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--lime),#5FD3A6);width:0;transition:width .35s ease}
+
+.tt-stage{position:relative;overflow:hidden;min-height:340px}
+
+/* Cada pregunta es una "diapositiva" que entra desde la derecha y sale a la izq. */
+.tt-slide{position:relative;padding-top:12px;transition:transform .26s cubic-bezier(.4,0,.2,1),opacity .26s ease}
+.tt-slide.enter-right{transform:translateX(40px);opacity:0}
+.tt-slide.is-active{transform:translateX(0);opacity:1}
+.tt-slide.leave-left{transform:translateX(-40px);opacity:0}
+@media (prefers-reduced-motion:reduce){
+  .tt-slide,.tt-exam-enter{transition:none;animation:none}
+  .tt-slide.enter-right{transform:none;opacity:1}
+}
+
+.tt-q-num{font-family:var(--mono);font-size:.76rem;color:var(--txt-dim);margin-bottom:14px}
+.tt-slide .tt-q-text{font-family:var(--display);font-weight:800;font-size:1.4rem;line-height:1.25;margin-bottom:24px}
+.tt-slide .tt-opts{display:flex;flex-direction:column;gap:12px}
+.tt-slide .tt-opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;cursor:pointer;
+  background:rgba(255,255,255,.02);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--txt);
+  font-size:1.05rem;transition:border-color .15s,background .15s,transform .12s}
+.tt-slide .tt-opt:hover:not(:disabled){border-color:var(--lime);transform:translateX(2px)}
+.tt-slide .tt-opt.is-picked{border-color:var(--lime);background:rgba(173,232,12,.16)}
+.tt-slide .tt-opt .tt-key{font-family:var(--mono);font-weight:700;color:var(--txt-dim);
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;flex:0 0 auto}
+.tt-slide .tt-opt.is-picked .tt-key{color:#07150E;background:var(--lime);border-color:var(--lime)}
+.tt-exam-hint{font-family:var(--mono);font-size:.72rem;color:var(--txt-dim);margin-top:22px;text-align:center}
+
 @media (max-width:560px){
   .tt-grid{grid-template-columns:1fr}
   .tt-q{padding:18px}
   .tt-q-text{font-size:1.08rem}
   .tt-row{flex-wrap:wrap}
   .tt-stats{flex-wrap:wrap}
+  .tt-exam{padding:16px}
+  .tt-slide .tt-q-text{font-size:1.15rem}
+  .tt-slide .tt-opt{padding:13px 14px;font-size:.98rem}
 }

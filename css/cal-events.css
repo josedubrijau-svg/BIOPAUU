@@ -1,0 +1,103 @@
+/* ============================================================================
+   BioPAU — Calendari útil (Fase C)   ·   tema fosc de l'àrea privada
+   Esdeveniments tipats, llegenda funcional, detall amb "Veure temari",
+   botó "Avui", "Anar a temari", cronograma/Gantt educatiu i estats buits.
+   ============================================================================ */
+
+.ce-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
+.ce-tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.ce-tab{font-family:var(--display);font-weight:700;font-size:.98rem;color:var(--txt-soft);background:transparent;border:0;
+  border-bottom:2px solid transparent;padding:11px 14px;cursor:pointer;white-space:nowrap}
+.ce-tab.is-active{color:var(--txt);border-bottom-color:var(--lime)}
+.ce-spacer{flex:1 1 auto}
+
+.ce-select,.ce-btn{font-family:var(--display);font-weight:700;font-size:.9rem;border-radius:10px;padding:.5rem .85rem;cursor:pointer}
+.ce-btn{background:var(--lime);color:#07150E;border:0;transition:transform .14s}
+.ce-btn:hover{transform:translateY(-1px)}
+.ce-btn--ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.ce-btn--ghost:hover{border-color:var(--lime)}
+.ce-select{background:var(--surface);color:var(--txt);border:1px solid var(--line)}
+.ce-nav{display:flex;align-items:center;gap:4px}
+.ce-nav button{background:var(--surface);border:1px solid var(--line);color:var(--txt);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1.1rem}
+.ce-nav button:hover{border-color:var(--lime)}
+.ce-month-title{font-family:var(--display);font-weight:800;font-size:1.25rem;text-transform:capitalize;min-width:150px}
+
+/* ---- Llegenda funcional ---- */
+.ce-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.ce-leg{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--txt-soft);
+  background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:.32rem .7rem;cursor:pointer;transition:border-color .15s,opacity .15s}
+.ce-leg:hover{border-color:var(--txt-soft)}
+.ce-leg.is-off{opacity:.4}
+.ce-leg .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+
+/* ---- Graella del mes ---- */
+.ce-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.ce-dow{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-dim);text-align:center;padding:4px 0}
+.ce-day{min-height:92px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:7px 8px;cursor:pointer;
+  display:flex;flex-direction:column;gap:4px;transition:border-color .15s,background .15s;position:relative;overflow:hidden}
+.ce-day:hover{border-color:var(--lime)}
+.ce-day.is-out{opacity:.38}
+.ce-day.is-today{border-color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime)}
+.ce-day.is-selected{background:rgba(173,232,12,.08)}
+.ce-daynum{font-family:var(--display);font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:space-between}
+.ce-day.is-today .ce-daynum::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime)}
+.ce-evs{display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.ce-ev{font-size:.72rem;line-height:1.25;border-radius:6px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  border-left:3px solid var(--ec,#ADE80C);background:rgba(255,255,255,.04);color:var(--txt)}
+.ce-more{font-family:var(--mono);font-size:.66rem;color:var(--txt-dim)}
+
+/* ---- Panell del dia / detall ---- */
+.ce-backdrop{position:fixed;inset:0;background:rgba(3,10,7,.55);backdrop-filter:blur(3px);z-index:70;opacity:0;visibility:hidden;transition:.2s}
+.ce-backdrop.is-on{opacity:1;visibility:visible}
+.ce-panel{position:fixed;top:0;right:0;height:100%;width:min(92vw,420px);background:var(--bg-2);border-left:1px solid var(--line);
+  z-index:71;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;overflow:auto}
+.ce-panel.is-on{transform:none}
+.ce-panel-head{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid var(--line)}
+.ce-panel-title{font-family:var(--display);font-weight:800;font-size:1.15rem;text-transform:capitalize}
+.ce-x{background:transparent;border:0;color:var(--txt-soft);font-size:1.6rem;cursor:pointer;line-height:1}
+.ce-panel-body{padding:20px;display:flex;flex-direction:column;gap:12px}
+
+.ce-card{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ec,#ADE80C);border-radius:12px;padding:14px}
+.ce-card-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.ce-chip{font-family:var(--mono);font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--ec);border:1px solid var(--ec);border-radius:20px;padding:.12rem .5rem}
+.ce-card h4{font-family:var(--display);font-weight:700;font-size:1rem;margin:2px 0}
+.ce-card .ce-meta{font-family:var(--mono);font-size:.76rem;color:var(--txt-dim);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.ce-card .ce-note{color:var(--txt-soft);font-size:.9rem;line-height:1.5;margin-top:6px}
+.ce-card-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ce-mini{font-family:var(--display);font-weight:700;font-size:.82rem;border-radius:8px;padding:.4rem .7rem;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--txt)}
+.ce-mini:hover{border-color:var(--lime)}
+.ce-mini--danger:hover{border-color:#F87171;color:#F87171}
+.ce-empty{text-align:center;color:var(--txt-dim);padding:26px 10px;line-height:1.6}
+
+/* ---- Formulari nou esdeveniment ---- */
+.ce-form{display:flex;flex-direction:column;gap:12px}
+.ce-f label{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--txt-soft);display:block;margin-bottom:4px}
+.ce-in{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:.6rem .7rem;font:inherit}
+.ce-in:focus{outline:2px solid var(--lime);outline-offset:1px}
+.ce-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ce-type{display:flex;align-items:center;gap:6px;justify-content:center;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+  padding:.5rem;cursor:pointer;font-size:.82rem;color:var(--txt)}
+.ce-type.is-on{border-color:var(--ec);background:rgba(255,255,255,.05)}
+.ce-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ---- Cronograma / Gantt ---- */
+.ce-gantt-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.ce-gantt{min-width:720px;border-collapse:collapse;width:100%}
+.ce-gantt th,.ce-gantt td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:0}
+.ce-gantt thead th{font-family:var(--mono);font-size:.68rem;color:var(--txt-dim);text-transform:uppercase;padding:8px 6px;text-align:center;white-space:nowrap}
+.ce-gantt .ce-g-block{font-family:var(--display);font-weight:700;font-size:.9rem;padding:10px 12px;white-space:nowrap;border-left:4px solid var(--bc);min-width:190px}
+.ce-g-cell{height:44px;position:relative;min-width:54px}
+.ce-g-bar{position:absolute;inset:8px 3px;border-radius:6px;background:var(--bc);opacity:.28}
+.ce-g-bar.is-strong{opacity:.55}
+.ce-g-mark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.9rem}
+.ce-g-cell.is-now{background:rgba(173,232,12,.06)}
+.ce-gantt tbody tr:hover{background:rgba(255,255,255,.02)}
+.ce-crono-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:.82rem;color:var(--txt-soft)}
+
+@media (max-width:560px){
+  .ce-day{min-height:64px;padding:5px 5px}
+  .ce-ev{font-size:.62rem;padding:1px 4px}
+  .ce-types{grid-template-columns:repeat(2,1fr)}
+  .ce-month-title{min-width:auto;font-size:1.05rem}
+}
