@@ -309,5 +309,8 @@
     window.BPShell.setUser(perfil && perfil.username, st.stats.avatar_id, st.stats.streak_days);
     renderGrid();
     wire();
+    // Deep-link: /app/apuntes.html#<bloque> abre ese bloque directamente
+    var h = (location.hash || '').replace('#', '');
+    if (h && D && D.bloquePorId && D.bloquePorId(h)) setTimeout(function () { abrirBloque(h); }, 220);
   });
 })();
