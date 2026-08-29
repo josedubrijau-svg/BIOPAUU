@@ -1,0 +1,118 @@
+/* ============================================================================
+   BioPAU — Sistema global de navegación y estados de carga
+   ----------------------------------------------------------------------------
+   Feedback inmediato al navegar entre páginas (multipágina):
+     · Barra fina superior (indeterminada) → aparece al instante en cada click.
+     · Overlay con spinner + "Cargando…" → solo si la carga tarda >180ms
+       (evita parpadeos en conexiones rápidas).
+     · Estado de error/lento con "Reintentar" y "Volver" (sin loops infinitos).
+     · Transición suave de entrada de la página.
+   Se adapta solo al tema claro (público) y oscuro (área privada) con tokens
+   con fallback, y respeta prefers-reduced-motion.
+   ============================================================================ */
+
+:root{
+  --bp-accent:#ADE80C;              /* --lime en ambos temas */
+  --bp-ov-scrim:rgba(241,243,234,.72);
+  --bp-ov-card:#FBFCF6;
+  --bp-ov-ink:#0B1F16;
+  --bp-ov-soft:#3B4E44;
+  --bp-ov-line:rgba(14,58,42,.22);
+  --bp-ov-radius:3px;
+  --bp-ov-shadow:6px 6px 0 rgba(14,58,42,.9);
+  --bp-ov-border:2.5px solid #0B1F16;
+  --bp-disp:'Bricolage Grotesque',system-ui,sans-serif;
+  --bp-mono:'Space Mono',ui-monospace,monospace;
+}
+/* Tema oscuro del área privada */
+body[data-requires-plan], body[data-page]{
+  --bp-ov-scrim:rgba(7,26,18,.76);
+  --bp-ov-card:#0E2A1E;
+  --bp-ov-ink:#EAF3E4;
+  --bp-ov-soft:#9FB6A6;
+  --bp-ov-line:rgba(173,232,12,.18);
+  --bp-ov-radius:18px;
+  --bp-ov-shadow:0 24px 60px rgba(0,0,0,.5);
+  --bp-ov-border:1px solid rgba(173,232,12,.18);
+}
+
+/* ---------- Barra superior indeterminada (feedback instantáneo) ---------- */
+#bp-bar{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:10000;
+  background:transparent;opacity:0;transition:opacity .2s ease;pointer-events:none;
+}
+#bp-bar.is-on{opacity:1}
+#bp-bar::before{
+  content:"";position:absolute;top:0;left:0;height:100%;width:35%;
+  background:linear-gradient(90deg,transparent,var(--bp-accent),transparent);
+  animation:bpBar 1.1s ease-in-out infinite;
+}
+@keyframes bpBar{
+  0%{left:-40%}
+  100%{left:105%}
+}
+
+/* ---------- Overlay con spinner ---------- */
+#bp-overlay{
+  position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:var(--bp-ov-scrim);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease;
+}
+#bp-overlay.is-on{opacity:1;visibility:visible;pointer-events:auto}
+
+.bp-card{
+  font-family:var(--bp-disp);color:var(--bp-ov-ink);background:var(--bp-ov-card);
+  border:var(--bp-ov-border);border-radius:var(--bp-ov-radius);box-shadow:var(--bp-ov-shadow);
+  padding:28px 32px;min-width:220px;max-width:min(92vw,420px);text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+
+/* Spinner circular */
+.bp-spin{
+  width:44px;height:44px;border-radius:50%;
+  border:4px solid var(--bp-ov-line);border-top-color:var(--bp-accent);
+  animation:bpSpin .8s linear infinite;
+}
+@keyframes bpSpin{to{transform:rotate(360deg)}}
+
+.bp-card-txt{font-size:1.06rem;font-weight:700;letter-spacing:-.01em}
+.bp-card-sub{font-family:var(--bp-mono);font-size:.78rem;color:var(--bp-ov-soft);
+  line-height:1.5;max-width:34ch;font-weight:400}
+
+/* Estado de error / lento */
+.bp-card .bp-err{display:none;flex-direction:column;align-items:center;gap:14px}
+#bp-overlay.is-error .bp-loading{display:none}
+#bp-overlay.is-error .bp-err{display:flex}
+.bp-err-ico{font-size:1.9rem;line-height:1}
+.bp-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:2px}
+
+/* Botones del overlay (respetan el estilo de cada tema con tokens) */
+.bp-btn{
+  font-family:var(--bp-disp);font-weight:700;font-size:.95rem;cursor:pointer;
+  padding:.62rem 1.15rem;border-radius:var(--bp-ov-radius);
+  background:var(--bp-accent);color:#0B1F16;border:var(--bp-ov-border);
+  transition:transform .14s ease,box-shadow .14s ease,background .2s ease;
+}
+.bp-btn:hover{transform:translateY(-1px)}
+.bp-btn--ghost{background:transparent;color:var(--bp-ov-ink);border-color:var(--bp-ov-line)}
+.bp-btn:focus-visible{outline:3px solid var(--bp-accent);outline-offset:2px}
+
+/* ---------- Spinner en botones asíncronos (.is-loading) ---------- */
+.btn.is-loading, button.is-loading{position:relative;cursor:progress}
+.btn.is-loading::after, button.is-loading::after{
+  content:"";display:inline-block;width:1em;height:1em;margin-left:.55em;vertical-align:-.15em;
+  border:2px solid currentColor;border-top-color:transparent;border-radius:50%;
+  animation:bpSpin .7s linear infinite;opacity:.9;
+}
+
+/* ---------- Transición de entrada de página ---------- */
+@keyframes bpPageIn{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
+body.bp-page-in{animation:bpPageIn .22s var(--ease,ease) both}
+
+/* ---------- Accesibilidad / movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce){
+  #bp-bar::before{animation:none;width:100%;left:0;opacity:.6}
+  .bp-spin{animation:bpSpin 1.4s linear infinite}
+  body.bp-page-in{animation:none}
+  .btn.is-loading::after, button.is-loading::after{animation:bpSpin 1.4s linear infinite}
+}
