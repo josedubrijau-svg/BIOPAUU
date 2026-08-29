@@ -142,6 +142,12 @@
       if (pwErr) return BP.msg(msg, 'error', pwErr);
       if (pw !== pw2) return BP.msg(msg, 'error', t('auth.m_pw_match'));
 
+      // Consentimiento legal obligatorio (privacidad + condiciones)
+      var cp = document.getElementById('accept-privacy');
+      var ct = document.getElementById('accept-terms');
+      if (cp && ct && !(cp.checked && ct.checked)) return BP.msg(msg, 'error', t('consent.required'));
+      var consent = { privacyAccepted: true, termsAccepted: true, acceptedAt: new Date().toISOString(), version: (window.BPConsent && window.BPConsent.VERSION) || '2026-08' };
+
       BP.loading(btn, true, t('auth.ld_register'));
       BP.msg(msg, '', '');
       try {
@@ -155,7 +161,7 @@
         var res = await sb.auth.signUp({
           email: email,
           password: pw,
-          options: { data: { username: username }, emailRedirectTo: window.location.origin + '/login.html' }
+          options: { data: { username: username, consent: consent }, emailRedirectTo: window.location.origin + '/login.html' }
         });
 
         if (res.error) {

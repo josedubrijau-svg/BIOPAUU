@@ -67,6 +67,8 @@ window.BPNav = (function () {
             '<button type="button" class="bp-btn" id="bp-retry" data-bp="retry">' + tt('retry') + '</button>' +
             '<button type="button" class="bp-btn bp-btn--ghost" id="bp-back" data-bp="back">' + tt('back') + '</button>' +
           '</div>' +
+          '<div class="bp-support">' + (lang() === 'ca' ? 'Continua fallant? ' : '¿Sigue fallando? ') +
+            '<a data-support-email href="#">' + (lang() === 'ca' ? 'Escriu-nos' : 'Escríbenos') + '</a></div>' +
         '</div>' +
       '</div>';
 
