@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="tt.title">Tests — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/tests.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<script defer src="/js/i18n.js"></script>
+<link rel="stylesheet" href="/css/nav-loading.css">
+<script defer src="/js/nav-loading.js"></script>
+<link rel="stylesheet" href="/css/fase-a.css">
+<script defer src="/js/fase-a.js"></script>
+</head>
+<body data-requires-plan data-page="tests">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <div class="main">
+    <header id="topbar"></header>
+    <div class="content protected">
+
+      <section class="hello">
+        <h1 data-i18n="tt.h1">Tests y simulacros</h1>
+        <p data-i18n="tt.intro">Pon a prueba lo que estudias. Completa el mini test de cada bloque para desbloquear el test final tipo PAU.</p>
+      </section>
+
+      <nav class="tt-tabs">
+        <button class="tt-tab is-active" data-view="home" data-i18n="tt.tab_tests">Tests</button>
+        <button class="tt-tab" data-view="history" data-i18n="tt.tab_history">Mis resultados</button>
+      </nav>
+
+      <div id="tests-root"></div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/tests-data.js"></script>
+<script src="/js/tests.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    window.BPShell.render({ crumb: 'Tests' });
+    try { await window.BPData.load(); } catch (e) {}
+    try {
+      var st = window.BPData && window.BPData.state;
+      var perfil = window.BP ? await window.BP.profile() : null;
+      if (st) window.BPShell.setUser(perfil && perfil.username, st.stats.avatar_id, st.stats.streak_days);
+    } catch (e) {}
+    window.BPTests.init();
+    if (window.BPI18n) window.BPI18n.apply(document);
+  });
+</script>
+</body>
+</html>
