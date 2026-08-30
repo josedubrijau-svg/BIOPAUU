@@ -1,0 +1,30 @@
+/* ============================================================================
+   BioPAU — Dashboard "Centro de control" (Fase D)
+   Conecta calendario + tests + progreso + objetivo en un vistazo.
+   Usa los tokens de dashboard.css (tema oscuro).
+   ============================================================================ */
+.hub{background:linear-gradient(160deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--r);
+  padding:20px;margin-bottom:16px}
+.hub-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.hub-head h2{font-family:var(--display);font-weight:800;font-size:1.2rem}
+.hub-today{font-family:var(--mono);font-size:.78rem;color:var(--txt-dim);text-transform:capitalize}
+
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.hub-tile{display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.02);border:1px solid var(--line);
+  border-left:4px solid var(--tc,var(--lime));border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--txt);
+  transition:border-color .15s,transform .12s,background .15s}
+.hub-tile:hover{border-color:var(--tc,var(--lime));transform:translateY(-2px)}
+.hub-tile .k{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--txt-dim);display:flex;align-items:center;gap:6px}
+.hub-tile .v{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1.15}
+.hub-tile .v small{font-weight:600;color:var(--txt-dim);font-size:.9rem}
+.hub-tile .s{font-size:.84rem;color:var(--txt-soft);line-height:1.35}
+.hub-tile .go{margin-top:auto;font-family:var(--display);font-weight:700;font-size:.82rem;color:var(--tc,var(--lime));opacity:.9}
+
+.hub-mini-bar{height:6px;border-radius:6px;background:var(--surface-2);overflow:hidden;margin-top:2px}
+.hub-mini-bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--lime),#5FD3A6);width:0;transition:width .8s ease}
+
+@media (max-width:560px){
+  .hub-grid{grid-template-columns:repeat(2,1fr)}
+  .hub-tile .v{font-size:1.15rem}
+}
+@media (max-width:380px){ .hub-grid{grid-template-columns:1fr} }
