@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/hub.css">
+<link rel="stylesheet" href="/css/daily.css">
 <link rel="stylesheet" href="/css/i18n.css">
 <script defer src="/js/i18n.js"></script>
 <link rel="stylesheet" href="/css/nav-loading.css">
@@ -38,6 +40,12 @@
         <div id="hello-role" class="hello-role" style="display:none"></div>
         <p id="hello-sub" class="sk hello-msg" data-i18n="dash.preparing">Preparando tu panel</p>
       </section>
+
+      <!-- 1a0. bioPau Daily (reto del día, opcional/no bloqueante) -->
+      <div id="daily-dash"></div>
+
+      <!-- 1a. Centro de control (Hoy) -->
+      <div id="control-hub"></div>
 
       <!-- 1b. Objetivo personal -->
       <section class="card obj-card" id="obj-card">
@@ -156,6 +164,18 @@
           </div>
         </a>
 
+        <a class="module" href="/app/tests.html">
+          <div>
+            <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 11l2 2 4-4"/></svg></div>
+            <h3 style="margin-top:16px" data-i18n="mod.tests_t">Tests y simulacros</h3>
+            <p data-i18n="mod.tests_p">Mini tests por tema y tests finales tipo PAU, con corrección y explicaciones.</p>
+          </div>
+          <div>
+            <div class="m-meta" data-i18n="mod.tests_meta">Comprueba lo que dominas</div>
+            <div class="m-go" style="margin-top:8px"><span data-i18n="mod.tests_go">Practicar</span> <span class="arw">→</span></div>
+          </div>
+        </a>
+
         <a class="module" href="/app/calendario.html">
           <div>
             <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg></div>
@@ -214,5 +234,25 @@
 <script src="/js/profile-data.js"></script>
 <script src="/js/messages.js"></script>
 <script src="/js/dashboard.js"></script>
+<!-- Centro de control (Fase D): lee tests + calendario + progreso -->
+<script src="/js/tests-data.js"></script>
+<script src="/js/tests.js"></script>
+<script src="/js/cal-events.js"></script>
+<script src="/js/dashboard-hub.js"></script>
+<script src="/js/daily-data.js"></script>
+<script src="/js/daily.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // La tarjeta del Daily no necesita datos de Supabase: se pinta ya.
+    try { if (window.BPDaily) window.BPDaily.renderDashCard('daily-dash'); } catch (e) {}
+    document.addEventListener('bp:langchange', function () { try { window.BPDaily.renderDashCard('daily-dash'); } catch (e) {} });
+    var tries = 0;
+    (function wait() {
+      if (window.BPHub && window.BPData && window.BPData.state) { window.BPHub.init(); }
+      else if (tries++ < 50) { setTimeout(wait, 100); }
+      else if (window.BPHub) { window.BPHub.init(); }
+    })();
+  });
+</script>
 </body>
 </html>
