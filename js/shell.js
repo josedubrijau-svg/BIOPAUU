@@ -24,7 +24,8 @@ window.BPShell = (function () {
     menu:      '<path d="M3 6h18M3 12h18M3 18h18"/>',
     clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     target:    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
-    quiz:      '<path d="M9 11l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/>'
+    quiz:      '<path d="M9 11l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/>',
+    daily:     '<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>'
   };
 
   function icon(name, cls) {
@@ -81,6 +82,7 @@ window.BPShell = (function () {
   /* ---------- Definición del menú lateral --------------------------------- */
   var NAV = [
     { id: 'dashboard', i18n: 'nav.dashboard',  icon: 'dashboard', href: '/app/' },
+    { id: 'daily',     i18n: 'nav.daily',      icon: 'daily',     href: '/app/daily.html' },
     { id: 'apuntes',   i18n: 'nav.apuntes',    icon: 'book',      href: '/app/apuntes.html' },
     { id: 'examenes',  i18n: 'nav.examenes',   icon: 'exam',      href: '/app/examenes.html' },
     { id: 'tests',     i18n: 'nav.tests',      icon: 'quiz',      href: '/app/tests.html' },
