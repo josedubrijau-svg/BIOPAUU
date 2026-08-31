@@ -239,3 +239,14 @@ body.dl-locked .sidebar,body.dl-locked #topbar{filter:saturate(.5) opacity(.75)}
 .dl-side-k .dl-ic{color:var(--txt-soft)}
 
 @media (max-width:560px){ .dl-exam{padding:18px} .dl-exam .dl-qtext{font-size:1.2rem} }
+
+/* ---------- Iconos de TEMA (los mismos del temario), con su color ---------- */
+.dl-tic{display:inline-flex;align-items:center;justify-content:center;vertical-align:-.22em;width:1.35em;height:1.35em;flex:0 0 auto}
+.dl-tic svg{width:100%;height:100%;display:block}
+.dl-mtopic{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.dl-mtopic .dl-tic{vertical-align:middle}
+.dl-mnum{font-family:var(--display);font-weight:800;color:var(--txt-soft)}
+.dl-mnum.ok{color:var(--lime)} .dl-mnum.ko{color:#F87171} .dl-mnum.mid{color:#FBBF24}
+.dl-qtag .dl-tic{width:1.2em;height:1.2em}
+.dl-fail-topic{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:.9rem;margin-bottom:8px}
+.dl-tbar-head .dl-mtopic{font-weight:700}

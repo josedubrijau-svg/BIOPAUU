@@ -101,3 +101,7 @@
   .ce-types{grid-template-columns:repeat(2,1fr)}
   .ce-month-title{min-width:auto;font-size:1.05rem}
 }
+
+.ce-gdot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px}
+.ce-crono-keys{display:inline-flex;gap:14px;flex-wrap:wrap}
+.ce-crono-keys span{display:inline-flex;align-items:center;gap:6px}
