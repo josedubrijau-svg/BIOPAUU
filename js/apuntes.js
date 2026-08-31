@@ -234,6 +234,33 @@
         '</div></div>';
     }).join('');
 
+    // CTA del "llibre d'apunts" (pàgina interactiva amb efecte de pàgina)
+    var llibreCta = '';
+    if (b.llibre) {
+      var titol = b.llibreTitol || 'Llibre d\'apunts';
+      llibreCta =
+        '<a href="' + b.llibre + '" target="_blank" rel="noopener" ' +
+        'style="display:flex;align-items:center;gap:16px;text-decoration:none;' +
+        'background:linear-gradient(135deg,#12503A,#0E3A2A);border:1px solid rgba(173,232,12,.35);' +
+        'border-radius:18px;padding:16px 18px;margin:8px 0 14px;box-shadow:0 10px 30px rgba(0,0,0,.25)">' +
+          '<span style="flex:0 0 52px;width:52px;height:62px;border-radius:5px 9px 9px 5px;background:#FAF7EE;' +
+          'display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3)">' +
+            '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E3A2A" stroke-width="1.8" ' +
+            'stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6z"/>' +
+            '<path d="M9 12l2 2 4-4.5"/></svg>' +
+          '</span>' +
+          '<span style="flex:1;min-width:0">' +
+            '<span style="display:block;font-family:\'Bricolage Grotesque\',sans-serif;font-weight:800;' +
+            'font-size:1.02rem;color:#ADE80C;line-height:1.2">' + titol + '</span>' +
+            '<span style="display:block;font-size:.84rem;color:#CFE0C6;margin-top:3px">Llibre interactiu amb efecte de pàgina, diagrames a color i galeria de cèl·lules.</span>' +
+          '</span>' +
+          '<span style="flex:0 0 auto;font-family:\'Space Mono\',monospace;font-size:.8rem;color:#0E3A2A;' +
+          'background:#ADE80C;border-radius:100px;padding:.5rem .9rem;font-weight:700">Obrir &rarr;</span>' +
+        '</a>';
+    }
+    // Si hi ha llibre i encara no hi ha apunts escanejats, no mostrem la graella "Pròximament".
+    var gridHtml = (b.llibre && !tieneApuntes) ? '' : '<div class="ap-grid">' + slots + '</div>';
+
     root.style.setProperty('--bc', b.color);
     root.innerHTML =
       '<button class="bq-back" data-back-grid>&larr; Tots els blocs</button>' +
@@ -243,7 +270,8 @@
         '<div class="bq-bar bq-bar--lg"><span style="width:' + pct + '%"></span></div>' +
         '<span class="bq-pct-lg">' + pct + '% completado</span>' +
       '</div>' +
-      '<div class="ap-grid">' + slots + '</div>';
+      llibreCta +
+      gridHtml;
 
     var backBtn = root.querySelector('[data-back-grid]');
     if (backBtn) backBtn.addEventListener('click', cerrarDetalle);

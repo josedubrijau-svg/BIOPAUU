@@ -61,6 +61,8 @@ window.BIOPAU_DATA = (function () {
       desc: 'Immunitat innata i adaptativa, antígens i anticossos, resposta cel·lular i humoral, vacunes, al·lèrgies i autoimmunitat.',
       color: '#F87171',
       icon: 'shield',
+      llibre: '/app/apuntes-immunologia.html',
+      llibreTitol: 'Tema 12 — Malalties infeccioses i el sistema immunitari',
       apuntes: []
     },
     {
