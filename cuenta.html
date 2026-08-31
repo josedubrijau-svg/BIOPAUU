@@ -161,19 +161,19 @@
     <!-- ============ MI OBJETIVO / MI FUTURO ============ -->
     <section class="pf-panel" data-panel="objetivo">
       <div class="pf-section">
-        <span class="card-sub"><span class="obj-emoji">🎓</span> <span data-i18n="pf.myfuture">Mi futuro</span></span>
+        <span class="card-sub"><span class="obj-emoji"></span> <span data-i18n="pf.myfuture">Mi futuro</span></span>
         <div class="pf-futuro" id="pf-futuro">
-          <div class="pf-fut"><span class="fi">🎓</span><div class="fk" data-i18n="obj.eyebrow">Objetivo</div><div class="fv" id="fut-career">—</div></div>
-          <div class="pf-fut"><span class="fi">🏫</span><div class="fk" data-i18n="obj.univ">Universidad</div><div class="fv" id="fut-univ">—</div></div>
-          <div class="pf-fut"><span class="fi">📈</span><div class="fk" data-i18n="obj.grade">Nota objetivo</div><div class="fv" id="fut-grade">—</div></div>
+          <div class="pf-fut"><span class="fi"></span><div class="fk" data-i18n="obj.eyebrow">Objetivo</div><div class="fv" id="fut-career">—</div></div>
+          <div class="pf-fut"><span class="fi"></span><div class="fk" data-i18n="obj.univ">Universidad</div><div class="fv" id="fut-univ">—</div></div>
+          <div class="pf-fut"><span class="fi"></span><div class="fk" data-i18n="obj.grade">Nota objetivo</div><div class="fv" id="fut-grade">—</div></div>
         </div>
       </div>
       <div class="pf-section">
         <span class="card-sub" data-i18n="pf.goal_edit">Tu objetivo</span>
         <div class="pf-grid">
-          <label class="pf-f pf-wide"><span class="pf-l" data-i18n="pf.career">¿Qué quieres estudiar?</span><input class="pf-in" data-field="career_goal" placeholder="Infermeria, Medicina…"></label>
-          <label class="pf-f"><span class="pf-l" data-i18n="pf.univ1">Universidad objetivo</span><input class="pf-in" data-field="university_goal"></label>
-          <label class="pf-f"><span class="pf-l" data-i18n="pf.univ2">Segunda opción</span><input class="pf-in" data-field="university_2"></label>
+          <label class="pf-f pf-wide"><span class="pf-l" data-i18n="pf.career">¿Qué quieres estudiar?</span><input class="pf-in" data-field="career_goal" data-edu="career" placeholder="Infermeria, Medicina…"></label>
+          <label class="pf-f"><span class="pf-l" data-i18n="pf.univ1">Universidad objetivo</span><input class="pf-in" data-field="university_goal" data-edu="uni" placeholder="UAB, UB, UPF…"></label>
+          <label class="pf-f"><span class="pf-l" data-i18n="pf.univ2">Segunda opción</span><input class="pf-in" data-field="university_2" data-edu="uni"></label>
           <label class="pf-f"><span class="pf-l" data-i18n="pf.citygoal">Ciudad donde quieres estudiar</span><input class="pf-in" data-field="city_goal"></label>
           <div class="pf-f"><span class="pf-l" data-i18n="pf.grade">Nota objetivo</span>
             <div class="pf-grade"><span class="gv" id="pf-grade-val">12,00</span><input type="range" data-field="target_grade" min="5" max="14" step="0.05"></div>
@@ -282,6 +282,8 @@
 <script src="/js/profile-data.js"></script>
 <script src="/js/messages.js"></script>
 <script src="/js/account.js"></script>
+<script src="/js/edu-select.js"></script>
 <script src="/js/profile.js"></script>
+<script>document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){document.querySelectorAll("input[data-edu]").forEach(function(i){if(i.value)i.dispatchEvent(new Event("input",{bubbles:true}));});},900);});</script>
 </body>
 </html>
