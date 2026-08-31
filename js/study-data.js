@@ -4,13 +4,13 @@
    Fuente oficial de la Generalitat (universitats.gencat.cat/ca/pau/materies-pau/biologia):
    7 bloques del temario de Biología de la PAU (Catalunya).
 
-   👉 PARA AÑADIR TUS APUNTES ESCANEADOS MÁS ADELANTE:
+   PARA AÑADIR TUS APUNTES ESCANEADOS MÁS ADELANTE:
       dentro de cada bloque, en "apuntes", añade objetos así:
         { titulo: 'Els glúcids', img: '/apuntes/biomolecules/glucids.jpg' }
       (sube la imagen a la carpeta /apuntes/... del repo y pon aquí su ruta).
       Mientras "apuntes" esté vacío, se mostrará un hueco "Pròximament".
 
-   👉 Los "id" NO deben cambiarse una vez publicados (se guardan en la BD).
+   Los "id" NO deben cambiarse una vez publicados (se guardan en la BD).
    ============================================================================ */
 window.BIOPAU_DATA = (function () {
 
@@ -33,10 +33,10 @@ window.BIOPAU_DATA = (function () {
       color: '#2DD4BF',
       icon: 'mito',
       apuntes: [
-        { titulo: 'Tema 1 · El control del metabolisme' },
-        { titulo: 'Tema 2 · El catabolisme' },
-        { titulo: "Tema 3 · L'anabolisme autòtrof" },
-        { titulo: "Tema 4 · L'anabolisme heteròtrof" }
+        { titulo: 'Tema 1 — El control del metabolisme' },
+        { titulo: 'Tema 2 — El catabolisme' },
+        { titulo: "Tema 3 — L'anabolisme autòtrof" },
+        { titulo: "Tema 4 — L'anabolisme heteròtrof" }
       ]
     },
     {

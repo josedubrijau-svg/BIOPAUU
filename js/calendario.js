@@ -2,9 +2,9 @@
    BioPAU — Calendario/Tracker interactivo (estilo Notion)
    ----------------------------------------------------------------------------
    Tres "componentes" independientes, cada uno con su render y su estado:
-     · StudyCalendar        → rejilla mensual/semanal interactiva
-     · DayDetailModal       → panel lateral (side peek) al clicar un día
-     · RecommendationWidget → tarjeta de "què estudiar avui"
+     — StudyCalendar        → rejilla mensual/semanal interactiva
+     — DayDetailModal       → panel lateral (side peek) al clicar un día
+     — RecommendationWidget → tarjeta de "què estudiar avui"
    ============================================================================ */
 (function () {
   var MESES = ['Gener','Febrer','Març','Abril','Maig','Juny','Juliol','Agost','Setembre','Octubre','Novembre','Desembre'];
@@ -17,7 +17,7 @@
   var diaAbierto = null;
 
   /* =========================================================================
-     COMPONENTE 1 · StudyCalendar
+     COMPONENTE 1 — StudyCalendar
      ========================================================================= */
   var StudyCalendar = {
     async refrescar() {
@@ -99,7 +99,7 @@
   };
 
   /* =========================================================================
-     COMPONENTE 2 · DayDetailModal (side peek)
+     COMPONENTE 2 — DayDetailModal (side peek)
      ========================================================================= */
   var DayDetailModal = {
     abrir(dayISO) {
@@ -144,11 +144,11 @@
       }).join('') : '<p class="dp-empty">Encara no has registrat cap tema aquest dia.</p>';
 
       var opciones = window.BIOPAU_DATA.todasLasUnidades().map(function (u) {
-        return '<option value="' + u.id + '">' + u.bloqueNombre + ' · ' + u.titulo + '</option>';
+        return '<option value="' + u.id + '">' + u.bloqueNombre + ' — ' + u.titulo + '</option>';
       }).join('');
 
       var controlsHTML = controls.map(function (c) {
-        return '<div class="dp-control"><span>📌 ' + escapeHTML(c.titulo) + '</span>' +
+        return '<div class="dp-control"><span>' + escapeHTML(c.titulo) + '</span>' +
           '<button data-control-del="' + c.id + '">×</button></div>';
       }).join('');
 
@@ -311,7 +311,7 @@
   };
 
   /* =========================================================================
-     COMPONENTE 3 · RecommendationWidget
+     COMPONENTE 3 — RecommendationWidget
      ========================================================================= */
   var RecommendationWidget = {
     render() {
@@ -323,12 +323,12 @@
                    completado: 'ok', sin_fecha: 'info', sin_temario: 'info' }[r.estado] || 'info';
 
       var objetivoHTML = r.objetivo
-        ? '<span class="reco-target">🎯 ' + escapeHTML(r.objetivo.titulo) + ' · en ' + r.objetivo.diasRestantes + ' dies</span>'
+        ? '<span class="reco-target">' + escapeHTML(r.objetivo.titulo) + ' — en ' + r.objetivo.diasRestantes + ' dies</span>'
         : '';
 
       var tareasHTML = r.tareas.map(function (t) {
         var temas = t.temas.map(function (u) {
-          return '<li style="--tc:' + u.color + '"><b>' + u.bloqueNombre + '</b> · ' + u.titulo + '</li>';
+          return '<li style="--tc:' + u.color + '"><b>' + u.bloqueNombre + '</b> — ' + u.titulo + '</li>';
         }).join('');
         return '<div class="reco-day"><span class="reco-day-label">' + t.etiqueta + '</span><ul>' + temas + '</ul></div>';
       }).join('');

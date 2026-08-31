@@ -1,16 +1,16 @@
 /* ============================================================================
-   BioPAU — BPNav · Sistema global de navegación y carga (multipágina)
+   BioPAU — BPNav — Sistema global de navegación y carga (multipágina)
    ----------------------------------------------------------------------------
    Objetivo:  click → feedback inmediato → loading → contenido
               (y si falla)  click → loading → mensaje claro → reintentar
               nunca:        click → pantalla congelada / spinner infinito
 
-   Estados conceptuales: idle · loading · success · error
-   · Barra superior indeterminada → aparece al instante en cada navegación.
-   · Overlay con spinner → solo si tarda >180 ms (sin parpadeos en rápido).
-   · Timeout (12 s) → panel "tardando / Reintentar / Volver".
-   · Anti doble-click: mientras se navega, se ignoran clicks repetidos.
-   · API para botones asíncronos:  BPNav.btn(el, true/false, texto).
+   Estados conceptuales: idle — loading — success — error
+   — Barra superior indeterminada → aparece al instante en cada navegación.
+   — Overlay con spinner → solo si tarda >180 ms (sin parpadeos en rápido).
+   — Timeout (12 s) → panel "tardando / Reintentar / Volver".
+   — Anti doble-click: mientras se navega, se ignoran clicks repetidos.
+   — API para botones asíncronos:  BPNav.btn(el, true/false, texto).
    Funciona con o sin BPI18n (diccionario propio leído de localStorage).
    ============================================================================ */
 window.BPNav = (function () {
@@ -60,7 +60,7 @@ window.BPNav = (function () {
           '<div class="bp-card-txt" data-bp="loading">' + tt('loading') + '</div>' +
         '</div>' +
         '<div class="bp-err" role="alert">' +
-          '<div class="bp-err-ico" aria-hidden="true">📡</div>' +
+          '<div class="bp-err-ico" aria-hidden="true"></div>' +
           '<div class="bp-card-txt" data-bp="slow_t">' + tt('slow_t') + '</div>' +
           '<div class="bp-card-sub" data-bp="slow_s">' + tt('slow_s') + '</div>' +
           '<div class="bp-actions">' +

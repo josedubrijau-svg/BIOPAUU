@@ -1,5 +1,5 @@
 /* ============================================================================
-   BioPAU — Fase A · Legal + Cuenta  (lógica compartida)
+   BioPAU — Fase A — Legal + Cuenta  (lógica compartida)
    ----------------------------------------------------------------------------
    Se auto-activa según lo que exista en cada página. Sin dependencias duras:
    funciona con o sin BPI18n / window.sb.
@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  /* ⚠️ PLACEHOLDER — cámbialo por tu correo de soporte real (un único sitio).
+  /* PLACEHOLDER — cámbialo por tu correo de soporte real (un único sitio).
      Si prefieres, puedes usar tu email actual. No es una dirección válida aún. */
   var SUPPORT_EMAIL = (window.BIOPAU_CONFIG && window.BIOPAU_CONFIG.SUPPORT_EMAIL) || 'soporte@biopau.app';
   window.BP_SUPPORT = { email: SUPPORT_EMAIL };
@@ -125,8 +125,8 @@
           'Para usar bioPau necesitamos que aceptes nuestras condiciones de uso y política de privacidad.',
           'Per fer servir bioPau necessitem que acceptis les condicions d’ús i la política de privacitat.') + '</p>' +
         '<div class="fa-doclinks">' +
-          '<a class="fa-doclink" href="/privacidad.html" target="_blank" rel="noopener">📄 ' + T('Política de privacidad', 'Política de privacitat') + '</a>' +
-          '<a class="fa-doclink" href="/condiciones.html" target="_blank" rel="noopener">📄 ' + T('Condiciones de uso', 'Condicions d’ús') + '</a>' +
+          '<a class="fa-doclink" href="/privacidad.html" target="_blank" rel="noopener">' + T('Política de privacidad', 'Política de privacitat') + '</a>' +
+          '<a class="fa-doclink" href="/condiciones.html" target="_blank" rel="noopener">' + T('Condiciones de uso', 'Condicions d’ús') + '</a>' +
         '</div>' +
         '<label class="fa-check"><input type="checkbox" id="gate-privacy"><span>' +
           T('He leído y acepto la ', 'He llegit i accepto la ') +
@@ -158,14 +158,27 @@
   function maybeGate() {
     var b = document.body;
     if (!(b.hasAttribute('data-requires-plan') || b.hasAttribute('data-requires-auth'))) return;
-    if (hasConsent()) return;
+    if (hasConsent()) return;                       // ya aceptado en este navegador → nunca re-preguntar
     if (document.getElementById('bp-consent')) return;
-    // Solo si hay sesión (usuario autenticado). Si no, auth.js ya redirige al login.
-    if (sb && sb.auth && sb.auth.getSession) {
-      sb.auth.getSession().then(function (r) {
-        if (r && r.data && r.data.session && !hasConsent() && !document.getElementById('bp-consent')) buildGate();
-      }).catch(function () {});
-    }
+    if (!(sb && sb.auth && sb.auth.getSession)) return;
+    sb.auth.getSession().then(function (r) {
+      if (!(r && r.data && r.data.session)) return;  // sin sesión, auth.js ya redirige al login
+      // Memoria cruzada: si ya lo aceptó antes (guardado en su cuenta), no re-preguntar
+      // aunque se haya borrado la caché o entre desde otro dispositivo.
+      var proceed = function () {
+        if (!hasConsent() && !document.getElementById('bp-consent')) buildGate();
+      };
+      try {
+        sb.auth.getUser().then(function (ur) {
+          var c = ur && ur.data && ur.data.user && ur.data.user.user_metadata && ur.data.user.user_metadata.consent;
+          if (c && c.privacyAccepted && c.termsAccepted) {
+            try { localStorage.setItem(CKEY, JSON.stringify({ privacyAccepted: true, termsAccepted: true, acceptedAt: c.acceptedAt || new Date().toISOString(), version: CONSENT_VERSION })); } catch (e) {}
+            return; // ya consentido en la cuenta
+          }
+          proceed();
+        }).catch(proceed);
+      } catch (e) { proceed(); }
+    }).catch(function () {});
   }
 
   /* ------------------------------------------------------------------ *

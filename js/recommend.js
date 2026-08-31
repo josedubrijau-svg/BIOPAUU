@@ -74,7 +74,7 @@ window.BPRecommend = (function () {
     if (!pendientesTodos.length) {
       return {
         estado: 'completado', objetivo: null, pendientes: 0, ritmoNecesario: 0, margen: 0,
-        titular: 'Ho tens tot completat! 🎉',
+        titular: 'Ho tens tot completat!',
         mensaje: 'Ara toca consolidar: fes exàmens de PAU i repassa els temes més antics.',
         tareas: []
       };

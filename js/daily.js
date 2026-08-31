@@ -1,12 +1,12 @@
 /* ============================================================================
-   BioPAU — bioPau Daily · MOTOR (v2: sin emojis, iconos SVG propios,
+   BioPAU — bioPau Daily — MOTOR (v2: sin emojis, iconos SVG propios,
    modo concentración bloqueado y estilo inmersivo)
    ----------------------------------------------------------------------------
-   Reglas de oro: 1) nunca repetir preguntas respondidas · 2) variedad de temas
-   3) respetar preferencias · 4) dificultad adecuada · 5) rápido · 6) enseñar.
+   Reglas de oro: 1) nunca repetir preguntas respondidas — 2) variedad de temas
+   3) respetar preferencias — 4) dificultad adecuada — 5) rápido — 6) enseñar.
    Determinista por fecha. No bloqueante para ENTRAR (opcional); pero una vez
    EMPEZADO el reto, no se puede salir hasta terminarlo (modo concentración).
-   Persistencia: localStorage. API: BPDaily.initPage() · BPDaily.renderDashCard(id)
+   Persistencia: localStorage. API: BPDaily.initPage() — BPDaily.renderDashCard(id)
    ============================================================================ */
 window.BPDaily = (function () {
   'use strict';
@@ -35,6 +35,23 @@ window.BPDaily = (function () {
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>'
   };
   function svg(n, cls) { return '<span class="dl-ic' + (cls ? ' ' + cls : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + (IC[n] || '') + '</svg></span>'; }
+
+  /* Iconos de bloque (los MISMOS del temario, js/apuntes.js) por tema */
+  var BLKIC = {
+    mito: '<path d="M4 9c0-3 3-5 8-5s8 2 8 5-3 5-8 5-8-2-8-5z" transform="rotate(20 12 12)"/><path d="M8 9c1-2 2-2 3 0s2 2 3 0 2-2 3 0" transform="rotate(20 12 12)"/>',
+    dna: '<path d="M8 2c0 5 8 7 8 12s-8 7-8 12M16 2c0 5-8 7-8 12s8 7 8 12"/><path d="M9 8h6M9 12h6M9 16h6"/>',
+    atom: '<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>',
+    microbe: '<circle cx="12" cy="12" r="6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/>',
+    shield: '<path d="M12 2l8 3.5V11c0 5.2-3.4 8.8-8 10-4.6-1.2-8-4.8-8-10V5.5L12 2z"/>',
+    flask: '<path d="M9 3v6L4 18a2 2 0 0 0 1.8 3h12.4a2 2 0 0 0 1.8-3L15 9V3"/><path d="M8 3h8"/><path d="M7 16h10"/>',
+    tree: '<path d="M12 22V13M12 13L7 8M12 13l5-5M12 8L9 4M12 8l3-4"/>',
+    target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>'
+  };
+  function blockOf(topicId) { return (D && D.BLOQUES ? D.BLOQUES : []).filter(function (b) { return b.id === topicId; })[0] || null; }
+  function topicIcon(topicId) {
+    var b = blockOf(topicId), name = b ? b.icon : 'target', col = b ? b.color : '#ADE80C';
+    return '<span class="dl-tic" style="color:' + col + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + (BLKIC[name] || BLKIC.target) + '</svg></span>';
+  }
   /* Ilustración de marca (pulso biológico), reemplaza al emoji de cerebro */
   function heroArt(cls) {
     return '<svg class="dl-hero-art' + (cls ? ' ' + cls : '') + '" viewBox="0 0 72 72" fill="none" aria-hidden="true">' +
@@ -168,17 +185,17 @@ window.BPDaily = (function () {
     var right;
     if (doneToday && e && e.result) {
       right = '<div class="dd-state"><span class="dd-done">' + svg('check') + ' ' + T('Reto completado', 'Repte completat') + '</span>' +
-        '<div class="dd-score">' + e.result.score + '/' + e.result.total + ' · ' + e.result.pct + '%</div>' +
+        '<div class="dd-score">' + e.result.score + '/' + e.result.total + ' — ' + e.result.pct + '%</div>' +
         '<a class="dd-btn dd-btn--ghost" href="/app/daily.html">' + T('Ver resultado', 'Veure resultat') + '</a></div>';
     } else {
       right = '<div class="dd-state"><span class="dd-ready">' + T('Tu reto de hoy está listo', 'El teu repte d’avui és a punt') + '</span>' +
-        '<div class="dd-meta">' + (prefs.count || 5) + ' ' + T('preguntas', 'preguntes') + ' · ~' + Math.max(3, Math.round((prefs.count || 5) * 0.8)) + ' min</div>' +
+        '<div class="dd-meta">' + (prefs.count || 5) + ' ' + T('preguntas', 'preguntes') + ' — ~' + Math.max(3, Math.round((prefs.count || 5) * 0.8)) + ' min</div>' +
         '<a class="dd-btn" href="/app/daily.html">' + T('Empezar reto', 'Començar repte') + ' ' + svg('arrow') + '</a></div>';
     }
     box.innerHTML =
       '<section class="daily-card">' +
         '<div class="dd-display">' + heroArt() +
-          '<div class="dd-badge">bioPau Daily · #' + n + '</div>' +
+          '<div class="dd-badge">bioPau Daily — #' + n + '</div>' +
           '<div class="dd-streak">' + svg('flame') + ' <b>' + streak + '</b> ' + (streak === 1 ? T('día', 'dia') : T('días', 'dies')) + '</div>' +
         '</div>' +
         '<div class="dd-body"><h3>' + T('Reto del día', 'Repte del dia') + '</h3>' +
@@ -225,7 +242,7 @@ window.BPDaily = (function () {
     if (e && e.done && e.result) { box.innerHTML = layout(resultHTML(e, true), side); cdTimer = startCountdown(document.getElementById('dl-cd')); return; }
     box.innerHTML = layout(
       '<div class="dl-intro">' + heroArt('lg') +
-        '<div class="dl-daynum">bioPau Daily · #' + n + ' · ' + longDate(dISO) + '</div>' +
+        '<div class="dl-daynum">bioPau Daily — #' + n + ' — ' + longDate(dISO) + '</div>' +
         '<h1 class="dl-greet">' + esc(greeting()) + '</h1>' +
         '<p class="dl-lead">' + built.ids.length + ' ' + T('preguntas de temas variados. Una oportunidad al día.', 'preguntes de temes variats. Una oportunitat al dia.') + '</p>' +
         '<div class="dl-locknote">' + svg('lock') + ' ' + T('Al empezar entrarás en modo concentración: no podrás salir hasta terminar.', 'En començar entraràs en mode concentració: no podràs sortir fins a acabar.') + '</div>' +
@@ -269,13 +286,13 @@ window.BPDaily = (function () {
     box.innerHTML =
       '<div class="dl-exam">' +
         '<div class="dl-exam-top">' +
-          '<div class="dl-exam-id">bioPau Daily · #' + run.n + '</div>' +
+          '<div class="dl-exam-id">bioPau Daily — #' + run.n + '</div>' +
           '<div class="dl-conc">' + svg('lock') + ' ' + T('Modo concentración', 'Mode concentració') + '</div>' +
         '</div>' +
         '<div class="dl-segbar">' + segs + '</div>' +
         '<div class="dl-exam-count">' + T('Pregunta', 'Pregunta') + ' ' + (run.i + 1) + ' ' + T('de', 'de') + ' ' + n + '</div>' +
         '<div class="dl-qcard" id="dl-qcard">' +
-          '<div class="dl-qtags"><span class="dl-qtag">' + esc(q.subjectName) + ' · ' + esc(q.topicName || '') + '</span>' +
+          '<div class="dl-qtags"><span class="dl-qtag">' + topicIcon(q.topic) + ' ' + esc(q.topicName || '') + '</span>' +
             '<span class="dl-qdiff dl-' + q.difficulty + '">' + diffLabel(q.difficulty) + '</span></div>' +
           '<div class="dl-qtext">' + esc(q.text) + '</div>' +
           '<div class="dl-opts" role="group">' +
@@ -313,7 +330,7 @@ window.BPDaily = (function () {
   function resultHTML(e, revisit) {
     var r = e.result, s = ensureState(), perByTopic = {};
     (e.per || []).forEach(function (x) { var b = perByTopic[x.topic] = perByTopic[x.topic] || { name: x.topicName, ok: 0, total: 0 }; b.total++; if (x.correct) b.ok++; });
-    var subjects = Object.keys(perByTopic).map(function (t) { var b = perByTopic[t]; var mk = b.ok === b.total ? svg('check', 'ok') : b.ok === 0 ? svg('cross', 'ko') : svg('target'); return '<div class="dl-mrow"><span>' + esc(b.name) + '</span><span>' + mk + ' ' + b.ok + '/' + b.total + '</span></div>'; }).join('');
+    var subjects = Object.keys(perByTopic).map(function (t) { var b = perByTopic[t]; var st = b.ok === b.total ? 'ok' : b.ok === 0 ? 'ko' : 'mid'; return '<div class="dl-mrow"><span class="dl-mtopic">' + topicIcon(t) + ' ' + esc(b.name) + '</span><span class="dl-mnum ' + st + '">' + b.ok + '/' + b.total + '</span></div>'; }).join('');
     var worst = null; Object.keys(perByTopic).forEach(function (t) { var b = perByTopic[t]; var p = b.ok / b.total; if (b.ok < b.total && (!worst || p < worst.p)) worst = { t: t, name: b.name, p: p }; });
     var mejora = worst ? '<div class="dl-improve"><div class="dl-improve-k">' + svg('target') + ' ' + T('Para mejorar', 'Per millorar') + '</div>' +
       '<div class="dl-improve-t">' + esc(worst.name) + '</div><p>' + T('Te recomendamos repasar este tema antes de tu próximo reto.', 'Et recomanem repassar aquest tema abans del pròxim repte.') + '</p>' +
@@ -322,7 +339,7 @@ window.BPDaily = (function () {
     var badges = revisit ? '' : '<div class="dl-badges"><span class="dl-badge">' + svg('flame') + ' ' + (s.streak.current || 0) + ' ' + T('días', 'dies') + '</span>' +
       '<span class="dl-badge">' + svg('spark') + ' +' + (e.xp || 0) + ' XP</span>' + (r.pct === 100 ? '<span class="dl-badge">' + svg('trophy') + ' ' + T('Pleno', 'Ple') + '</span>' : '') + '</div>';
     return '<div class="dl-result">' +
-      '<div class="dl-daynum">bioPau Daily · #' + e.n + '</div>' +
+      '<div class="dl-daynum">bioPau Daily — #' + e.n + '</div>' +
       '<h1 class="dl-res-title">' + (revisit ? T('Reto completado', 'Repte completat') : T('¡Reto completado!', 'Repte completat!')) + '</h1>' +
       '<div class="dl-res-score"><span class="dl-res-big">' + r.score + '/' + r.total + '</span><span class="dl-res-pct">' + r.pct + '%</span></div>' + badges +
       '<div class="dl-res-grid">' +
@@ -341,7 +358,7 @@ window.BPDaily = (function () {
 
   function shareResult() {
     var e = todayEntry(); if (!e || !e.result) return;
-    var txt = 'bioPau Daily #' + e.n + '\n' + e.result.score + '/' + e.result.total + ' · ' + e.result.pct + '%';
+    var txt = 'bioPau Daily #' + e.n + '\n' + e.result.score + '/' + e.result.total + ' — ' + e.result.pct + '%';
     if (navigator.share) navigator.share({ title: 'bioPau Daily', text: txt }).catch(function () {});
     else if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function () { toast(T('Resultado copiado', 'Resultat copiat')); }, function () {});
     else toast(txt);
@@ -367,13 +384,13 @@ window.BPDaily = (function () {
     var tiles = '<div class="dl-stat-tiles">' + tile('chart', mean + '%', T('Media de aciertos', 'Mitjana d’encerts')) + tile('stack', completed, T('Retos completados', 'Reptes completats')) + tile('flame', (s.streak.current || 0) + '/' + (s.streak.best || 0), T('Racha / mejor', 'Ratxa / millor')) + tile('spark', s.stats.answered || 0, T('Preguntas', 'Preguntes')) + '</div>';
     var reviewB = weak.length ? '<div class="dl-stat-card"><h3>' + T('Temas a repasar más', 'Temes a repassar més') + '</h3>' + weak.map(function (r) { return topicBar(r, '#F87171'); }).join('') + '</div>' : '';
     var goodB = strong.length ? '<div class="dl-stat-card"><h3>' + T('Lo que llevas mejor', 'El que portes millor') + '</h3>' + strong.map(function (r) { return topicBar(r, '#ADE80C'); }).join('') + '</div>' : '';
-    var failsB = fails.length ? '<div class="dl-stat-card"><h3>' + T('Tus errores · cómo hacerlas bien', 'Els teus errors · com fer-les bé') + '</h3>' + fails.map(function (f) {
-      return '<div class="dl-fail"><div class="dl-fail-q">' + esc(f.q.text) + '</div><div class="dl-fail-a">' + svg('check', 'ok') + ' ' + esc(f.q.options[f.q.sol]) + '</div><div class="dl-fail-w">' + esc(f.q.explanation) + '</div><a class="dl-mini" href="/app/apuntes.html#' + esc(DATA.topicToBlock(f.q.topic)) + '">' + T('Repasar', 'Repassar') + ' ' + esc(f.q.topicName) + ' ' + svg('arrow') + '</a></div>';
+    var failsB = fails.length ? '<div class="dl-stat-card"><h3>' + T('Tus errores — cómo hacerlas bien', 'Els teus errors — com fer-les bé') + '</h3>' + fails.map(function (f) {
+      return '<div class="dl-fail"><div class="dl-fail-topic">' + topicIcon(f.q.topic) + ' ' + esc(f.q.topicName) + '</div><div class="dl-fail-q">' + esc(f.q.text) + '</div><div class="dl-fail-a">' + svg('check', 'ok') + ' ' + esc(f.q.options[f.q.sol]) + '</div><div class="dl-fail-w">' + esc(f.q.explanation) + '</div><a class="dl-mini" href="/app/apuntes.html#' + esc(DATA.topicToBlock(f.q.topic)) + '">' + T('Repasar', 'Repassar') + ' ' + esc(f.q.topicName) + ' ' + svg('arrow') + '</a></div>';
     }).join('') + '</div>' : '';
     box.innerHTML = '<div class="dl-stats">' + tiles + '<div class="dl-stat-grid">' + reviewB + goodB + '</div>' + failsB + '</div>';
   }
   function tile(ic, v, k) { return '<div class="dl-tile"><span class="dl-tile-ico">' + svg(ic) + '</span><span class="dl-tile-v">' + v + '</span><span class="dl-tile-k">' + k + '</span></div>'; }
-  function topicBar(r, col) { return '<a class="dl-tbar" href="/app/apuntes.html#' + esc(DATA.topicToBlock(r.t)) + '"><div class="dl-tbar-head"><span>' + esc(r.name) + '</span><span>' + r.pct + '%</span></div><div class="dl-tbar-track"><span style="width:' + r.pct + '%;background:' + col + '"></span></div><span class="dl-tbar-go">' + T('Repasar temario', 'Repassar temari') + ' ' + svg('arrow') + '</span></a>'; }
+  function topicBar(r, col) { return '<a class="dl-tbar" href="/app/apuntes.html#' + esc(DATA.topicToBlock(r.t)) + '"><div class="dl-tbar-head"><span class="dl-mtopic">' + topicIcon(r.t) + ' ' + esc(r.name) + '</span><span>' + r.pct + '%</span></div><div class="dl-tbar-track"><span style="width:' + r.pct + '%;background:' + col + '"></span></div><span class="dl-tbar-go">' + T('Repasar temario', 'Repassar temari') + ' ' + svg('arrow') + '</span></a>'; }
 
   /* ---- Vista CONFIGURA ---- */
   var PRESETS = { todo: { es: 'Todo mi temario', ca: 'Tot el meu temari' }, debiles: { es: 'Mis temas débiles', ca: 'Els meus temes febles' }, objetivo: { es: 'Mi objetivo PAU', ca: 'El meu objectiu PAU' }, custom: { es: 'Personalizado', ca: 'Personalitzat' } };

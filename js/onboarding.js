@@ -25,12 +25,12 @@
   var COURSES = { es:['1º Bachillerato','2º Bachillerato','Repitiendo','Otro'], ca:['1r Batxillerat','2n Batxillerat','Repetint','Altres'] };
 
   var TONES = [
-    {id:'motivador', ico:'🔥', name:{es:'Motivador',es_:'',ca:'Motivador'}, desc:{es:'Mucho refuerzo positivo.',ca:'Molt reforç positiu.'}},
-    {id:'exigente',  ico:'🎯', name:{es:'Exigente',ca:'Exigent'}, desc:{es:'Directo y sin excusas.',ca:'Directe i sense excuses.'}},
-    {id:'tranquilo', ico:'🌿', name:{es:'Tranquilo',ca:'Tranquil'}, desc:{es:'Sin prisa, paso a paso.',ca:'Sense pressa, pas a pas.'}},
-    {id:'amigo',     ico:'😊', name:{es:'Amigo',ca:'Amic'}, desc:{es:'Cercano y natural.',ca:'Proper i natural.'}},
-    {id:'coach',     ico:'📈', name:{es:'Coach',ca:'Coach'}, desc:{es:'Orientado a rendimiento.',ca:'Orientat al rendiment.'}},
-    {id:'minimalista',ico:'▪️',name:{es:'Minimalista',ca:'Minimalista'}, desc:{es:'Mensajes muy breves.',ca:'Missatges molt breus.'}}
+    {id:'motivador', ico:'', name:{es:'Motivador',es_:'',ca:'Motivador'}, desc:{es:'Mucho refuerzo positivo.',ca:'Molt reforç positiu.'}},
+    {id:'exigente',  ico:'', name:{es:'Exigente',ca:'Exigent'}, desc:{es:'Directo y sin excusas.',ca:'Directe i sense excuses.'}},
+    {id:'tranquilo', ico:'', name:{es:'Tranquilo',ca:'Tranquil'}, desc:{es:'Sin prisa, paso a paso.',ca:'Sense pressa, pas a pas.'}},
+    {id:'amigo',     ico:'', name:{es:'Amigo',ca:'Amic'}, desc:{es:'Cercano y natural.',ca:'Proper i natural.'}},
+    {id:'coach',     ico:'', name:{es:'Coach',ca:'Coach'}, desc:{es:'Orientado a rendimiento.',ca:'Orientat al rendiment.'}},
+    {id:'minimalista',ico:'',name:{es:'Minimalista',ca:'Minimalista'}, desc:{es:'Mensajes muy breves.',ca:'Missatges molt breus.'}}
   ];
 
   function tempProfile() {
@@ -41,7 +41,7 @@
 
   /* ---- Definición de pasos ---------------------------------------------- */
   var steps = [
-    // 1 · Nombre + trato
+    // 1 — Nombre + trato
     { render:function(){
         return head({es:'Empecemos por ti',ca:'Comencem per tu'},
                     {es:'¿Cómo quieres que te llamemos?',ca:'Com vols que et diguem?'},
@@ -57,7 +57,7 @@
         wireChips('gender',function(v){a.prefs.gender=v;});
       }
     },
-    // 2 · Qué estudias
+    // 2 — Qué estudias
     { render:function(){
         return head({es:'Tu momento',ca:'El teu moment'},
                     {es:'¿Qué estás estudiando ahora?',ca:'Què estàs estudiant ara?'},null)+
@@ -70,32 +70,30 @@
         el('f-school').addEventListener('input',function(){a.school=this.value.trim();});
       }
     },
-    // 3 · Carrera
+    // 3 — Carrera
     { render:function(){
         return head({es:'Tu meta',ca:'La teva meta'},
                     {es:'¿A qué quieres llegar?',ca:'A què vols arribar?'},
                     {es:'La carrera que sueñas. A partir de aquí, bioPau se adapta a ella.',ca:'La carrera que somies. A partir d’aquí, bioPau s’hi adapta.'})+
-          '<div class="ob-field"><input class="ob-input" id="f-career" placeholder="'+t({es:'Escríbela o elige abajo',ca:'Escriu-la o tria a sota'})+'" value="'+esc(a.career_goal)+'"></div>'+
-          chipsFree('career', CAREERS, a.career_goal);
+          '<div class="ob-field"><input class="ob-input" id="f-career" data-edu="career" placeholder="'+t({es:'Empieza a escribir (p. ej. Medicina)',ca:'Comença a escriure (p. ex. Medicina)'})+'" value="'+esc(a.career_goal)+'"></div>';
       },
       wire:function(){
-        el('f-career').addEventListener('input',function(){a.career_goal=this.value.trim(); syncFreeChips('career',a.career_goal);});
-        wireFreeChips('career',function(v){a.career_goal=v; el('f-career').value=v;});
+        el('f-career').addEventListener('input',function(){a.career_goal=this.value.trim();});
+        if(window.BPEdu) window.BPEdu.enhance(el('ob-steps'));
       }
     },
-    // 4 · Universidad
+    // 4 — Universidad
     { render:function(){
         return head({es:'Tu destino',ca:'La teva destinació'},
                     {es:'¿En qué universidad te gustaría entrar?',ca:'A quina universitat t’agradaria entrar?'},null)+
-          '<div class="ob-field"><input class="ob-input" id="f-uni" placeholder="'+t({es:'Escríbela o elige abajo',ca:'Escriu-la o tria a sota'})+'" value="'+esc(a.university_goal)+'"></div>'+
-          chipsFree('uni', UNIS, a.university_goal);
+          '<div class="ob-field"><input class="ob-input" id="f-uni" data-edu="uni" placeholder="'+t({es:'Escribe la universidad (p. ej. UAB)',ca:'Escriu la universitat (p. ex. UAB)'})+'" value="'+esc(a.university_goal)+'"></div>';
       },
       wire:function(){
-        el('f-uni').addEventListener('input',function(){a.university_goal=this.value.trim(); syncFreeChips('uni',a.university_goal);});
-        wireFreeChips('uni',function(v){a.university_goal=v; el('f-uni').value=v;});
+        el('f-uni').addEventListener('input',function(){a.university_goal=this.value.trim();});
+        if(window.BPEdu) window.BPEdu.enhance(el('ob-steps'));
       }
     },
-    // 5 · Nota objetivo
+    // 5 — Nota objetivo
     { render:function(){
         return head({es:'Tu número',ca:'El teu número'},
                     {es:'¿Qué nota quieres conseguir?',ca:'Quina nota vols aconseguir?'},
@@ -108,7 +106,7 @@
         r.addEventListener('input',function(){a.target_grade=parseFloat(this.value); v.textContent=fmtGrade(a.target_grade);});
       }
     },
-    // 6 · Motivación
+    // 6 — Motivación
     { render:function(){
         return head({es:'Tu porqué',ca:'El teu perquè'},
                     {es:'¿Qué te motiva?',ca:'Què et motiva?'},
@@ -117,7 +115,7 @@
       },
       wire:function(){ el('f-mot').addEventListener('input',function(){a.main_motivation=this.value.trim();}); }
     },
-    // 7 · Tono del asistente (con vista previa)
+    // 7 — Tono del asistente (con vista previa)
     { render:function(){
         return head({es:'Tu compañía',ca:'La teva companyia'},
                     {es:'¿Cómo quieres que bioPau te acompañe?',ca:'Com vols que bioPau t’acompanyi?'},null)+
@@ -138,7 +136,7 @@
         updatePreview();
       }
     },
-    // 8 · Personaliza (acento + avatar)
+    // 8 — Personaliza (acento + avatar)
     { render:function(){
         var avs=(window.BIOPAU_DATA?window.BIOPAU_DATA.AVATARES:[]).map(function(av){
           var svg=window.BPShell?window.BPShell.avatarSVG(av.id):'';
@@ -164,7 +162,7 @@
         });
       }
     },
-    // 9 · Resumen
+    // 9 — Resumen
     { render:function(){
         function row(k,v){ return v?('<div class="ob-sum-row"><span class="k">'+k+'</span><span class="v">'+esc(v)+'</span></div>'):''; }
         var toneName=(TONES.filter(function(x){return x.id===a.assistant_tone;})[0]||{}).name;
@@ -181,15 +179,15 @@
       },
       wire:function(){}
     },
-    // 10 · Listo
+    // 10 — Listo
     { render:function(){
         var g=window.BPMessages?window.BPMessages.greeting(tempProfile(),new Date()):'';
         var role=window.BPMessages?window.BPMessages.roleLine(tempProfile()):'';
         return '<div class="ob-done">'+
-          '<div class="big">🎉</div>'+
+          '<div class="big"></div>'+
           '<h2>'+t({es:'¡Tu espacio está listo!',ca:'El teu espai està llest!'})+'</h2>'+
           '<p>'+t({es:'Hemos preparado bioPau para ti.',ca:'Hem preparat bioPau per a tu.'})+'</p>'+
-          (g?'<div class="ob-preview" style="justify-content:center;margin-top:22px;text-align:left;max-width:420px;margin-left:auto;margin-right:auto"><span class="pv-ico">👋</span><div><b>'+esc(g)+'</b>'+(role?'<div style="color:var(--lime);font-weight:700;margin-top:2px">'+esc(role)+'</div>':'')+'</div></div>':'')+
+          (g?'<div class="ob-preview" style="justify-content:center;margin-top:22px;text-align:left;max-width:420px;margin-left:auto;margin-right:auto"><span class="pv-ico"></span><div><b>'+esc(g)+'</b>'+(role?'<div style="color:var(--lime);font-weight:700;margin-top:2px">'+esc(role)+'</div>':'')+'</div></div>':'')+
           '<div class="ob-mini">'+t({es:'Puedes cambiar todo esto en tu perfil.',ca:'Pots canviar tot això al teu perfil.'})+'</div>'+
         '</div>';
       },
@@ -279,12 +277,13 @@
       language:L(), onboarding_completed:true
     };
     try { if(window.BPProfile) await window.BPProfile.save(patch); } catch(e){}
-    // también guarda el avatar en user_stats si existe la función
+    try { localStorage.setItem('biopau_onboarded','1'); } catch(e){}   // no volver a mostrar
     window.location.href='/app/';
   }
 
   async function skip(){
     try { if(window.BPProfile) await window.BPProfile.save({ onboarding_completed:true }); } catch(e){}
+    try { localStorage.setItem('biopau_onboarded','1'); } catch(e){}
     window.location.href='/app/';
   }
 

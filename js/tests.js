@@ -1,13 +1,13 @@
 /* ============================================================================
-   BioPAU — Motor de TESTS · MODO EXAMEN (maqueta)
+   BioPAU — Motor de TESTS — MODO EXAMEN (maqueta)
    ----------------------------------------------------------------------------
-   · Home: bloques con Mini test (checkpoint) y Test final tipo PAU (bloqueado
+   — Home: bloques con Mini test (checkpoint) y Test final tipo PAU (bloqueado
      hasta completar el mini). Estados: sin empezar / completado / mejorar.
-   · Al pulsar un test → entra en MODO EXAMEN con transición tipo swipe:
+   — Al pulsar un test → entra en MODO EXAMEN con transición tipo swipe:
        – una pregunta cada vez,
        – al responder, avanza (swipe) a la siguiente,
        – NO se puede volver atrás ni mirar respuestas.
-   · Al acabar: resultado (%, nota estimada) y "Mejorar nota". Sin revisión.
+   — Al acabar: resultado (%, nota estimada) y "Mejorar nota". Sin revisión.
    Persistencia: localStorage (biopau_tests). Datos: js/tests-data.js.
    ============================================================================ */
 window.BPTests = (function () {
@@ -48,7 +48,7 @@ window.BPTests = (function () {
 
   /* ---------------- Home ------------------------------------------------ */
   function stateBadge(id, locked) {
-    if (locked) return '<span class="tt-badge tt-badge--lock">🔒</span>';
+    if (locked) return '<span class="tt-badge tt-badge--lock"></span>';
     var s = stateOf(id);
     if (s && s.done) return '<span class="tt-badge tt-badge--done">' + T('Completado', 'Completat') + '</span>';
     return '<span class="tt-badge">' + T('Sin empezar', 'Sense començar') + '</span>';
@@ -65,7 +65,7 @@ window.BPTests = (function () {
   function bestLine(id) {
     var s = stateOf(id);
     if (!s || !s.attempts || !s.attempts.length) return '';
-    return '<span class="tt-mini-pill">🏆 ' + T('Mejor', 'Millor') + ': ' + gradeFromPct(s.best).toFixed(1) + '/10 · ' +
+    return '<span class="tt-mini-pill">' + T('Mejor', 'Millor') + ': ' + gradeFromPct(s.best).toFixed(1) + '/10 — ' +
       s.attempts.length + ' ' + (s.attempts.length === 1 ? T('intento', 'intent') : T('intentos', 'intents')) + '</span>';
   }
   function renderHome() {
@@ -76,15 +76,15 @@ window.BPTests = (function () {
       var rows = '';
       if (pack.mini) {
         rows += '<div class="tt-row"><div class="tt-row-info">' +
-          '<span class="tt-row-title">🧩 ' + T('Mini test', 'Mini test') + '</span>' +
-          '<span class="tt-row-sub">' + pack.mini.preguntas.length + ' ' + T('preguntas', 'preguntes') + ' · ' + T('modo examen', 'mode examen') + '</span>' +
+          '<span class="tt-row-title">' + T('Mini test', 'Mini test') + '</span>' +
+          '<span class="tt-row-sub">' + pack.mini.preguntas.length + ' ' + T('preguntas', 'preguntes') + ' — ' + T('modo examen', 'mode examen') + '</span>' +
           bestLine(pack.mini.id) + '</div>' +
           '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + stateBadge(pack.mini.id, false) + actionFor(pack.mini, false) + '</div></div>';
       }
       if (pack.final) {
         rows += '<div class="tt-row' + (finalLocked ? ' is-locked' : '') + '"><div class="tt-row-info">' +
-          '<span class="tt-row-title">🎯 ' + T('Test final tipo PAU', 'Test final tipus PAU') + '</span>' +
-          '<span class="tt-row-sub">' + (finalLocked ? T('Completa el mini test para desbloquear', 'Completa el mini test per desbloquejar') : (pack.final.preguntas.length + ' ' + T('preguntas', 'preguntes') + ' · ' + T('simulacro', 'simulacre'))) + '</span>' +
+          '<span class="tt-row-title">' + T('Test final tipo PAU', 'Test final tipus PAU') + '</span>' +
+          '<span class="tt-row-sub">' + (finalLocked ? T('Completa el mini test para desbloquear', 'Completa el mini test per desbloquejar') : (pack.final.preguntas.length + ' ' + T('preguntas', 'preguntes') + ' — ' + T('simulacro', 'simulacre'))) + '</span>' +
           (finalLocked ? '' : bestLine(pack.final.id)) + '</div>' +
           '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + stateBadge(pack.final.id, finalLocked) + actionFor(pack.final, finalLocked) + '</div></div>';
       }
@@ -179,10 +179,10 @@ window.BPTests = (function () {
           '<circle class="rb" cx="90" cy="90" r="80" stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '" id="tt-ring"></circle>' +
         '</svg><div class="tt-score-center"><span class="tt-score-pct">' + pct + '%</span><span class="tt-score-cap">' + score + ' / ' + n + '</span></div></div>' +
         '<div class="tt-grade">' + T('Nota estimada', 'Nota estimada') + ': ' + grade.toFixed(1) + ' <small>/10</small></div>' +
-        (rec.improved ? '<div class="tt-badge-best">🏆 ' + T('Nueva mejor nota', 'Nova millor nota') + ': ' + gradeFromPct(rec.best).toFixed(1) + '/10</div>' : '') +
+        (rec.improved ? '<div class="tt-badge-best">' + T('Nueva mejor nota', 'Nova millor nota') + ': ' + gradeFromPct(rec.best).toFixed(1) + '/10</div>' : '') +
         '<div class="tt-stats">' +
-          '<div class="tt-stat ok"><div class="v">' + score + '</div><div class="k">✅ ' + T('Correctas', 'Correctes') + '</div></div>' +
-          '<div class="tt-stat ko"><div class="v">' + run.wrong.length + '</div><div class="k">❌ ' + T('Incorrectas', 'Incorrectes') + '</div></div>' +
+          '<div class="tt-stat ok"><div class="v">' + score + '</div><div class="k">' + T('Correctas', 'Correctes') + '</div></div>' +
+          '<div class="tt-stat ko"><div class="v">' + run.wrong.length + '</div><div class="k">' + T('Incorrectas', 'Incorrectes') + '</div></div>' +
         '</div>' +
         '<div class="tt-analysis"><h4>' + T('Tu rendimiento', 'El teu rendiment') + '</h4><p>' + analysis(pct) + '</p></div>' +
         '<div class="tt-result-actions">' +
@@ -217,7 +217,7 @@ window.BPTests = (function () {
       var s = it.s, best = gradeFromPct(s.best), last = s.attempts[s.attempts.length - 1];
       var rows = s.attempts.map(function (a, i) {
         var trophy = (Math.round(a.pct) === Math.round(s.best));
-        return '<tr><td>' + (i + 1) + '</td><td>' + fmtDate(a.at) + '</td><td class="grade">' + gradeFromPct(a.pct).toFixed(1) + (trophy ? ' <span class="tt-trophy">🏆</span>' : '') + '</td><td>' + a.score + '/' + a.total + '</td></tr>';
+        return '<tr><td>' + (i + 1) + '</td><td>' + fmtDate(a.at) + '</td><td class="grade">' + gradeFromPct(a.pct).toFixed(1) + (trophy ? ' <span class="tt-trophy"></span>' : '') + '</td><td>' + a.score + '/' + a.total + '</td></tr>';
       }).join('');
       return '<div class="tt-hist-card"><div class="tt-hist-head"><div>' +
           '<div class="tt-hist-title">' + esc(it.b.nombre) + ' — ' + esc(it.test.titulo) + '</div>' +

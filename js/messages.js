@@ -14,25 +14,25 @@ window.BPMessages = (function () {
   /* ---- Carrera → "rol" con género y emoji -------------------------------- */
   /* Cada entrada: claves a detectar + {f,m,n} en es y ca + emoji.            */
   var ROLES = [
-    { k:['enferm','inferm'], emoji:'🩺', es:{f:'enfermera',m:'enfermero',n:'futur@ enfermer@'}, ca:{f:'infermera',m:'infermer',n:'futur@ inferm@'} },
-    { k:['medicin','medic','metge','médic'], emoji:'👩‍⚕️', es:{f:'médica',m:'médico',n:'futur@ metge/essa'}, ca:{f:'metgessa',m:'metge',n:'futur@ metge/essa'} },
-    { k:['psicolog','psicòleg','psicolog'], emoji:'🧠', es:{f:'psicóloga',m:'psicólogo',n:'futur@ psicòleg/a'}, ca:{f:'psicòloga',m:'psicòleg',n:'futur@ psicòleg/a'} },
-    { k:['derecho','dret','abogad','advoc'], emoji:'⚖️', es:{f:'abogada',m:'abogado',n:'futur@ advocat/da'}, ca:{f:'advocada',m:'advocat',n:'futur@ advocat/da'} },
-    { k:['veterin'], emoji:'🐾', es:{f:'veterinaria',m:'veterinario',n:'futur@ veterinari@'}, ca:{f:'veterinària',m:'veterinari',n:'futur@ veterinari@'} },
-    { k:['maestr','magisteri','mestr','educacio','educació','educacion'], emoji:'🍎', es:{f:'maestra',m:'maestro',n:'futur@ mestre/a'}, ca:{f:'mestra',m:'mestre',n:'futur@ mestre/a'} },
-    { k:['biolog','biòleg','biolog'], emoji:'🔬', es:{f:'bióloga',m:'biólogo',n:'futur@ biòleg/a'}, ca:{f:'biòloga',m:'biòleg',n:'futur@ biòleg/a'} },
-    { k:['farmac','farmàc'], emoji:'💊', es:{f:'farmacéutica',m:'farmacéutico',n:'futur@ farmacèutic@'}, ca:{f:'farmacèutica',m:'farmacèutic',n:'futur@ farmacèutic@'} },
-    { k:['fisio'], emoji:'💪', es:{f:'fisioterapeuta',m:'fisioterapeuta',n:'futur@ fisioterapeuta'}, ca:{f:'fisioterapeuta',m:'fisioterapeuta',n:'futur@ fisioterapeuta'} },
-    { k:['odontolog','dentista'], emoji:'🦷', es:{f:'dentista',m:'dentista',n:'futur@ dentista'}, ca:{f:'dentista',m:'dentista',n:'futur@ dentista'} },
-    { k:['veterinaria'], emoji:'🐾', es:{f:'veterinaria',m:'veterinario',n:'veterinari@'}, ca:{f:'veterinària',m:'veterinari',n:'veterinari@'} },
-    { k:['enginy','ingenier','ingeni'], emoji:'⚙️', es:{f:'ingeniera',m:'ingeniero',n:'futur@ enginyer@'}, ca:{f:'enginyera',m:'enginyer',n:'futur@ enginyer@'} },
-    { k:['arquitect'], emoji:'📐', es:{f:'arquitecta',m:'arquitecto',n:'futur@ arquitect@'}, ca:{f:'arquitecta',m:'arquitecte',n:'futur@ arquitect@'} },
-    { k:['informat','informàt','program'], emoji:'💻', es:{f:'programadora',m:'programador',n:'futur@ programador@'}, ca:{f:'programadora',m:'programador',n:'futur@ programador@'} },
-    { k:['economi','ade','empres'], emoji:'📈', es:{f:'economista',m:'economista',n:'futur@ economista'}, ca:{f:'economista',m:'economista',n:'futur@ economista'} },
-    { k:['periodis'], emoji:'📰', es:{f:'periodista',m:'periodista',n:'futur@ periodista'}, ca:{f:'periodista',m:'periodista',n:'futur@ periodista'} },
-    { k:['traduc'], emoji:'🌐', es:{f:'traductora',m:'traductor',n:'futur@ traductor@'}, ca:{f:'traductora',m:'traductor',n:'futur@ traductor@'} },
-    { k:['nutri'], emoji:'🥗', es:{f:'nutricionista',m:'nutricionista',n:'futur@ nutricionista'}, ca:{f:'nutricionista',m:'nutricionista',n:'futur@ nutricionista'} },
-    { k:['quimic','químic'], emoji:'⚗️', es:{f:'química',m:'químico',n:'futur@ químic@'}, ca:{f:'química',m:'químic',n:'futur@ químic@'} }
+    { k:['enferm','inferm'], emoji:'', es:{f:'enfermera',m:'enfermero',n:'futur@ enfermer@'}, ca:{f:'infermera',m:'infermer',n:'futur@ inferm@'} },
+    { k:['medicin','medic','metge','médic'], emoji:'👩‍', es:{f:'médica',m:'médico',n:'futur@ metge/essa'}, ca:{f:'metgessa',m:'metge',n:'futur@ metge/essa'} },
+    { k:['psicolog','psicòleg','psicolog'], emoji:'', es:{f:'psicóloga',m:'psicólogo',n:'futur@ psicòleg/a'}, ca:{f:'psicòloga',m:'psicòleg',n:'futur@ psicòleg/a'} },
+    { k:['derecho','dret','abogad','advoc'], emoji:'', es:{f:'abogada',m:'abogado',n:'futur@ advocat/da'}, ca:{f:'advocada',m:'advocat',n:'futur@ advocat/da'} },
+    { k:['veterin'], emoji:'', es:{f:'veterinaria',m:'veterinario',n:'futur@ veterinari@'}, ca:{f:'veterinària',m:'veterinari',n:'futur@ veterinari@'} },
+    { k:['maestr','magisteri','mestr','educacio','educació','educacion'], emoji:'', es:{f:'maestra',m:'maestro',n:'futur@ mestre/a'}, ca:{f:'mestra',m:'mestre',n:'futur@ mestre/a'} },
+    { k:['biolog','biòleg','biolog'], emoji:'', es:{f:'bióloga',m:'biólogo',n:'futur@ biòleg/a'}, ca:{f:'biòloga',m:'biòleg',n:'futur@ biòleg/a'} },
+    { k:['farmac','farmàc'], emoji:'', es:{f:'farmacéutica',m:'farmacéutico',n:'futur@ farmacèutic@'}, ca:{f:'farmacèutica',m:'farmacèutic',n:'futur@ farmacèutic@'} },
+    { k:['fisio'], emoji:'', es:{f:'fisioterapeuta',m:'fisioterapeuta',n:'futur@ fisioterapeuta'}, ca:{f:'fisioterapeuta',m:'fisioterapeuta',n:'futur@ fisioterapeuta'} },
+    { k:['odontolog','dentista'], emoji:'', es:{f:'dentista',m:'dentista',n:'futur@ dentista'}, ca:{f:'dentista',m:'dentista',n:'futur@ dentista'} },
+    { k:['veterinaria'], emoji:'', es:{f:'veterinaria',m:'veterinario',n:'veterinari@'}, ca:{f:'veterinària',m:'veterinari',n:'veterinari@'} },
+    { k:['enginy','ingenier','ingeni'], emoji:'', es:{f:'ingeniera',m:'ingeniero',n:'futur@ enginyer@'}, ca:{f:'enginyera',m:'enginyer',n:'futur@ enginyer@'} },
+    { k:['arquitect'], emoji:'', es:{f:'arquitecta',m:'arquitecto',n:'futur@ arquitect@'}, ca:{f:'arquitecta',m:'arquitecte',n:'futur@ arquitect@'} },
+    { k:['informat','informàt','program'], emoji:'', es:{f:'programadora',m:'programador',n:'futur@ programador@'}, ca:{f:'programadora',m:'programador',n:'futur@ programador@'} },
+    { k:['economi','ade','empres'], emoji:'', es:{f:'economista',m:'economista',n:'futur@ economista'}, ca:{f:'economista',m:'economista',n:'futur@ economista'} },
+    { k:['periodis'], emoji:'', es:{f:'periodista',m:'periodista',n:'futur@ periodista'}, ca:{f:'periodista',m:'periodista',n:'futur@ periodista'} },
+    { k:['traduc'], emoji:'', es:{f:'traductora',m:'traductor',n:'futur@ traductor@'}, ca:{f:'traductora',m:'traductor',n:'futur@ traductor@'} },
+    { k:['nutri'], emoji:'', es:{f:'nutricionista',m:'nutricionista',n:'futur@ nutricionista'}, ca:{f:'nutricionista',m:'nutricionista',n:'futur@ nutricionista'} },
+    { k:['quimic','químic'], emoji:'', es:{f:'química',m:'químico',n:'futur@ químic@'}, ca:{f:'química',m:'químic',n:'futur@ químic@'} }
   ];
 
   /* Devuelve {word, emoji} o null a partir de la carrera objetivo. */
@@ -53,7 +53,7 @@ window.BPMessages = (function () {
     var genericES = { f: 'futura profesional', m: 'futuro profesional', n: 'futur@ profesional' };
     var genericCA = { f: 'futura professional', m: 'futur professional', n: 'futur@ professional' };
     var gen = (L === 'ca' ? genericCA : genericES);
-    return { word: gen[g] || gen.n, emoji: '🎓' };
+    return { word: gen[g] || gen.n, emoji: '' };
   }
 
   /* ---- Saludo por franja horaria ----------------------------------------- */
@@ -70,16 +70,16 @@ window.BPMessages = (function () {
     return '';
   }
 
-  /* Línea de saludo: "Buenos días, Carla 👋" */
+  /* Línea de saludo: "Buenos días, Carla" */
   function greeting(profile, now) {
     var L = lang();
     var name = nameOf(profile);
     var f = franja((now || nowSafe()).getHours());
     var base = HELLO[L][f] || HELLO.es[f];
-    return name ? (base + ', ' + name + ' 👋') : (base + ' 👋');
+    return name ? (base + ', ' + name + '') : (base + '');
   }
 
-  /* Línea de rol: "Futura enfermera 🩺" (o '') */
+  /* Línea de rol: "Futura enfermera" (o '') */
   function roleLine(profile) {
     var r = roleFor(profile);
     if (!r) return '';
@@ -172,12 +172,12 @@ window.BPMessages = (function () {
       }
     },
     racha: {
-      motivador:{ es:['🔥 {streak} días seguidos. Estás construyendo el futuro que quieres.','¡Racha de {streak} días! Así se llega a {career}.'], ca:['🔥 {streak} dies seguits. Estàs construint el futur que vols.','Ratxa de {streak} dies! Així s’arriba a {career}.'] },
+      motivador:{ es:['{streak} días seguidos. Estás construyendo el futuro que quieres.','¡Racha de {streak} días! Así se llega a {career}.'], ca:['{streak} dies seguits. Estàs construint el futur que vols.','Ratxa de {streak} dies! Així s’arriba a {career}.'] },
       exigente:{ es:['{streak} días. No la rompas ahora.','Llevas {streak} días. Demuéstrate que puedes seguir.'], ca:['{streak} dies. No la trenquis ara.','Portes {streak} dies. Demostra’t que pots seguir.'] },
       tranquilo:{ es:['{streak} días seguidos, sin agobios. Bonito ritmo.','Llevas {streak} días. Disfruta el proceso.'], ca:['{streak} dies seguits, sense angoixes. Bon ritme.','Portes {streak} dies. Gaudeix el procés.'] },
       amigo:{ es:['¡{streak} días ya! Qué máquina, {name}.','Racha de {streak}. Vamos a por otro, ¿no?'], ca:['{streak} dies ja! Quina màquina, {name}.','Ratxa de {streak}. Anem a per un altre, oi?'] },
       coach:{ es:['Racha {streak} días. Tendencia positiva, mantenla.','{streak} días de constancia. Ese es el patrón ganador.'], ca:['Ratxa {streak} dies. Tendència positiva, mantén-la.','{streak} dies de constància. Aquest és el patró guanyador.'] },
-      minimalista:{ es:['🔥 {streak} días.','Racha: {streak}.'], ca:['🔥 {streak} dies.','Ratxa: {streak}.'] }
+      minimalista:{ es:['{streak} días.','Racha: {streak}.'], ca:['{streak} dies.','Ratxa: {streak}.'] }
     },
     esfuerzo: {
       motivador:{ es:['Llevas {hours}h esta semana. Estás construyendo el futuro que quieres.','{hours}h de estudio. Tu plaza en {career} lo nota.'], ca:['Portes {hours}h aquesta setmana. Estàs construint el futur que vols.','{hours}h d’estudi. La teva plaça a {career} ho nota.'] },
@@ -185,7 +185,7 @@ window.BPMessages = (function () {
       tranquilo:{ es:['{hours}h esta semana. Buen trabajo, sin quemarte.','{hours}h. Vas sobrado/a, sigue a tu ritmo.'], ca:['{hours}h aquesta setmana. Bona feina, sense cremar-te.','{hours}h. Vas de sobres, segueix al teu ritme.'] },
       amigo:{ es:['¡{hours}h esta semana! Te lo estás currando, {name}.','{hours}h ya. Orgullo total.'], ca:['{hours}h aquesta setmana! T’ho estàs currant, {name}.','{hours}h ja. Orgull total.'] },
       coach:{ es:['{hours}h/semana. Buen volumen. Ahora, calidad.','{hours}h registradas. Rendimiento en alza.'], ca:['{hours}h/setmana. Bon volum. Ara, qualitat.','{hours}h registrades. Rendiment a l’alça.'] },
-      minimalista:{ es:['{hours}h esta semana. 👏','{hours}h. Sigue.'], ca:['{hours}h aquesta setmana. 👏','{hours}h. Segueix.'] }
+      minimalista:{ es:['{hours}h esta semana.','{hours}h. Sigue.'], ca:['{hours}h aquesta setmana.','{hours}h. Segueix.'] }
     },
     cerca: {
       motivador:{ es:['Estás más cerca que nunca de {career}. No aflojes ahora.','Ya casi. {univ} está a la vuelta. ¡A por todas!'], ca:['Estàs més a prop que mai de {career}. No afluixis ara.','Ja gairebé. {univ} és a tocar. A per totes!'] },
@@ -196,12 +196,12 @@ window.BPMessages = (function () {
       minimalista:{ es:['Casi. No aflojes.','{career} a un paso.'], ca:['Gairebé. No afluixis.','{career} a un pas.'] }
     },
     conseguido: {
-      motivador:{ es:['🎉 ¡Objetivo conseguido! Un paso menos hasta tu plaza.','Lo has clavado. {career}, aquí vas.'], ca:['🎉 Objectiu aconseguit! Un pas menys fins a la teva plaça.','Ho has clavat. {career}, aquí véns.'] },
+      motivador:{ es:['¡Objetivo conseguido! Un paso menos hasta tu plaza.','Lo has clavado. {career}, aquí vas.'], ca:['Objectiu aconseguit! Un pas menys fins a la teva plaça.','Ho has clavat. {career}, aquí véns.'] },
       exigente:{ es:['Conseguido. Ahora el siguiente. Nunca te conformes.','Objetivo cumplido. Sube el listón.'], ca:['Aconseguit. Ara el següent. No et conformis mai.','Objectiu complert. Puja el llistó.'] },
       tranquilo:{ es:['Objetivo conseguido. Disfrútalo, te lo has ganado.','Lo lograste. Respira y celébralo.'], ca:['Objectiu aconseguit. Gaudeix-ho, t’ho has guanyat.','Ho vas aconseguir. Respira i celebra-ho.'] },
-      amigo:{ es:['¡BRUTAL, {name}! Objetivo conseguido 🎉','Lo hiciste. Estoy orgulloso de ti.'], ca:['BRUTAL, {name}! Objectiu aconseguit 🎉','Ho vas fer. Estic orgullós de tu.'] },
+      amigo:{ es:['¡BRUTAL, {name}! Objetivo conseguido','Lo hiciste. Estoy orgulloso de ti.'], ca:['BRUTAL, {name}! Objectiu aconseguit','Ho vas fer. Estic orgullós de tu.'] },
       coach:{ es:['Meta alcanzada. Registremos el aprendizaje y a por la siguiente.','Objetivo cumplido. Nuevo reto en 3, 2, 1.'], ca:['Meta assolida. Registrem l’aprenentatge i a per la següent.','Objectiu complert. Nou repte en 3, 2, 1.'] },
-      minimalista:{ es:['🎉 Conseguido.','Hecho. Siguiente.'], ca:['🎉 Aconseguit.','Fet. Següent.'] }
+      minimalista:{ es:['Conseguido.','Hecho. Siguiente.'], ca:['Aconseguit.','Fet. Següent.'] }
     },
     inactivo: {
       motivador:{ es:['Hace {days} días que no te vemos. Tu objetivo sigue esperándote. ¿Volvemos?','{name}, {career} sigue ahí. Retomamos hoy con algo pequeño.'], ca:['Fa {days} dies que no et veiem. El teu objectiu segueix esperant-te. Tornem?','{name}, {career} segueix aquí. Reprenem avui amb alguna cosa petita.'] },

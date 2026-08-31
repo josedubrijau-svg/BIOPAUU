@@ -286,10 +286,13 @@ window.BPDash = (function () {
   async function init() {
     window.BPShell.render({ crumb: 'Dashboard' });
 
-    // Perfil personal. Si aún no ha hecho el onboarding, lo llevamos allí.
+    // Perfil personal. El onboarding (personalización de personaje) solo se
+    // muestra la PRIMERA vez. Usamos un flag local independiente para que, una
+    // vez hecho, no vuelva a aparecer aunque el backend no lo haya guardado.
+    var onbLocal = false; try { onbLocal = localStorage.getItem('biopau_onboarded') === '1'; } catch (e) {}
     if (window.BPProfile) {
       try { await window.BPProfile.load(); } catch (e) {}
-      if (window.BPProfile.get('onboarding_completed') !== true) {
+      if (!onbLocal && window.BPProfile.get('onboarding_completed') !== true) {
         window.location.replace('/onboarding.html'); return;
       }
       // aplica el avatar elegido en el onboarding si aún no hay stats

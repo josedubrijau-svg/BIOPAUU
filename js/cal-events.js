@@ -1,8 +1,8 @@
 /* ============================================================================
-   BioPAU — Calendari útil (Fase C) · motor d'esdeveniments
+   BioPAU — Calendari útil (Fase C) — motor d'esdeveniments
    ----------------------------------------------------------------------------
    Esdeveniments tipats guardats al navegador (localStorage biopau_events).
-   Tipus: estudio · examen · simulacro · control · importante · objetivo.
+   Tipus: estudio — examen — simulacro — control — importante — objetivo.
    Vistes: Mes (graella clicable) i Cronograma (Gantt educatiu).
    Tot funcional: afegir/editar/esborrar, detall amb "Veure temari", botó Avui,
    "Anar a temari", llegenda que filtra, i estats buits amb acció.
@@ -16,12 +16,12 @@ window.BPCalEvents = (function () {
   var D = window.BIOPAU_DATA;
 
   var TYPES = {
-    estudio:    { es: 'Estudio',            ca: 'Estudi',            dot: '🟢', color: '#ADE80C' },
-    examen:     { es: 'Examen',             ca: 'Examen',            dot: '🔵', color: '#38BDF8' },
-    simulacro:  { es: 'Simulacro',          ca: 'Simulacre',         dot: '🟣', color: '#A78BFA' },
-    control:    { es: 'Punto de control',   ca: 'Punt de control',   dot: '🟠', color: '#FB923C' },
-    importante: { es: 'Fecha importante',   ca: 'Data important',    dot: '🔴', color: '#F87171' },
-    objetivo:   { es: 'Objetivo',           ca: 'Objectiu',          dot: '🟡', color: '#FBBF24' }
+    estudio:    { es: 'Estudio',            ca: 'Estudi',            dot: '', color: '#ADE80C' },
+    examen:     { es: 'Examen',             ca: 'Examen',            dot: '', color: '#38BDF8' },
+    simulacro:  { es: 'Simulacro',          ca: 'Simulacre',         dot: '', color: '#A78BFA' },
+    control:    { es: 'Punto de control',   ca: 'Punt de control',   dot: '', color: '#FB923C' },
+    importante: { es: 'Fecha importante',   ca: 'Data important',    dot: '', color: '#F87171' },
+    objetivo:   { es: 'Objetivo',           ca: 'Objectiu',          dot: '', color: '#FBBF24' }
   };
   function typeLabel(t) { var d = TYPES[t]; return d ? T(d.es, d.ca) : t; }
 
@@ -33,7 +33,7 @@ window.BPCalEvents = (function () {
   function read() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
   function write(a) { try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} }
   function seeded() {
-    return [{ id: 'seed-pau', date: PAU_DATE, type: 'importante', title: T('PAU · Biología (orientativa)', 'PAU · Biologia (orientativa)'), time: '', bloque: '', note: T('Fecha orientativa del examen. Ajústala cuando salga el calendario oficial.', 'Data orientativa de l’examen. Ajusta-la quan surti el calendari oficial.'), seed: true }];
+    return [{ id: 'seed-pau', date: PAU_DATE, type: 'importante', title: T('PAU — Biología (orientativa)', 'PAU — Biologia (orientativa)'), time: '', bloque: '', note: T('Fecha orientativa del examen. Ajústala cuando salga el calendario oficial.', 'Data orientativa de l’examen. Ajusta-la quan surti el calendari oficial.'), seed: true }];
   }
   function allEvents() { return seeded().concat(read()); }
   function eventsOn(dateISO) { return allEvents().filter(function (e) { return e.date === dateISO; }); }
@@ -134,7 +134,7 @@ window.BPCalEvents = (function () {
     return '<div class="ce-card" style="--ec:' + col + '">' +
       '<div class="ce-card-top"><span class="ce-chip">' + typeLabel(e.type) + '</span></div>' +
       '<h4>' + esc(e.title) + '</h4>' +
-      '<div class="ce-meta">' + (e.time ? '<span>🕒 ' + esc(e.time) + '</span>' : '') + (bn ? '<span>📚 ' + esc(bn) + '</span>' : '') + '</div>' +
+      '<div class="ce-meta">' + (e.time ? '<span>' + esc(e.time) + '</span>' : '') + (bn ? '<span>' + esc(bn) + '</span>' : '') + '</div>' +
       (e.note ? '<div class="ce-note">' + esc(e.note) + '</div>' : '') +
       '<div class="ce-card-actions">' +
         (e.bloque ? '<a class="ce-mini" href="/app/apuntes.html#' + esc(e.bloque) + '">' + T('Ver temario', 'Veure temari') + ' →</a>' : '') +
@@ -216,22 +216,24 @@ window.BPCalEvents = (function () {
         var isNow = (todayISO() >= wIso0 && todayISO() <= wIso1);
         if (isNow) nowWeek = wi;
         // marca si hi ha esdeveniment d'aquest bloc en aquesta setmana
-        var mark = '';
+        var markCol = '';
         evs.forEach(function (e) {
-          if (e.bloque === b.id && e.date >= wIso0 && e.date <= wIso1) {
-            mark = e.type === 'examen' ? '🔵' : e.type === 'simulacro' ? '🟣' : e.type === 'control' ? '🟠' : e.type === 'objetivo' ? '🟡' : '🟢';
-          }
+          if (e.bloque === b.id && e.date >= wIso0 && e.date <= wIso1) { markCol = (TYPES[e.type] || {}).color || '#ADE80C'; }
         });
         return '<td class="ce-g-cell' + (isNow ? ' is-now' : '') + '">' +
           (inWin ? '<span class="ce-g-bar' + (wi === winStart ? ' is-strong' : '') + '" style="--bc:' + b.color + '"></span>' : '') +
-          (mark ? '<span class="ce-g-mark">' + mark + '</span>' : '') + '</td>';
+          (markCol ? '<span class="ce-g-mark"><i class="ce-gdot" style="background:' + markCol + '"></i></span>' : '') + '</td>';
       }).join('');
       return '<tr><td class="ce-g-block" style="--bc:' + b.color + '">' + esc(b.nombre) + '</td>' + cells + '</tr>';
     }).join('');
     return '<div class="ce-gantt-wrap"><table class="ce-gantt"><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<div class="ce-crono-legend">' +
         '<span>' + T('Barra = ventana sugerida de estudio del bloque', 'Barra = finestra suggerida d’estudi del bloc') + '</span>' +
-        '<span>🔵 ' + T('examen', 'examen') + ' · 🟣 ' + T('simulacro', 'simulacre') + ' · 🟠 ' + T('control', 'control') + ' · 🟡 ' + T('objetivo', 'objectiu') + '</span>' +
+        '<span class="ce-crono-keys">' +
+          '<span><i class="ce-gdot" style="background:#38BDF8"></i> ' + T('examen', 'examen') + '</span>' +
+          '<span><i class="ce-gdot" style="background:#A78BFA"></i> ' + T('simulacro', 'simulacre') + '</span>' +
+          '<span><i class="ce-gdot" style="background:#FB923C"></i> ' + T('control', 'control') + '</span>' +
+          '<span><i class="ce-gdot" style="background:#FBBF24"></i> ' + T('objetivo', 'objectiu') + '</span></span>' +
       '</div>' +
       '<p style="color:var(--txt-dim);font-size:.85rem;margin-top:10px">' + T('Consejo: añade eventos con un temario asignado y aparecerán aquí como marcadores.', 'Consell: afegeix esdeveniments amb un temari assignat i apareixeran aquí com a marcadors.') + '</p>';
   }

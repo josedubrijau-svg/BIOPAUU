@@ -1,5 +1,5 @@
 /* ============================================================================
-   BioPAU — bioPau Daily · BANCO DE PREGUNTAS (maqueta con generador real)
+   BioPAU — bioPau Daily — BANCO DE PREGUNTAS (maqueta con generador real)
    ----------------------------------------------------------------------------
    Estructura pensada para escalar a varias asignaturas y tipos de pregunta.
    Cada pregunta tiene un ID ÚNICO (clave para no repetir nunca):
@@ -43,7 +43,7 @@ window.BIOPAU_DAILY = (function () {
           id: s.id + '-' + tp.id + '-' + pad(i),
           subject: s.id, subjectName: s.name, topic: tp.id, topicName: tp.name,
           subtopic: '', difficulty: diff, type: 'mcq',
-          text: '[' + s.name + ' · ' + tp.name + ' · ' + diff + '] Pregunta ' + i + ' — edita el enunciado en js/daily-data.js',
+          text: '[' + s.name + ' — ' + tp.name + ' — ' + diff + '] Pregunta ' + i + ' — edita el enunciado en js/daily-data.js',
           options: ['Opción A', 'Opción B', 'Opción C', 'Opción D'],
           sol: 0,
           explanation: 'Explicación de ejemplo — edítala en js/daily-data.js para enseñar por qué la respuesta es correcta.',

@@ -1,14 +1,14 @@
 /* ============================================================================
-   BioPAU — BANCO DE PREGUNTAS (MAQUETA · contenido en blanco)
+   BioPAU — BANCO DE PREGUNTAS (MAQUETA — contenido en blanco)
    ----------------------------------------------------------------------------
    Esto es SOLO la estructura. El contenido está en blanco a propósito para que
    lo rellenes tú. Cada bloque tiene un mini test y un test final.
 
    Para poner una pregunta real, edita el objeto:
      { q: 'Enunciado…', ops: ['Opción A','Opción B','Opción C','Opción D'], sol: 0 }
-   · q   = enunciado
-   · ops = opciones
-   · sol = índice (0-based) de la opción correcta
+   — q   = enunciado
+   — ops = opciones
+   — sol = índice (0-based) de la opción correcta
 
    Cambia MINI_N / FINAL_N para el número de preguntas de cada tipo.
    ============================================================================ */
@@ -36,8 +36,8 @@ window.BIOPAU_TESTS = (function () {
   var B = {};
   BLOQUES.forEach(function (b) {
     B[b.id] = {
-      mini:  { id: b.id + '-mini',  tipo: 'mini', titulo: 'Mini test · ' + b.nombre,  preguntas: blankPreguntas(MINI_N) },
-      final: { id: b.id + '-final', tipo: 'pau',  titulo: 'Test final · ' + b.nombre, preguntas: blankPreguntas(FINAL_N) }
+      mini:  { id: b.id + '-mini',  tipo: 'mini', titulo: 'Mini test — ' + b.nombre,  preguntas: blankPreguntas(MINI_N) },
+      final: { id: b.id + '-final', tipo: 'pau',  titulo: 'Test final — ' + b.nombre, preguntas: blankPreguntas(FINAL_N) }
     };
   });
 

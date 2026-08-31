@@ -173,7 +173,7 @@
     function shuffle(a) { return a.slice().sort(function () { return Math.random() - 0.5; }); }
     function renderQ() {
       var q = quiz[qIndex];
-      content.innerHTML = '<h2>' + (qIndex + 1) + '/' + total + ' · ' + q[0] + '</h2>' +
+      content.innerHTML = '<h2>' + (qIndex + 1) + '/' + total + ' — ' + q[0] + '</h2>' +
         q[1].map(function (o, i) { return '<button class="quiz-option" data-answer="' + i + '">' + o + '</button>'; }).join('') +
         '<div id="quiz-feedback"></div>';
       content.querySelectorAll('.quiz-option').forEach(function (btn) {
@@ -187,7 +187,7 @@
             '<button class="btn quiz-next">' + (qIndex === total - 1 ? 'Veure resultat' : 'Següent pregunta →') + '</button></div>';
           document.querySelector('.quiz-next').addEventListener('click', function () {
             if (qIndex === total - 1) {
-              content.innerHTML = '<h2>Repàs completat 🎉</h2><div class="quiz-result"><b>' + score + '/' + total + ' correctes</b>' +
+              content.innerHTML = '<h2>Repàs completat</h2><div class="quiz-result"><b>' + score + '/' + total + ' correctes</b>' +
                 '<p>' + (score >= total - 1 ? 'Molt bon nivell. Continua amb exercicis PAU.' : score >= Math.ceil(total / 2) ? 'Bona base. Repassa els conceptes que han fallat.' : 'Fes una repassada del tema i torna a provar-ho.') + '</p></div>' +
                 '<button class="btn" id="quiz-close-final">Tancar</button>';
               document.getElementById('quiz-close-final').addEventListener('click', closeQuiz);

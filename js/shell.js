@@ -144,7 +144,7 @@ window.BPShell = (function () {
         '<div class="tb-right">' +
           '<div data-lang-switch></div>' +
           '<div class="tb-pill" id="tb-streak" data-i18n-attr="title:tb.streak_title">' +
-            '<span class="fire">🔥</span><span id="tb-streak-n">—</span>' +
+            '<span class="fire"></span><span id="tb-streak-n">—</span>' +
           '</div>' +
           '<button class="tb-user" data-action="avatar" data-i18n-attr="title:tb.change_avatar">' +
             '<span class="avatar" id="tb-avatar">' + avatarSVG('cell') + '</span>' +

@@ -1,6 +1,6 @@
 /* ============================================================================
-   BioPAU — Hub de PERFIL (cuenta.html). Pestañas: Perfil · Objetivo ·
-   Personalización · Cuenta. Rellena y guarda en BPProfile (autosave con toast).
+   BioPAU — Hub de PERFIL (cuenta.html). Pestañas: Perfil — Objetivo ·
+   Personalización — Cuenta. Rellena y guarda en BPProfile (autosave con toast).
    La pestaña "Cuenta" (email, plan, suscripción, usuario) la gestiona account.js.
    ============================================================================ */
 (function () {
@@ -14,12 +14,12 @@
     {id:'teal',color:'#2DD4BF'},{id:'coral',color:'#F87171'},{id:'amber',color:'#FBBF24'},{id:'green',color:'#4ADE80'}
   ];
   var TONES = [
-    {id:'motivador',ico:'🔥',name:{es:'Motivador',ca:'Motivador'}},
-    {id:'exigente',ico:'🎯',name:{es:'Exigente',ca:'Exigent'}},
-    {id:'tranquilo',ico:'🌿',name:{es:'Tranquilo',ca:'Tranquil'}},
-    {id:'amigo',ico:'😊',name:{es:'Amigo',ca:'Amic'}},
-    {id:'coach',ico:'📈',name:{es:'Coach',ca:'Coach'}},
-    {id:'minimalista',ico:'▪️',name:{es:'Minimalista',ca:'Minimalista'}}
+    {id:'motivador',ico:'',name:{es:'Motivador',ca:'Motivador'}},
+    {id:'exigente',ico:'',name:{es:'Exigente',ca:'Exigent'}},
+    {id:'tranquilo',ico:'',name:{es:'Tranquilo',ca:'Tranquil'}},
+    {id:'amigo',ico:'',name:{es:'Amigo',ca:'Amic'}},
+    {id:'coach',ico:'',name:{es:'Coach',ca:'Coach'}},
+    {id:'minimalista',ico:'',name:{es:'Minimalista',ca:'Minimalista'}}
   ];
 
   /* ---- Toast --------------------------------------------------------------*/
@@ -160,9 +160,9 @@
   /* ---- "Mi futuro" (resumen visual) --------------------------------------*/
   function paintFuturo() {
     var d = window.BPProfile ? window.BPProfile.all() : {};
-    set('fut-career', d.career_goal, '🎓');
-    set('fut-univ', d.university_goal, '🏫');
-    set('fut-grade', d.target_grade != null && d.target_grade !== '' ? String(d.target_grade).replace('.', ',') : '', '📈');
+    set('fut-career', d.career_goal, '');
+    set('fut-univ', d.university_goal, '');
+    set('fut-grade', d.target_grade != null && d.target_grade !== '' ? String(d.target_grade).replace('.', ',') : '', '');
     function set(id, v, ico) { var e = el(id); if (e) e.textContent = v || '—'; }
     var box = el('pf-futuro'); if (box) box.style.opacity = d.career_goal ? '1' : '.6';
   }

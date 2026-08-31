@@ -42,7 +42,7 @@
 
   function renderExam(ex, DATA) {
     var titulo = 'PAU ' + ex.anio;
-    var sub = convLabel(ex.convocatoria) + (ex.serie ? ' · ' + ex.serie : '');
+    var sub = convLabel(ex.convocatoria) + (ex.serie ? ' — ' + ex.serie : '');
 
     // Acciones
     var acciones;

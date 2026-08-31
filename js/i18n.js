@@ -35,7 +35,7 @@ window.BPI18n = (function () {
     'nav.register':         { ca: "Registra't",       es: 'Registrarse' },
     'nav.register_free':    { ca: "Registra't gratis", es: 'Regístrate gratis' },
 
-    /* ---- Fase A · Footer legal / páginas legales / ayuda / consentimiento ---- */
+    /* ---- Fase A — Footer legal / páginas legales / ayuda / consentimiento ---- */
     'foot.privacy':         { ca: 'Privacitat',            es: 'Privacidad' },
     'foot.terms':           { ca: "Condicions d'ús",       es: 'Condiciones de uso' },
     'foot.cookies':         { ca: 'Cookies',               es: 'Cookies' },
@@ -118,8 +118,8 @@ window.BPI18n = (function () {
     'foot.create':          { ca: 'Crear compte',     es: 'Crear cuenta' },
     'foot.enter':           { ca: 'Entra',            es: 'Entrar' },
     'foot.account':         { ca: 'El meu compte',    es: 'Mi cuenta' },
-    'foot.legal':           { ca: '© 2026 BioPAU · Fet per algú que es va presentar a la Selectivitat 4 vegades perquè tu no hagis de fer-ho.',
-                              es: '© 2026 BioPAU · Hecho por alguien que se presentó a la Selectivitat 4 veces para que tú no tengas que hacerlo.' },
+    'foot.legal':           { ca: '© 2026 BioPAU — Fet per algú que es va presentar a la Selectivitat 4 vegades perquè tu no hagis de fer-ho.',
+                              es: '© 2026 BioPAU — Hecho por alguien que se presentó a la Selectivitat 4 veces para que tú no tengas que hacerlo.' },
     'foot.independent':     { ca: 'Recurs d’estudi independent. No està afiliat a la Generalitat de Catalunya.',
                               es: 'Recurso de estudio independiente. No afiliado a la Generalitat de Catalunya.' },
 
@@ -130,7 +130,7 @@ window.BPI18n = (function () {
                               es: 'Temario, ejercicios y plan por días montados sobre los contenidos oficiales de Biología de la PAU de Catalunya.' },
 
     /* Countdown */
-    'cd.label':             { ca: 'PAU de Biologia · juny 2027', es: 'PAU de Biología · junio 2027' },
+    'cd.label':             { ca: 'PAU de Biologia — juny 2027', es: 'PAU de Biología — junio 2027' },
     'cd.days':              { ca: 'dies',   es: 'días' },
     'cd.hours':             { ca: 'hores',  es: 'horas' },
     'cd.min':               { ca: 'min',    es: 'min' },
@@ -148,7 +148,7 @@ window.BPI18n = (function () {
     'hero.cta2':            { ca: 'Mira com funciona', es: 'Ver cómo funciona' },
     'hero.note':            { ca: 'L’esforç d’avui serà la teva tranquil·litat demà. Comença gratis, sense targeta.',
                               es: 'El esfuerzo de hoy será tu tranquilidad mañana. Empieza gratis, sin tarjeta.' },
-    'hero.explore':         { ca: 'Gira-la · toca per explorar', es: 'Gírala · toca para explorar' },
+    'hero.explore':         { ca: 'Gira-la — toca per explorar', es: 'Gírala — toca para explorar' },
 
     /* Problem */
     'prob.h2':              { ca: 'El pitjor no és que sigui difícil. És <em>no saber si vas pel bon camí.</em>',
@@ -188,16 +188,16 @@ window.BPI18n = (function () {
     'testi.chip':           { ca: 'Per què existeix BioPAU?', es: '¿Por qué existe BioPAU?' },
     'testi.quote':          { ca: 'Em vaig presentar a la Selectivitat <b>quatre vegades</b>. I no era per gandul: estudiava moltíssim… però estudiava <span class="u">malament</span>. El que no tocava, amb apunts que no anaven, sense saber què em demanarien de veritat. A la quarta vaig pescar el truc: no es tracta de saber més biologia, es tracta d’estudiar <span class="u">exactament el que entra</span> i practicar-ho com si fos el dia de l’examen. Vaig entrar a la carrera que volia. Vaig muntar BioPAU perquè tu no perdis quatre convocatòries a adonar-te’n.',
                               es: 'Me presenté a la Selectivitat <b>cuatro veces</b>. Y no era por vago: estudiaba muchísimo… pero estudiaba <span class="u">mal</span>. Lo que no tocaba, con apuntes que no iban, sin saber qué me iban a pedir de verdad. A la cuarta pillé el truco: no se trata de saber más biología, se trata de estudiar <span class="u">exactamente lo que entra</span> y practicarlo como si fuera el día del examen. Entré en la carrera que quería. Monté BioPAU para que tú no pierdas cuatro convocatorias en darte cuenta.' },
-    'testi.who':            { ca: '<b>Jose Briceño — fundador de BioPAU</b>4 convocatòries · 1 plaça a Medicina',
-                              es: '<b>Jose Briceño — fundador de BioPAU</b>4 convocatorias · 1 plaza en Medicina' },
+    'testi.who':            { ca: '<b>Jose Briceño — fundador de BioPAU</b>4 convocatòries — 1 plaça a Medicina',
+                              es: '<b>Jose Briceño — fundador de BioPAU</b>4 convocatorias — 1 plaza en Medicina' },
 
     /* Final CTA */
     'final.h2':             { ca: 'L’esforç d’avui és la teva <em>tranquil·litat demà.</em>', es: 'El esfuerzo de hoy es tu <em>tranquilidad mañana.</em>' },
     'final.p':              { ca: 'L’examen té data. La teva plaça també. Posa’t amb la biologia que de veritat cau, segueix el pla i arriba tranquil el dia que importa.',
                               es: 'El examen tiene fecha. Tu plaza también. Ponte con la biología que de verdad cae, sigue el plan y llega tranquilo el día que importa.' },
     'final.cta':            { ca: 'Comença avui, gratis', es: 'Empieza hoy, gratis' },
-    'final.tiny':           { ca: 'Sense targeta · Accés al temari i als primers exercicis · Cancel·la quan vulguis',
-                              es: 'Sin tarjeta · Acceso al temario y a los primeros ejercicios · Cancela cuando quieras' },
+    'final.tiny':           { ca: 'Sense targeta — Accés al temari i als primers exercicis — Cancel·la quan vulguis',
+                              es: 'Sin tarjeta — Acceso al temario y a los primeros ejercicios — Cancela cuando quieras' },
 
     /* FAQ */
     'faq.h2':               { ca: 'El que t’estàs preguntant ara mateix.', es: 'Lo que te estás preguntando ahora mismo.' },
@@ -274,7 +274,7 @@ window.BPI18n = (function () {
     'prices.m_f2':          { ca: 'Exercicis amb el criteri real de la PAU', es: 'Ejercicios con criterio real de la PAU' },
     'prices.m_f3':          { ca: 'Tracker de dies i planificació', es: 'Tracker de días y planificación' },
     'prices.m_f4':          { ca: 'Cancel·la quan vulguis', es: 'Cancela cuando quieras' },
-    'prices.a_tag':         { ca: 'Anual · estalvia',   es: 'Anual · ahorra' },
+    'prices.a_tag':         { ca: 'Anual — estalvia',   es: 'Anual — ahorra' },
     'prices.a_name':        { ca: 'BioPAU Anual',       es: 'BioPAU Anual' },
     'prices.a_f1':          { ca: 'Tot el del pla mensual', es: 'Todo lo del plan mensual' },
     'prices.a_f2':          { ca: 'Dos mesos gratis respecte al mensual', es: 'Dos meses gratis respecto al mensual' },
@@ -282,12 +282,12 @@ window.BPI18n = (function () {
     'prices.a_f4':          { ca: 'Cancel·la quan vulguis', es: 'Cancela cuando quieras' },
     'prices.subscribe':     { ca: 'Subscriu-me',        es: 'Suscribirme' },
     'prices.subscribe_year':{ ca: 'Subscriu-me un any', es: 'Suscribirme un año' },
-    'prices.note':          { ca: 'Pagament segur amb Stripe · No desem les dades de la teva targeta', es: 'Pago seguro con Stripe · No guardamos datos de tu tarjeta' },
+    'prices.note':          { ca: 'Pagament segur amb Stripe — No desem les dades de la teva targeta', es: 'Pago seguro con Stripe — No guardamos datos de tu tarjeta' },
 
     /* Checkout */
     'cs.title':             { ca: 'Pagament completat — BioPAU', es: 'Pago completado — BioPAU' },
     'cs.eyebrow':           { ca: 'Subscripció',        es: 'Suscripción' },
-    'cs.h1':                { ca: 'Gràcies! 🎉',         es: '¡Gracias! 🎉' },
+    'cs.h1':                { ca: 'Gràcies!',         es: '¡Gracias!' },
     'cs.checking':          { ca: 'Confirmant el pagament…', es: 'Confirmando tu pago…' },
     'cs.go_study':          { ca: 'Ves a l’àrea d’estudi', es: 'Ir al área de estudio' },
     'cs.see_account':       { ca: 'Veure el meu compte', es: 'Ver mi cuenta' },
@@ -389,16 +389,16 @@ window.BPI18n = (function () {
                               es: '<b>Falta un paso:</b> ejecuta <code>supabase/dashboard-schema.sql</code> en el SQL Editor de Supabase para guardar el progreso, la racha y el avatar. Mientras tanto verás los contadores a cero.' },
     'dash.progress':        { ca: 'El teu progrés',     es: 'Tu progreso' },
     'dash.of_course':       { ca: 'del curs',           es: 'del curso' },
-    'dash.stat_streak':     { ca: '🔥 Ratxa',           es: '🔥 Racha' },
+    'dash.stat_streak':     { ca: 'Ratxa',           es: 'Racha' },
     'dash.stat_best':       { ca: 'Millor ratxa',       es: 'Mejor racha' },
     'dash.stat_topics':     { ca: 'Temes',              es: 'Temas' },
-    'dash.sel_bio':         { ca: 'Selectivitat · Biologia', es: 'Selectividad · Biología' },
+    'dash.sel_bio':         { ca: 'Selectivitat — Biologia', es: 'Selectividad — Biología' },
     'dash.cd_running':      { ca: 'El compte enrere ja corre', es: 'La cuenta atrás ya corre' },
     'dash.cd_days':         { ca: 'Dies',               es: 'Días' },
     'dash.cd_hours':        { ca: 'Hores',              es: 'Horas' },
     'dash.cd_min':          { ca: 'Min',                es: 'Min' },
     'dash.cd_sec':          { ca: 'Seg',                es: 'Seg' },
-    'dash.cd_note':         { ca: 'Data orientativa · s’ajustarà al calendari oficial', es: 'Fecha orientativa · se ajustará al calendario oficial' },
+    'dash.cd_note':         { ca: 'Data orientativa — s’ajustarà al calendari oficial', es: 'Fecha orientativa — se ajustará al calendario oficial' },
     'dash.study_area':      { ca: 'La teva àrea d’estudi', es: 'Tu área de estudio' },
     'dash.study_area_sub':  { ca: 'Tot el que necessites per preparar la PAU, en un sol lloc.', es: 'Todo lo que necesitas para preparar la PAU, en un solo sitio.' },
 
@@ -430,9 +430,9 @@ window.BPI18n = (function () {
 
     /* Saludos dinámicos (nivel) */
     'dash.level_next':      { ca: 'Et falten {n} temes per a «{name}»', es: 'Te faltan {n} temas para «{name}»' },
-    'dash.level_max':       { ca: 'Has arribat al nivell màxim! 🎉', es: '¡Has alcanzado el nivel máximo! 🎉' },
+    'dash.level_max':       { ca: 'Has arribat al nivell màxim!', es: '¡Has alcanzado el nivel máximo!' },
     'dash.level_prefix':    { ca: 'Nivell',             es: 'Nivel' },
-    'dash.meta_temas':      { ca: '{t} temes · {b} blocs', es: '{t} temas · {b} bloques' },
+    'dash.meta_temas':      { ca: '{t} temes — {b} blocs', es: '{t} temas — {b} bloques' },
     'dash.meta_conv':       { ca: '{n} convocatòries',  es: '{n} convocatorias' },
 
     /* Sugerencias (mensajes) */

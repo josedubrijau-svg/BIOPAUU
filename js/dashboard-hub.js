@@ -2,10 +2,10 @@
    BioPAU — Dashboard "Centro de control" (Fase D)
    ----------------------------------------------------------------------------
    Reúne en un vistazo lo que está repartido por la app:
-     · Próximo evento del calendario (y días restantes)
-     · Próximo punto de control (mini test sin completar)
-     · Última nota y mejor nota (tests)
-     · Progreso del temario
+     — Próximo evento del calendario (y días restantes)
+     — Próximo punto de control (mini test sin completar)
+     — Última nota y mejor nota (tests)
+     — Progreso del temario
    Lee de: window.BPCalEvents, window.BPTests, window.BIOPAU_TESTS,
    window.BIOPAU_DATA y window.BPData. Todo tolerante a que algo falte.
    Se pinta en #control-hub.
@@ -75,22 +75,22 @@ window.BPHub = (function () {
     if (ev) {
       var dd = daysTo(ev.date);
       var when = dd === 0 ? T('hoy', 'avui') : dd === 1 ? T('mañana', 'demà') : T('en ' + dd + ' días', 'd’aquí ' + dd + ' dies');
-      evTile = tile('', '#38BDF8', '📅 ' + T('Próximo', 'Pròxim'), esc(ev.title), when, T('Ver calendario', 'Veure calendari'), '/app/calendario.html');
+      evTile = tile('', '#38BDF8', '' + T('Próximo', 'Pròxim'), esc(ev.title), when, T('Ver calendario', 'Veure calendari'), '/app/calendario.html');
     } else {
-      evTile = tile('', '#38BDF8', '📅 ' + T('Próximo', 'Pròxim'), T('Sin eventos', 'Sense esdeveniments'), T('Planifica tu semana', 'Planifica la setmana'), T('Añadir', 'Afegir'), '/app/calendario.html');
+      evTile = tile('', '#38BDF8', '' + T('Próximo', 'Pròxim'), T('Sin eventos', 'Sense esdeveniments'), T('Planifica tu semana', 'Planifica la setmana'), T('Añadir', 'Afegir'), '/app/calendario.html');
     }
     // Checkpoint
     var cp = nextCheckpoint(), cpTile;
-    if (cp) cpTile = tile('', '#FB923C', '🎯 ' + T('Próximo control', 'Pròxim control'), T('Mini test', 'Mini test'), esc(cp.nombre), T('Empezar', 'Començar'), '/app/tests.html');
-    else cpTile = tile('', '#FB923C', '🎯 ' + T('Puntos de control', 'Punts de control'), '✓ ' + T('Al día', 'Al dia'), T('Todos completados', 'Tots completats'), T('Ver tests', 'Veure tests'), '/app/tests.html');
+    if (cp) cpTile = tile('', '#FB923C', '' + T('Próximo control', 'Pròxim control'), T('Mini test', 'Mini test'), esc(cp.nombre), T('Empezar', 'Començar'), '/app/tests.html');
+    else cpTile = tile('', '#FB923C', '' + T('Puntos de control', 'Punts de control'), '✓ ' + T('Al día', 'Al dia'), T('Todos completados', 'Tots completats'), T('Ver tests', 'Veure tests'), '/app/tests.html');
     // Notas
     var g = grades(), gTile;
-    if (g.any && g.last) gTile = tile('', '#ADE80C', '📈 ' + T('Última nota', 'Última nota'), g.last.grade.toFixed(1) + ' <small>/10</small>', '🏆 ' + T('Mejor', 'Millor') + ': ' + g.best.toFixed(1) + '/10', T('Ver tests', 'Veure tests'), '/app/tests.html');
-    else gTile = tile('', '#ADE80C', '📈 ' + T('Última nota', 'Última nota'), '—', T('Aún sin tests', 'Encara sense tests'), T('Hacer un test', 'Fer un test'), '/app/tests.html');
+    if (g.any && g.last) gTile = tile('', '#ADE80C', '' + T('Última nota', 'Última nota'), g.last.grade.toFixed(1) + ' <small>/10</small>', '' + T('Mejor', 'Millor') + ': ' + g.best.toFixed(1) + '/10', T('Ver tests', 'Veure tests'), '/app/tests.html');
+    else gTile = tile('', '#ADE80C', '' + T('Última nota', 'Última nota'), '—', T('Aún sin tests', 'Encara sense tests'), T('Hacer un test', 'Fer un test'), '/app/tests.html');
     // Progreso
     var pct = progressPct();
     var pTile = '<a class="hub-tile" style="--tc:#5FD3A6" href="/app/apuntes.html">' +
-      '<span class="k">✅ ' + T('Progreso', 'Progrés') + '</span>' +
+      '<span class="k">' + T('Progreso', 'Progrés') + '</span>' +
       '<span class="v">' + pct + '%</span>' +
       '<span class="hub-mini-bar"><span style="width:0%" data-w="' + pct + '"></span></span>' +
       '<span class="go">' + T('Ir al temario', 'Anar al temari') + ' →</span></a>';
