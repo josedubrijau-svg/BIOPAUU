@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="ei.title">Herramientas — BioPAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/i18n.css">
+<link rel="stylesheet" href="/css/eines.css">
+<script defer src="/js/i18n.js"></script>
+<link rel="stylesheet" href="/css/nav-loading.css">
+<script defer src="/js/nav-loading.js"></script>
+<link rel="stylesheet" href="/css/fase-a.css">
+<script defer src="/js/fase-a.js"></script>
+</head>
+<body data-requires-plan data-page="eines">
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <div class="main">
+    <header id="topbar"></header>
+    <div class="content protected">
+      <div id="eines-root"><!-- l'app d'Eines es dibuixa aquí --></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/supabaseClient.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/study-data.js"></script>
+<script src="/js/shell.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/profile-data.js"></script>
+<script src="/js/edu-select.js"></script>
+<script src="/js/eines-data.js"></script>
+<script src="/js/eines.js"></script>
+</body>
+</html>
