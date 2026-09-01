@@ -81,6 +81,8 @@ window.BIOPAU_DATA = (function () {
       desc: 'Lamarckisme i darwinisme, evidències de l\'evolució, teoria sintètica, variabilitat, freqüències gèniques i especiació.',
       color: '#4ADE80',
       icon: 'tree',
+      llibre: '/app/apuntes-evolucio.html',
+      llibreTitol: 'Tema 10 — L\'evolució i la genètica de poblacions',
       apuntes: []
     },
     {
