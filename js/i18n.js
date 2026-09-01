@@ -357,6 +357,7 @@ window.BPI18n = (function () {
     'nav.apuntes':          { ca: 'Apunts',             es: 'Apuntes' },
     'nav.examenes':         { ca: 'Exàmens',            es: 'Exámenes' },
     'nav.tests':            { ca: 'Tests',              es: 'Tests' },
+    'nav.eines':            { ca: 'Eines',              es: 'Herramientas' },
     'nav.daily':            { ca: 'Repte del dia',      es: 'Reto del día' },
     'dl.title':             { ca: 'Repte del dia — BioPAU', es: 'Reto del día — BioPAU' },
     'dl.h1':                { ca: 'bioPau Daily',       es: 'bioPau Daily' },

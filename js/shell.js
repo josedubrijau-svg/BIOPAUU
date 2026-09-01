@@ -25,7 +25,8 @@ window.BPShell = (function () {
     clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     target:    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
     quiz:      '<path d="M9 11l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/>',
-    daily:     '<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>'
+    daily:     '<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>',
+    tools:     '<path d="M14.5 5.5a3.5 3.5 0 0 1-4.9 4.2L4 15.3 8.7 20l5.6-5.6a3.5 3.5 0 0 1 4.2-4.9l-2.6 2.6-2.1-2.1z"/><circle cx="7" cy="17" r="1"/>'
   };
 
   function icon(name, cls) {
@@ -86,6 +87,7 @@ window.BPShell = (function () {
     { id: 'apuntes',   i18n: 'nav.apuntes',    icon: 'book',      href: '/app/apuntes.html' },
     { id: 'examenes',  i18n: 'nav.examenes',   icon: 'exam',      href: '/app/examenes.html' },
     { id: 'tests',     i18n: 'nav.tests',      icon: 'quiz',      href: '/app/tests.html' },
+    { id: 'eines',     i18n: 'nav.eines',      icon: 'tools',     href: '/app/eines.html' },
     { id: 'calendario',i18n: 'nav.calendario', icon: 'calendar',  href: '/app/calendario.html' },
     { id: 'novedades', i18n: 'nav.novedades',  icon: 'sparkle',   href: '/app/novedades.html' }
   ];
