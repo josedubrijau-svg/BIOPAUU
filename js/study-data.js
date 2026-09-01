@@ -53,6 +53,8 @@ window.BIOPAU_DATA = (function () {
       desc: 'Bacteris, fongs i protozous, i les formes acel·lulars (virus, viroides i prions). Cultiu, esterilització i aplicacions.',
       color: '#34D399',
       icon: 'microbe',
+      llibre: '/app/apuntes-microorganismes.html',
+      llibreTitol: 'Tema 11 — Els microorganismes',
       apuntes: []
     },
     {
