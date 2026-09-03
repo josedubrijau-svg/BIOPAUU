@@ -105,7 +105,7 @@
   function route(){ var hsh=(location.hash||'').replace(/^#\/?/,''); return hsh || 'home'; }
   function go(hash){ location.hash = hash; }
   function render(){
-    stopTimerLoop(); stopAudio(); // netegem qualsevol loop actiu en canviar de vista
+    stopTimerLoop(); stopAudio(); stopAmbients(); // netegem qualsevol loop actiu en canviar de vista
     document.body.classList.remove('e-immersive');
     var r=route();
     if(r==='home'){ renderHome(); return; }
@@ -114,12 +114,13 @@
   }
 
   /* ============================ HOME =================================== */
-  function toolCardHTML(t){
+  function toolCardHTML(t, feat){
     var soon = t.estat!=='live';
-    return '<button class="e-tool'+(soon?' soon':'')+' e-rise" data-open="'+t.id+'">' +
+    var col = t.color||'#ADE80C';
+    return '<button class="e-tool'+(feat?' e-tool--feat':'')+(soon?' soon':'')+' e-rise" style="--tc:'+col+'" data-open="'+t.id+'">' +
       '<span class="e-fav'+(isFav(t.id)?' on':'')+'" data-fav="'+t.id+'" role="button" aria-label="Preferida">'+svg('star','')+'</span>'+
       '<span class="e-tico">'+svg(t.icon,'')+'</span>'+
-      '<span style="min-width:0"><span class="tt">'+esc(t.name)+(soon?' <span class="e-badge e-badge--soon">Aviat</span>':'')+'</span>'+
+      '<span><span class="tt">'+esc(t.name)+(soon?' <span class="e-badge e-badge--soon">Aviat</span>':'')+'</span>'+
       '<span class="td">'+esc(t.desc)+'</span>'+
       (soon?'':'<span class="go">Obrir '+svg('arrow','e-ico e-ico--sm')+'</span>')+'</span>'+
     '</button>';
@@ -172,21 +173,24 @@
 
     html+='<div id="e-results"></div>';
 
-    // Recomanades
+    // Accés ràpid (compacte): preferides + recents fusionades i sense repetir
+    var quick=[]; var seenQ={};
+    favs().concat(recents()).forEach(function(id){ if(!seenQ[id]){ seenQ[id]=1; var t=D.toolById(id); if(t) quick.push(t); } });
+    quick=quick.slice(0,6);
+    if(quick.length){
+      html+='<div class="e-quick">'+quick.map(function(t){ return '<button class="e-qchip" style="--tc:'+(t.color||'#ADE80C')+'" data-open="'+t.id+'"><span class="qd">'+svg(t.icon,'')+'</span>'+esc(t.name)+'</button>'; }).join('')+'</div>';
+    }
+
+    // Recomanades (destacades, amb color propi)
     html+='<section class="e-sec" id="sec-reco"><div class="e-sec-h"><span class="n">✦</span><h2>Recomanades per a tu</h2><span class="s">Segons el teu perfil'+(c?' i el teu objectiu de '+esc(c):'')+'.</span></div>'+
-      '<div class="e-grid">'+recommended().map(toolCardHTML).join('')+'</div></section>';
+      '<div class="e-grid">'+recommended().map(function(t){return toolCardHTML(t,true);}).join('')+'</div></section>';
 
-    // Recents / favorits
-    var favList=favs().map(D.toolById).filter(Boolean);
-    if(favList.length){ html+='<section class="e-sec"><div class="e-sec-h"><span class="n">★</span><h2>Les meves eines</h2></div><div class="e-grid">'+favList.map(toolCardHTML).join('')+'</div></section>'; }
-    var recentList=recents().map(D.toolById).filter(Boolean);
-    if(recentList.length){ html+='<section class="e-sec"><div class="e-sec-h"><span class="n">↻</span><h2>Usades recentment</h2></div><div class="e-grid">'+recentList.map(toolCardHTML).join('')+'</div></section>'; }
-
-    // Categories
+    // Categories (biblioteca organitzada) — número de secció amb color propi
+    var catCol=['#ADE80C','#FBBF24','#22D3EE','#2DD4BF','#A78BFA'];
     D.CATS.forEach(function(cat, i){
       var tools=D.toolsByCat(cat.id); if(!tools.length) return;
-      html+='<section class="e-sec"><div class="e-sec-h"><span class="n">'+('0'+(i+1)).slice(-2)+'</span><h2>'+esc(cat.title)+'</h2><span class="s">'+esc(cat.sub)+'</span></div>'+
-        '<div class="e-grid">'+tools.map(toolCardHTML).join('')+'</div></section>';
+      html+='<section class="e-sec"><div class="e-sec-h"><span class="n" style="color:'+catCol[i%catCol.length]+'">'+('0'+(i+1)).slice(-2)+'</span><h2>'+esc(cat.title)+'</h2><span class="s">'+esc(cat.sub)+'</span></div>'+
+        '<div class="e-grid">'+tools.map(function(t){return toolCardHTML(t);}).join('')+'</div></section>';
     });
 
     html+='</div>';
@@ -251,6 +255,7 @@
     // temporitzador principal
     html+='<div class="e-timer" id="timer" style="margin-top:18px">'+
       '<canvas id="t-cv"></canvas>'+
+      '<button class="gran" id="t-gran" title="Ampliar (mode immersiu)" aria-label="Ampliar">'+svg('expand','')+'</button>'+
       '<div class="ring">'+
         '<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="none" stroke="rgba(173,232,12,.12)" stroke-width="5"/>'+
         '<circle id="t-ring" cx="60" cy="60" r="54" fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round" stroke-dasharray="339.29" stroke-dashoffset="0"/></svg>'+
@@ -326,6 +331,7 @@
     $('#t-skip').onclick=function(){ nextPhase(true); };
     $('#t-stop').onclick=function(){ endSession(); };
     $('#imm').onclick=toggleImmersive;
+    var gran=$('#t-gran'); if(gran) gran.onclick=toggleImmersive;
     $('#m-seg').addEventListener('click', function(e){ var b=e.target.closest('[data-m]'); if(!b) return; setMethod(b.getAttribute('data-m')); });
     $('#t-subject').onchange=function(){ Tstate.subject=this.value; saveTimerCfg({subject:this.value}); $('#t-subj').textContent=this.value||''; };
     $('#t-subj').textContent=cfg.subject||'';
@@ -379,10 +385,12 @@
     paintTimer(); updatePhrase(kind);
     if(ambient) ambient.setSpeed(kind==='focus'?1.0:1.5);
   }
+  function setRunningUI(){ var box=$('#timer'); if(box) box.classList.toggle('is-running', !!Tstate.running); }
   function togglePlay(){
     if(Tstate.phase==='idle') startPhase('focus');
     Tstate.running=!Tstate.running;
     $('#t-play').innerHTML=svg(Tstate.running?'pause':'play','');
+    setRunningUI();
     if(Tstate.running){ startTimerLoop(); if(currentSound && currentSound!=='off') ensureAudio(); }
     else stopTimerLoop();
   }
@@ -390,6 +398,7 @@
     stopTimerLoop(); Tstate.running=false; Tstate.cycle=1; Tstate.sessionFocusMins=0;
     Tstate.phase='idle'; Tstate.remaining=Tstate.method.focus*60; Tstate.totalPhase=Tstate.remaining;
     var pl=$('#t-play'); if(pl) pl.innerHTML=svg('play','');
+    setRunningUI();
     paintTimer(); updatePhrase('focus');
   }
   function nextPhase(manual){
@@ -434,7 +443,9 @@
     tTick=setInterval(tickSecond,1000);
     tPhraseTimer=setInterval(function(){ if(Tstate.running) updatePhrase(Tstate.phase); }, 14000);
   }
-  function stopTimerLoop(){ if(tTick){ clearInterval(tTick); tTick=null; } if(tPhraseTimer){ clearInterval(tPhraseTimer); tPhraseTimer=null; } if(ambient){ ambient.stop(); } if(heroAmbient){ heroAmbient.stop(); } document.title='Eines — bioPau'; if(tKey){ document.removeEventListener('keydown',tKey); tKey=null; } }
+  function stopTimerLoop(){ if(tTick){ clearInterval(tTick); tTick=null; } if(tPhraseTimer){ clearInterval(tPhraseTimer); tPhraseTimer=null; } document.title='Eines — bioPau'; if(tKey){ document.removeEventListener('keydown',tKey); tKey=null; } }
+  // El cicle del canvas viu independent del temporitzador: només es para en canviar de vista.
+  function stopAmbients(){ if(ambient){ ambient.stop(); ambient=null; } if(heroAmbient){ heroAmbient.stop(); heroAmbient=null; } }
 
   function endSession(){
     if(Tstate.running || Tstate.sessionFocusMins>0 || Tstate.phase!=='idle'){
@@ -459,7 +470,7 @@
       '<div style="display:flex;gap:10px;justify-content:center;margin-top:6px"><button class="e-btn" id="s-cont">'+svg('play','')+'Seguir estudiant</button><a class="e-btn e-btn--ghost" href="/app/">Tornar al panell</a></div>'+
     '</div>';
     document.body.appendChild(ov);
-    ov.querySelector('#s-cont').onclick=function(){ var note=ov.querySelector('#s-note').value; if(note){ var s=sessions(); if(s.length){ s[s.length-1].note=note; lsSet('biopau_eines_sessions',s); } } document.body.removeChild(ov); resetTimer(); ambient=new Ambient($('#t-cv'), timerCfg().ambient,1.0); ambient.start(); };
+    ov.querySelector('#s-cont').onclick=function(){ var note=ov.querySelector('#s-note').value; if(note){ var s=sessions(); if(s.length){ s[s.length-1].note=note; lsSet('biopau_eines_sessions',s); } } document.body.removeChild(ov); resetTimer(); if(!ambient){ ambient=new Ambient($('#t-cv'), timerCfg().ambient,1.0); ambient.start(); } };
     chime(true);
   }
 
@@ -543,13 +554,13 @@
     if(this.id==='dna'){
       c.lineWidth=2; var A=Math.min(30,h*0.14), midY=cy;
       for(var x=0;x<w;x+=6){ var p=x*0.03+t*0.8; var y1=midY+Math.sin(p)*A, y2=midY+Math.sin(p+Math.PI)*A;
-        if(x%18===0){ c.strokeStyle=T+'0.18)'; c.beginPath(); c.moveTo(x,y1); c.lineTo(x,y2); c.stroke(); }
+        if(x%18===0){ c.strokeStyle=T+'0.28)'; c.beginPath(); c.moveTo(x,y1); c.lineTo(x,y2); c.stroke(); }
         c.fillStyle=L+'0.5)'; c.beginPath(); c.arc(x,y1,1.6,0,6.28); c.fill(); c.fillStyle=T+'0.45)'; c.beginPath(); c.arc(x,y2,1.6,0,6.28); c.fill(); }
       return;
     }
     if(this.id==='neuron'){
       var segs=[[0.08,0.8,0.35,0.5],[0.35,0.5,0.6,0.62],[0.6,0.62,0.82,0.28],[0.35,0.5,0.5,0.2],[0.6,0.62,0.7,0.85]];
-      c.strokeStyle=L+'0.14)'; c.lineWidth=1.4;
+      c.strokeStyle=L+'0.24)'; c.lineWidth=1.6;
       segs.forEach(function(s){ c.beginPath(); c.moveTo(s[0]*w,s[1]*h); c.lineTo(s[2]*w,s[3]*h); c.stroke(); });
       var prog=(t*0.12)%1, main=[[0.08,0.8],[0.35,0.5],[0.6,0.62],[0.82,0.28]];
       var seg=Math.floor(prog*(main.length-1)), f=(prog*(main.length-1))-seg; var a=main[seg],b=main[seg+1]||main[seg];
@@ -558,7 +569,7 @@
       return;
     }
     if(this.id==='blood'){
-      c.strokeStyle=T+'0.14)'; c.lineWidth=Math.min(h*0.5,90); c.lineCap='round'; c.beginPath(); c.moveTo(-20,cy); c.bezierCurveTo(w*0.3,cy-h*0.12,w*0.7,cy+h*0.12,w+20,cy); c.stroke();
+      c.strokeStyle=T+'0.20)'; c.lineWidth=Math.min(h*0.5,90); c.lineCap='round'; c.beginPath(); c.moveTo(-20,cy); c.bezierCurveTo(w*0.3,cy-h*0.12,w*0.7,cy+h*0.12,w+20,cy); c.stroke();
       this.parts.forEach(function(p){ p.x+=p.s*self.speed*1.4; if(p.x>w+20) p.x=-20; var yy=cy+Math.sin(p.x*0.008)* (h*0.1) + p.off;
         c.fillStyle='rgba(214,86,75,0.5)'; c.beginPath(); c.ellipse(p.x,yy,p.r,p.r*0.7,0,0,6.28); c.fill(); c.fillStyle='rgba(120,20,20,0.25)'; c.beginPath(); c.ellipse(p.x,yy,p.r*0.5,p.r*0.35,0,0,6.28); c.fill(); });
       return;
@@ -574,7 +585,7 @@
       c.save(); c.translate(cx,cy);
       c.fillStyle=L+'0.6)'; c.beginPath(); c.arc(0,0,5,0,6.28); c.fill();
       this.parts.forEach(function(p){ p.a+=0.006*p.sp*self.speed*6; var x=Math.cos(p.a)*p.rad, y=Math.sin(p.a)*p.rad*0.7;
-        c.strokeStyle=L+'0.12)'; c.lineWidth=1; c.beginPath(); c.moveTo(0,0); c.lineTo(x,y); c.stroke();
+        c.strokeStyle=L+'0.20)'; c.lineWidth=1; c.beginPath(); c.moveTo(0,0); c.lineTo(x,y); c.stroke();
         c.fillStyle=T+'0.6)'; c.beginPath(); c.arc(x,y,3.2,0,6.28); c.fill(); });
       c.restore(); return;
     }
@@ -587,9 +598,9 @@
     }
     // 'cell' (default)
     var breathe=1+Math.sin(t*0.6)*0.02, R=Math.min(w,h)*0.32*breathe;
-    c.strokeStyle=L+'0.3)'; c.lineWidth=2; c.beginPath(); c.arc(cx+Math.sin(t*0.3)*8, cy+Math.cos(t*0.25)*6, R,0,6.28); c.stroke();
-    c.fillStyle=L+'0.06)'; c.beginPath(); c.arc(cx,cy,R,0,6.28); c.fill();
-    c.fillStyle=T+'0.35)'; c.beginPath(); c.arc(cx,cy,R*0.28,0,6.28); c.fill();
+    c.strokeStyle=L+'0.5)'; c.lineWidth=2.2; c.beginPath(); c.arc(cx+Math.sin(t*0.3)*8, cy+Math.cos(t*0.25)*6, R,0,6.28); c.stroke();
+    c.fillStyle=L+'0.10)'; c.beginPath(); c.arc(cx,cy,R,0,6.28); c.fill();
+    c.fillStyle=T+'0.5)'; c.beginPath(); c.arc(cx,cy,R*0.28,0,6.28); c.fill();
     this.parts.forEach(function(p){ p.a+=0.004*p.sp*self.speed*6; var x=cx+Math.cos(p.a)*p.rad, y=cy+Math.sin(p.a)*p.rad; c.fillStyle=T+'0.5)'; c.beginPath(); c.arc(x,y,p.r,0,6.28); c.fill(); });
   };
 
@@ -612,7 +623,8 @@
 
     function calcBody(v){
       var body=$('#calc-body');
-      var pond=lsGet('biopau_eines_pond', [{m:'Biologia',nota:'',coef:0.2},{m:'Química',nota:'',coef:0.2},{m:'',nota:'',coef:0.1},{m:'',nota:'',coef:0}]);
+      var pond=lsGet('biopau_eines_pond', [{m:'Biologia',nota:'',coef:0.2},{m:'Química',nota:'',coef:0.2},{m:'',nota:'',coef:0.1}]);
+      pond=pond.slice(0,3); while(pond.length<3) pond.push({m:'',nota:'',coef:0});
       var first = v==='batx'
         ? '<div class="e-row2"><div class="e-field"><label>Mitjana de Batxillerat (0–10)</label><input class="e-input" id="mb" type="number" step="0.001" min="0" max="10" placeholder="Ex: 8,70"></div>'+
           '<div class="e-field"><label>Nota fase general PAU (0–10)</label><input class="e-input" id="fg" type="number" step="0.001" min="0" max="10" placeholder="Ex: 8,95"></div></div>'
@@ -940,8 +952,8 @@
   /* ============================ MÈTODES =============================== */
   function VIEW_metodes(t){
     var html='<div class="e-wrap">'+viewHeader(t)+'<div class="e-grid">'+
-      D.GUIA_METODES.map(function(m){ return '<div class="e-tool" style="cursor:default;flex-direction:column;align-items:flex-start"><div style="display:flex;gap:12px;align-items:center"><span class="e-tico">'+svg('book','')+'</span><span class="tt">'+esc(m.name)+'</span></div>'+
-        '<div class="td" style="margin-top:8px"><b style="color:var(--txt)">Quan:</b> '+esc(m.when)+'</div><div class="td" style="margin-top:6px"><b style="color:var(--txt)">Com:</b> '+esc(m.how)+'</div></div>'; }).join('')+
+      D.GUIA_METODES.map(function(m){ return '<div class="e-tool e-rise" style="--tc:'+(m.color||'#ADE80C')+';cursor:default;flex-direction:column;align-items:stretch"><div style="display:flex;gap:12px;align-items:center;position:relative;z-index:2"><span class="e-tico">'+svg(m.ico||'book','')+'</span><span class="tt">'+esc(m.name)+'</span></div>'+
+        '<div style="position:relative;z-index:2"><div class="td" style="margin-top:10px"><b style="color:var(--txt)">Quan:</b> '+esc(m.when)+'</div><div class="td" style="margin-top:6px"><b style="color:var(--txt)">Com:</b> '+esc(m.how)+'</div></div></div>'; }).join('')+
       '</div><div style="margin-top:16px"><a class="e-btn" href="#/t/timer">'+svg('timer','')+'Aplicar-ho al temporitzador</a></div></div>';
     root.innerHTML=html;
   }

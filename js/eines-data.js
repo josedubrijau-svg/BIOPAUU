@@ -21,20 +21,20 @@ window.BPEines = (function () {
   /* ---------- Registre d'eines (mòduls) ---------------------------------- */
   /* estat: 'live' (funciona) | 'soon' (en desenvolupament)                  */
   var TOOLS = [
-    { id:'timer',     cat:'estudi',      icon:'timer',   name:'Temporitzador d\'estudi', desc:'Pomodoro, 52/17, Deep Work i mode immersiu amb ambient científic.', estat:'live', featured:true, tags:['pomodoro','concentracio','deep work','estudiar','temps','52','90'] },
-    { id:'recomana',  cat:'estudi',      icon:'spark',   name:'Sessió recomanada',      desc:'Digues quant temps tens i et proposo un pla d\'estudi.', estat:'live', tags:['recomanacio','pla','minuts','temps'] },
-    { id:'flash',     cat:'aprenentatge',icon:'cards',   name:'Flashcards',             desc:'Crea targetes de repàs i estudia-les amb repetició.', estat:'live', tags:['flashcards','targetes','repas','memoria'] },
-    { id:'metodes',   cat:'aprenentatge',icon:'book',    name:'Mètodes d\'estudi',      desc:'Tècniques provades: quan i com fer servir cadascuna.', estat:'live', tags:['metodes','tecniques','pomodoro','feynman'] },
+    { id:'timer', color:'#ADE80C',     cat:'estudi',      icon:'timer',   name:'Temporitzador d\'estudi', desc:'Pomodoro, 52/17, Deep Work i mode immersiu amb ambient científic.', estat:'live', featured:true, tags:['pomodoro','concentracio','deep work','estudiar','temps','52','90'] },
+    { id:'recomana', color:'#34D399',  cat:'estudi',      icon:'spark',   name:'Sessió recomanada',      desc:'Digues quant temps tens i et proposo un pla d\'estudi.', estat:'live', tags:['recomanacio','pla','minuts','temps'] },
+    { id:'flash', color:'#A78BFA',     cat:'aprenentatge',icon:'cards',   name:'Flashcards',             desc:'Crea targetes de repàs i estudia-les amb repetició.', estat:'live', tags:['flashcards','targetes','repas','memoria'] },
+    { id:'metodes', color:'#38BDF8',   cat:'aprenentatge',icon:'book',    name:'Mètodes d\'estudi',      desc:'Tècniques provades: quan i com fer servir cadascuna.', estat:'live', tags:['metodes','tecniques','pomodoro','feynman'] },
 
-    { id:'calc',      cat:'objectius',   icon:'calc',    name:'Calculadora de nota d\'accés', desc:'Batxillerat/PAU i CFGS, amb desglossament i ponderacions.', estat:'live', featured:true, tags:['nota','acces','pau','ponderacio','calcul','admissio'] },
-    { id:'objectiu',  cat:'objectius',   icon:'target',  name:'Nota objectiu',          desc:'Quant et falta per a la teva plaça i què pots millorar.', estat:'live', tags:['objectiu','distancia','meta','nota'] },
-    { id:'countdown', cat:'objectius',   icon:'hourglass',name:'Compte enrere PAU',     desc:'Els dies que et queden fins a l\'examen, sempre a la vista.', estat:'live', tags:['compte enrere','dies','pau','examen','countdown'] },
+    { id:'calc', color:'#FBBF24',      cat:'objectius',   icon:'calc',    name:'Calculadora de nota d\'accés', desc:'Batxillerat/PAU i CFGS, amb desglossament i ponderacions.', estat:'live', featured:true, tags:['nota','acces','pau','ponderacio','calcul','admissio'] },
+    { id:'objectiu', color:'#FB7185',  cat:'objectius',   icon:'target',  name:'Nota objectiu',          desc:'Quant et falta per a la teva plaça i què pots millorar.', estat:'live', tags:['objectiu','distancia','meta','nota'] },
+    { id:'countdown', color:'#FB923C', cat:'objectius',   icon:'hourglass',name:'Compte enrere PAU',     desc:'Els dies que et queden fins a l\'examen, sempre a la vista.', estat:'live', tags:['compte enrere','dies','pau','examen','countdown'] },
 
-    { id:'tall',      cat:'universitat', icon:'chart',   name:'Explorador de notes de tall', desc:'Evolució històrica, tendència i comparador de carreres.', estat:'live', featured:true, tags:['notes de tall','corte','universitat','carrera','grafic','tendencia'] },
-    { id:'simulador', cat:'universitat', icon:'compass', name:'Simulador de possibilitats', desc:'Amb la teva nota, quines carreres tens a l\'abast (orientatiu).', estat:'live', tags:['simulador','possibilitats','opcions','carreres'] },
+    { id:'tall', color:'#22D3EE',      cat:'universitat', icon:'chart',   name:'Explorador de notes de tall', desc:'Evolució històrica, tendència i comparador de carreres.', estat:'live', featured:true, tags:['notes de tall','corte','universitat','carrera','grafic','tendencia'] },
+    { id:'simulador', color:'#C084FC', cat:'universitat', icon:'compass', name:'Simulador de possibilitats', desc:'Amb la teva nota, quines carreres tens a l\'abast (orientatiu).', estat:'live', tags:['simulador','possibilitats','opcions','carreres'] },
 
-    { id:'mitjana',   cat:'rendiment',   icon:'sigma',   name:'Calculadora de mitjana', desc:'Mitjana ponderada per crèdits i què et falta per pujar-la.', estat:'live', tags:['mitjana','media','notes','ponderada'] },
-    { id:'sessions',  cat:'rendiment',   icon:'pulse',   name:'Les meves sessions',     desc:'Hores d\'estudi, ratxa i evolució de les teves sessions.', estat:'live', tags:['sessions','hores','ratxa','rendiment','estadistiques'] }
+    { id:'mitjana', color:'#2DD4BF',   cat:'rendiment',   icon:'sigma',   name:'Calculadora de mitjana', desc:'Mitjana ponderada per crèdits i què et falta per pujar-la.', estat:'live', tags:['mitjana','media','notes','ponderada'] },
+    { id:'sessions', color:'#A3E635',  cat:'rendiment',   icon:'pulse',   name:'Les meves sessions',     desc:'Hores d\'estudi, ratxa i evolució de les teves sessions.', estat:'live', tags:['sessions','hores','ratxa','rendiment','estadistiques'] }
   ];
 
   function toolById(id){ for(var i=0;i<TOOLS.length;i++) if(TOOLS[i].id===id) return TOOLS[i]; return null; }
@@ -181,12 +181,12 @@ window.BPEines = (function () {
 
   /* ---------- Mètodes d'estudi (contingut de la guia) ------------------- */
   var GUIA_METODES = [
-    { name:'Pomodoro', when:'Quan et costa arrencar o et distreus sovint.', how:'Blocs curts (25\') amb descansos. Baixa la barrera per començar.' },
-    { name:'52/17', when:'Quan ja tens hàbit i vols blocs més productius.', how:'52\' de feina profunda i 17\' de descans real (lluny de la pantalla).' },
-    { name:'Deep Work', when:'Temes difícils que demanen concentració sostinguda.', how:'Sessions llargues sense interrupcions; mòbil fora de vista.' },
-    { name:'Repetició espaiada', when:'Per memoritzar a llarg termini.', how:'Repassa amb intervals creixents (1 dia, 3 dies, 1 setmana…). Fes servir Flashcards.' },
-    { name:'Recall actiu', when:'Per fixar de veritat, no només rellegir.', how:'Tanca els apunts i intenta explicar-ho o respondre preguntes de memòria.' },
-    { name:'Feynman', when:'Quan creus que ho saps però no n\'estàs segur/a.', how:'Explica-ho amb paraules senzilles, com si l\'ensenyessis. On et travis, repassa.' }
+    { name:'Pomodoro', ico:'timer', color:'#ADE80C', when:'Quan et costa arrencar o et distreus sovint.', how:'Blocs curts (25\') amb descansos. Baixa la barrera per començar.' },
+    { name:'52/17', ico:'hourglass', color:'#34D399', when:'Quan ja tens hàbit i vols blocs més productius.', how:'52\' de feina profunda i 17\' de descans real (lluny de la pantalla).' },
+    { name:'Deep Work', ico:'target', color:'#A78BFA', when:'Temes difícils que demanen concentració sostinguda.', how:'Sessions llargues sense interrupcions; mòbil fora de vista.' },
+    { name:'Repetició espaiada', ico:'cards', color:'#38BDF8', when:'Per memoritzar a llarg termini.', how:'Repassa amb intervals creixents (1 dia, 3 dies, 1 setmana…). Fes servir Flashcards.' },
+    { name:'Recall actiu', ico:'spark', color:'#FBBF24', when:'Per fixar de veritat, no només rellegir.', how:'Tanca els apunts i intenta explicar-ho o respondre preguntes de memòria.' },
+    { name:'Feynman', ico:'book', color:'#FB7185', when:'Quan creus que ho saps però no n\'estàs segur/a.', how:'Explica-ho amb paraules senzilles, com si l\'ensenyessis. On et travis, repassa.' }
   ];
 
   return {
