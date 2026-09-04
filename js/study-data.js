@@ -73,6 +73,8 @@ window.BIOPAU_DATA = (function () {
       desc: 'Manipulació dels éssers vius o els seus components: enzims de restricció, PCR, clonació i aplicacions en medicina, agricultura i indústria.',
       color: '#FBBF24',
       icon: 'flask',
+      llibre: '/app/apuntes-biotecnologia.html',
+      llibreTitol: 'Tema 9 — La biotecnologia',
       apuntes: []
     },
     {
