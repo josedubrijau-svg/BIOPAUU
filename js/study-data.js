@@ -48,6 +48,16 @@ window.BIOPAU_DATA = (function () {
       apuntes: []
     },
     {
+      id: 'mutacions',
+      nombre: 'Les mutacions',
+      desc: 'Origen i tipus de mutacions (puntuals, cromosòmiques i genòmiques), la seva relació amb el càncer (oncògens i TSG) i el seu paper en l\'evolució.',
+      color: '#FB7185',
+      icon: 'dna',
+      llibre: '/app/apuntes-mutacions.html',
+      llibreTitol: 'Tema 8 — Les mutacions',
+      apuntes: []
+    },
+    {
       id: 'microorganismes',
       nombre: 'Els microorganismes i les formes acel·lulars',
       desc: 'Bacteris, fongs i protozous, i les formes acel·lulars (virus, viroides i prions). Cultiu, esterilització i aplicacions.',
