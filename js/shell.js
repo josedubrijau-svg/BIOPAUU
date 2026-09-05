@@ -22,6 +22,7 @@ window.BPShell = (function () {
     settings:  '<path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>',
     logout:    '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
     menu:      '<path d="M3 6h18M3 12h18M3 18h18"/>',
+    back:      '<path d="M19 12H5M12 19l-7-7 7-7"/>',
     clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     target:    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
     quiz:      '<path d="M9 11l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/>',
@@ -138,9 +139,14 @@ window.BPShell = (function () {
           ? '<a href="/app/" class="tb-crumb-link" data-i18n="nav.dashboard">' + T('nav.dashboard') + '</a><span class="tb-sep">/</span>'
           : '') +
         '<span class="tb-crumb" data-i18n="' + pk + '">' + T(pk) + '</span>';
+      var backHref  = (page === 'dashboard') ? '/index.html' : '/app/';
+      var backKey   = (page === 'dashboard') ? 'nav.home' : 'nav.back';
       topbar.innerHTML =
         '<div class="tb-left">' +
           '<button class="burger" data-action="menu" aria-label="Menú">' + icon('menu') + '</button>' +
+          '<a class="tb-back" href="' + backHref + '" data-i18n-attr="title:' + backKey + '" aria-label="' + T(backKey) + '">' +
+            icon('back') + '<span class="tb-back-txt" data-i18n="' + backKey + '">' + T(backKey) + '</span>' +
+          '</a>' +
           '<nav class="tb-crumbs" aria-label="breadcrumb">' + crumbs + '</nav>' +
         '</div>' +
         '<div class="tb-right">' +

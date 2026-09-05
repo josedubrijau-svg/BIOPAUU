@@ -354,6 +354,8 @@ window.BPI18n = (function () {
     'sb.study':             { ca: 'Estudi',             es: 'Estudio' },
     'sb.account':           { ca: 'Compte',             es: 'Cuenta' },
     'nav.dashboard':        { ca: 'Tauler',             es: 'Panel' },
+    'nav.back':             { ca: 'Enrere',             es: 'Atrás' },
+    'nav.home':             { ca: 'Inici',              es: 'Inicio' },
     'nav.apuntes':          { ca: 'Apunts',             es: 'Apuntes' },
     'nav.examenes':         { ca: 'Exàmens',            es: 'Exámenes' },
     'nav.tests':            { ca: 'Tests',              es: 'Tests' },
