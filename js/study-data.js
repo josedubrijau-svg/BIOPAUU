@@ -23,7 +23,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Les biomolècules',
       desc: 'Glúcids, lípids, proteïnes i àcids nucleics: estructura i funció.',
       color: '#38BDF8',
-      icon: 'dna',
+      icon: 'biomol',
       apuntes: []
     },
     {
@@ -31,7 +31,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Metabolisme',
       desc: 'Catabolisme, anabolisme autòtrof i anabolisme heteròtrof: com la cèl·lula obté i transforma matèria i energia.',
       color: '#2DD4BF',
-      icon: 'mito',
+      icon: 'energy',
       apuntes: [
         { titulo: 'Tema 1 — El control del metabolisme' },
         { titulo: 'Tema 2 — El catabolisme' },
@@ -44,17 +44,17 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Genètica i cicle cel·lular',
       desc: 'Cicle cel·lular, mitosi i meiosi, lleis de Mendel, herència lligada al sexe, pedigrís i mutacions.',
       color: '#A78BFA',
-      icon: 'dna',
+      icon: 'celldiv',
       apuntes: []
     },
     {
-      id: 'cicle-cellular',
-      nombre: 'El cicle cel·lular i el càncer',
-      desc: 'Interfase (G1, S, G2), mitosi i citocinesi, meiosi, cicles biològics, control del cicle, apoptosi i càncer.',
-      color: '#22D3EE',
-      icon: 'dna',
-      llibre: '/app/apuntes-cicle-cellular.html',
-      llibreTitol: 'Tema 5 — El cicle cel·lular i el càncer',
+      id: 'biosintesi',
+      nombre: 'Replicació i biosíntesi de proteïnes',
+      desc: 'Replicació de l\'ADN, transcripció, codi genètic, traducció i regulació de l\'expressió gènica en procariotes i eucariotes.',
+      color: '#818CF8',
+      icon: 'ribosome',
+      llibre: '/app/apuntes-biosintesi.html',
+      llibreTitol: 'Tema 7 — La replicació de l\'ADN i la biosíntesi de proteïnes',
       apuntes: []
     },
     {
@@ -62,7 +62,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Les mutacions',
       desc: 'Origen i tipus de mutacions (puntuals, cromosòmiques i genòmiques), la seva relació amb el càncer (oncògens i TSG) i el seu paper en l\'evolució.',
       color: '#FB7185',
-      icon: 'dna',
+      icon: 'dnamut',
       llibre: '/app/apuntes-mutacions.html',
       llibreTitol: 'Tema 8 — Les mutacions',
       apuntes: []
@@ -72,7 +72,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Els microorganismes i les formes acel·lulars',
       desc: 'Bacteris, fongs i protozous, i les formes acel·lulars (virus, viroides i prions). Cultiu, esterilització i aplicacions.',
       color: '#34D399',
-      icon: 'microbe',
+      icon: 'bacteria',
       llibre: '/app/apuntes-microorganismes.html',
       llibreTitol: 'Tema 11 — Els microorganismes',
       apuntes: []
@@ -82,7 +82,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Immunologia',
       desc: 'Immunitat innata i adaptativa, antígens i anticossos, resposta cel·lular i humoral, vacunes, al·lèrgies i autoimmunitat.',
       color: '#F87171',
-      icon: 'shield',
+      icon: 'antibody',
       llibre: '/app/apuntes-immunologia.html',
       llibreTitol: 'Tema 12 — Malalties infeccioses i el sistema immunitari',
       apuntes: []
@@ -92,7 +92,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Biotecnologia',
       desc: 'Manipulació dels éssers vius o els seus components: enzims de restricció, PCR, clonació i aplicacions en medicina, agricultura i indústria.',
       color: '#FBBF24',
-      icon: 'flask',
+      icon: 'flaskdna',
       llibre: '/app/apuntes-biotecnologia.html',
       llibreTitol: 'Tema 9 — La biotecnologia',
       apuntes: []
@@ -102,7 +102,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Evolució',
       desc: 'Lamarckisme i darwinisme, evidències de l\'evolució, teoria sintètica, variabilitat, freqüències gèniques i especiació.',
       color: '#4ADE80',
-      icon: 'tree',
+      icon: 'phylo',
       llibre: '/app/apuntes-evolucio.html',
       llibreTitol: 'Tema 10 — L\'evolució i la genètica de poblacions',
       apuntes: []
@@ -112,7 +112,7 @@ window.BIOPAU_DATA = (function () {
       nombre: 'Disseny experimental',
       desc: 'Mètode científic, hipòtesis, variables, controls i rèpliques, i interpretació de gràfics i resultats. El bloc transversal de la PAU.',
       color: '#FB923C',
-      icon: 'target',
+      icon: 'micro',
       apuntes: []
     }
   ];

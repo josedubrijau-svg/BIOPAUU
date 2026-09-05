@@ -20,13 +20,28 @@
   var NEXT = { pending: 'in_progress', in_progress: 'done', done: 'pending' };
 
   var ICONS = {
-    mito: '<path d="M4 9c0-3 3-5 8-5s8 2 8 5-3 5-8 5-8-2-8-5z" transform="rotate(20 12 12)"/><path d="M8 9c1-2 2-2 3 0s2 2 3 0 2-2 3 0" transform="rotate(20 12 12)"/>',
+    /* Metabolisme — bateria + llamp (energia) */
+    energy: '<rect x="4" y="8" width="14" height="9" rx="2.2"/><path d="M18 11h2v3h-2"/><path d="M11 9.6l-2.2 3.6H11l-1.2 3.2 3.2-4.1h-2.1z"/>',
+    /* Genètica i cicle cel·lular — cèl·lula en divisió */
+    celldiv: '<circle cx="8.4" cy="12" r="5"/><circle cx="15.6" cy="12" r="5"/><circle cx="8.4" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.6" cy="12" r="1.1" fill="currentColor" stroke="none"/>',
+    /* Mutacions — DNA amb un travesser "avariat" */
+    dnamut: '<path d="M8 3c0 4.5 8 5.5 8 9s-8 4.5-8 9M16 3c0 4.5-8 5.5-8 9s8 4.5 8 9"/><path d="M9.4 7.4h5.2M9.4 16.6h5.2"/><path d="M9.6 12l2-1.1-1 2.2 2-1.1" stroke="#D6564B"/>',
+    /* Microorganismes — bacteri amb flagel */
+    bacteria: '<rect x="5" y="9" width="12" height="6" rx="3" transform="rotate(-18 11 12)"/><circle cx="10" cy="11.6" r="1" fill="currentColor" stroke="none"/><path d="M16.6 7.6c1.7-1 2.7.3 1.8 1.5M4.2 15.4c-1.4 1-1 2.3.4 2"/>',
+    /* Immunologia — escut amb anticòs (Y) */
+    antibody: '<path d="M12 2.5l7.5 3.2V11c0 4.8-3.2 8.2-7.5 9.3C7.7 19.2 4.5 15.8 4.5 11V5.7L12 2.5z"/><path d="M12 15.6v-3.4M12 12.2 9.9 9.3M12 12.2l2.1-2.9"/>',
+    /* Biotecnologia — matràs amb DNA */
+    flaskdna: '<path d="M9 3v5.5L4.6 17.4A1.8 1.8 0 0 0 6.3 20.2h11.4a1.8 1.8 0 0 0 1.7-2.8L15 8.5V3"/><path d="M8.5 3h7"/><path d="M10.4 13c0 1.5 3.2 1.9 3.2 3.6M13.6 13c0 1.5-3.2 1.9-3.2 3.6"/><path d="M10.8 14.4h2.4M10.8 16h2.4"/>',
+    /* Evolució — arbre filogenètic */
+    phylo: '<path d="M12 21v-5M12 16l-5-4M12 16l5-4M7 12V8M17 12V7"/><circle cx="7" cy="7.4" r="1.4"/><circle cx="17" cy="6.4" r="1.4"/><circle cx="12" cy="16" r="1.1" fill="currentColor" stroke="none"/>',
+    /* Replicació i biosíntesi (Tema 7) — ribosoma sobre l\'ARNm */
+    ribosome: '<ellipse cx="12" cy="9.6" rx="5.4" ry="4.4"/><ellipse cx="12" cy="15" rx="4" ry="2.5"/><path d="M3.5 17.2h17"/><path d="M12 5.2V2.6"/>',
+    /* Disseny experimental — microscopi */
+    micro: '<path d="M6 21h10"/><path d="M10 21v-2.4"/><path d="M9.6 18.6a4.5 4.5 0 0 0 3.2-7.1"/><rect x="10.3" y="4" width="3.4" height="7.2" rx="1.5" transform="rotate(28 12 7.6)"/><path d="M14.6 3.2l1.8 1"/>',
+    /* Biomolècules — anell molecular (hexàgon) */
+    biomol: '<path d="M8 5h8l4 7-4 7H8l-4-7z"/><circle cx="12" cy="12" r="3.1"/>',
+    /* alies antics per compatibilitat */
     dna: '<path d="M8 2c0 5 8 7 8 12s-8 7-8 12M16 2c0 5-8 7-8 12s8 7 8 12"/><path d="M9 8h6M9 12h6M9 16h6"/>',
-    atom: '<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/>',
-    microbe: '<circle cx="12" cy="12" r="6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/>',
-    shield: '<path d="M12 2l8 3.5V11c0 5.2-3.4 8.8-8 10-4.6-1.2-8-4.8-8-10V5.5L12 2z"/>',
-    flask: '<path d="M9 3v6L4 18a2 2 0 0 0 1.8 3h12.4a2 2 0 0 0 1.8-3L15 9V3"/><path d="M8 3h8"/><path d="M7 16h10"/>',
-    tree: '<path d="M12 22V13M12 13L7 8M12 13l5-5M12 8L9 4M12 8l3-4"/>',
     target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>'
   };
   function bqIcon(name) {
