@@ -292,3 +292,45 @@ body[data-requires-plan]:not(.is-authed) .protected{display:none}
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* ============================================================================
+   CAPA DE PULIDO (estilo Impeccable) — refinamientos sobre el sistema base
+   ============================================================================ */
+/* Botón "Atrás" de la topbar (presente en todas las páginas) */
+.tb-back{
+  display:inline-flex;align-items:center;gap:8px;flex-shrink:0;
+  padding:8px 14px 8px 11px;border-radius:100px;border:1px solid var(--line);
+  background:var(--surface);color:var(--txt-soft);
+  font-family:var(--display);font-weight:700;font-size:.85rem;line-height:1;
+  transition:background .16s var(--ease),color .16s var(--ease),border-color .16s var(--ease),transform .12s var(--ease);
+}
+.tb-back svg{width:17px;height:17px;flex-shrink:0;transition:transform .16s var(--ease)}
+.tb-back:hover{background:rgba(173,232,12,.1);border-color:rgba(173,232,12,.4);color:var(--txt)}
+.tb-back:hover svg{transform:translateX(-3px)}
+.tb-back:active{transform:scale(.97)}
+
+/* Feedback de pulsación coherente en elementos interactivos */
+.btn:active{transform:translateY(0) scale(.98);filter:brightness(.98)}
+.module:active{transform:translateY(-2px)}
+.sb-item:active{transform:scale(.99)}
+.sugg-item:active,.ex-card:active{transform:scale(.995)}
+
+/* Foco visible más fino y consistente */
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px;border-radius:8px}
+.btn:focus-visible,.tb-back:focus-visible{outline-offset:3px}
+
+/* Acento en el título del módulo al pasar el ratón (refuerza que es un enlace) */
+.module:hover h3{color:var(--lime);transition:color .2s var(--ease)}
+
+/* Scrollbar discreta y de marca */
+*{scrollbar-width:thin;scrollbar-color:rgba(173,232,12,.25) transparent}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-thumb{background:rgba(173,232,12,.22);border-radius:100px;border:3px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background:rgba(173,232,12,.38);background-clip:padding-box}
+
+/* La topbar deja sitio al botón atrás sin romper en móvil */
+@media(max-width:640px){
+  .tb-back-txt{display:none}
+  .tb-back{padding:9px}
+  .tb-crumbs{display:none}
+}
