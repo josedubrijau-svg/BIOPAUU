@@ -48,6 +48,16 @@ window.BIOPAU_DATA = (function () {
       apuntes: []
     },
     {
+      id: 'cicle-cellular',
+      nombre: 'El cicle cel·lular i el càncer',
+      desc: 'Interfase (G1, S, G2), mitosi i citocinesi, meiosi, cicles biològics, control del cicle, apoptosi i càncer.',
+      color: '#22D3EE',
+      icon: 'dna',
+      llibre: '/app/apuntes-cicle-cellular.html',
+      llibreTitol: 'Tema 5 — El cicle cel·lular i el càncer',
+      apuntes: []
+    },
+    {
       id: 'mutacions',
       nombre: 'Les mutacions',
       desc: 'Origen i tipus de mutacions (puntuals, cromosòmiques i genòmiques), la seva relació amb el càncer (oncògens i TSG) i el seu paper en l\'evolució.',
