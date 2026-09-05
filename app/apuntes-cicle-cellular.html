@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 5 — El cicle cel·lular i el càncer — bioPau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7EE; --paper2:#FFFEF9; --ink:#17241C; --ink2:#3a4a40;
+    --pine:#0E3A2A; --pine2:#12503A; --lime:#ADE80C; --lime-d:#7CA80A;
+    --line:rgba(14,58,42,.14); --grid:rgba(14,58,42,.05);
+    --blue:#2F86C9; --red:#D6564B; --violet:#7C5CD6; --amber:#D79A16; --teal:#1BA98C;
+    --disp:'Bricolage Grotesque',system-ui,sans-serif; --body:'Hanken Grotesk',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+    --ease:cubic-bezier(.3,.1,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);color:var(--ink);background:
+      radial-gradient(120% 90% at 50% -10%, #123 0%, #0A140F 60%, #070d0a 100%);
+    min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;overflow:hidden}
+
+  .stage{width:min(760px,100%);height:min(88vh,1040px);position:relative;perspective:2200px}
+  .book{position:absolute;inset:0;transform-style:preserve-3d}
+  .page{position:absolute;inset:0;background:var(--paper);border-radius:6px 14px 14px 6px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5), inset 0 0 0 1px rgba(14,58,42,.06);
+    transform-origin:left center;backface-visibility:hidden;transition:transform .8s var(--ease),box-shadow .8s var(--ease);
+    overflow:hidden;display:flex;flex-direction:column}
+  .page::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(14,58,42,.10), rgba(14,58,42,0) 5%),
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:auto, 26px 26px, 26px 26px}
+  .page::after{content:"";position:absolute;top:0;bottom:0;left:0;width:36px;pointer-events:none;
+    background:linear-gradient(90deg, rgba(14,58,42,.12), transparent)}
+  .pg-in{position:relative;z-index:2;flex:1;overflow:auto;padding:clamp(24px,4.4vw,46px) clamp(22px,4.6vw,52px) 60px clamp(30px,5.4vw,60px)}
+  .pg-in::-webkit-scrollbar{width:8px}.pg-in::-webkit-scrollbar-thumb{background:rgba(14,58,42,.2);border-radius:8px}
+  .marginline{position:absolute;left:clamp(24px,4.6vw,50px);top:0;bottom:0;width:2px;background:rgba(214,86,75,.35);z-index:1}
+
+  /* Tipografía de libro */
+  .eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--lime-d)}
+  h1.tt{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.04;letter-spacing:-.02em;color:var(--pine);margin:.3rem 0}
+  h2.sec{font-family:var(--disp);font-weight:800;font-size:clamp(1.15rem,2.4vw,1.5rem);color:var(--pine);letter-spacing:-.01em;margin:0 0 12px;display:flex;align-items:baseline;gap:10px}
+  h2.sec .no{font-family:var(--mono);font-size:.86em;color:var(--lime-d)}
+  h3.sub{font-family:var(--disp);font-weight:800;font-size:1.02rem;color:var(--pine2);margin:16px 0 6px}
+  p{line-height:1.62;margin:0 0 10px;font-size:1.02rem}
+  .lead{color:var(--ink2)}
+  b,strong{color:var(--pine)}
+  .hl{background:linear-gradient(transparent 55%, rgba(173,232,12,.6) 55%);padding:0 .1em;font-weight:700;color:var(--ink)}
+  .term{font-family:var(--disp);font-weight:800;color:var(--pine)}
+
+  ul.notes{list-style:none;margin:6px 0 12px}
+  ul.notes>li{position:relative;padding:5px 0 5px 26px;line-height:1.55}
+  ul.notes>li::before{content:"";position:absolute;left:4px;top:.95em;width:9px;height:9px;border:2px solid var(--lime-d);border-radius:50%}
+  ul.sub{list-style:none;margin:4px 0 4px 6px}
+  ul.sub>li{position:relative;padding:3px 0 3px 24px;font-size:.98rem;color:var(--ink2)}
+  ul.sub>li::before{content:"↳";position:absolute;left:2px;top:2px;color:var(--lime-d);font-weight:700}
+  .k{font-family:var(--disp);font-weight:800;color:var(--pine)}
+
+  .def{background:var(--paper2);border:1.5px solid var(--line);border-left:4px solid var(--lime-d);border-radius:8px;
+    padding:12px 15px;margin:12px 0;box-shadow:2px 2px 0 rgba(14,58,42,.06)}
+  .def .dt{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-d);display:block;margin-bottom:3px}
+  .ex{display:inline-flex;gap:8px;align-items:baseline;font-size:.92rem;color:var(--ink2);margin:2px 0 6px}
+  .ex .tag{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;background:var(--pine);color:var(--paper);border-radius:4px;padding:.12rem .4rem}
+  .callout{background:rgba(173,232,12,.12);border:1px solid rgba(124,168,10,.4);border-radius:8px;padding:11px 14px;margin:12px 0;font-size:.96rem}
+
+  /* Figuras */
+  figure{margin:16px 0}
+  figure svg{display:block;width:100%;height:auto;background:var(--paper2);border:1.5px solid var(--line);border-radius:12px}
+  figcaption{font-family:var(--mono);font-size:.72rem;color:var(--ink2);text-align:center;margin-top:8px;letter-spacing:.02em}
+  .di-label{font-family:var(--mono);font-size:11px;fill:var(--ink2)}
+  .di-lead{font-family:var(--disp);font-weight:800;font-size:12px;fill:var(--pine)}
+  .di-s{stroke:var(--pine);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .di-h{stroke:#2F86C9;fill:none;stroke-width:2.4;stroke-linejoin:round}
+  .di-l{stroke:#C98A0E;fill:none;stroke-width:2.4;stroke-linejoin:round}
+  .di-red{stroke:var(--red);fill:rgba(214,86,75,.18);stroke-width:2.2;stroke-linejoin:round}
+  .di-vh{fill:rgba(173,232,12,.34)}
+  .di-t-h{fill:#2274b8;font-family:var(--mono);font-size:11px;font-weight:700}
+  .di-t-l{fill:#a5720b;font-family:var(--mono);font-size:11px;font-weight:700}
+  .di-t-r{fill:#b23f36;font-family:var(--mono);font-size:11px;font-weight:700}
+  .di-lead-c{font-family:var(--disp);font-weight:800;font-size:12px}
+
+  /* Leyenda de figura */
+  .fig-key{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:8px;font-family:var(--mono);font-size:.68rem;color:var(--ink2)}
+  .fig-key span{display:inline-flex;align-items:center;gap:6px}
+  .fig-key i{width:13px;height:13px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.15)}
+
+  /* Tarjetas de patògens */
+  .path-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 4px}
+  .path-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:10px 6px 12px;text-align:center;box-shadow:2px 2px 0 rgba(14,58,42,.06);border-top:4px solid var(--pc,var(--lime-d))}
+  .path-card svg{width:100%;height:70px;border:0;background:transparent;margin:0 auto}
+  .path-card .pn{font-family:var(--disp);font-weight:800;font-size:.92rem;color:var(--pine);margin-top:4px;display:block}
+  .path-card .pd{font-size:.68rem;color:var(--ink2);line-height:1.32;display:block;margin-top:2px;padding:0 2px}
+
+  /* Grid d'immunoglobulines */
+  .ig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0 6px}
+  .ig-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:12px 13px 13px;box-shadow:3px 3px 0 rgba(14,58,42,.07);border-top:5px solid var(--igc)}
+  .ig-card .ig-top{display:flex;align-items:center;gap:11px}
+  .ig-card svg{width:50px;height:50px;flex:0 0 50px;border:0;background:transparent}
+  .ig-card .ig-name{font-family:var(--disp);font-weight:800;font-size:1.18rem;color:var(--igc);line-height:1}
+  .ig-card .ig-pct{font-family:var(--mono);font-size:.64rem;color:var(--ink2);display:block;margin-top:3px}
+  .ig-card .ig-form{font-family:var(--mono);font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--igc);font-weight:700}
+  .ig-card p{font-size:.85rem;line-height:1.5;margin:9px 0 0;color:var(--ink2)}
+  .ig-card p b{color:var(--pine)}
+  @media (max-width:560px){ .path-grid{grid-template-columns:repeat(2,1fr)} }
+
+  /* Icones de concepte */
+  .di-sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .ico{width:23px;height:23px;flex:0 0 23px;align-self:center;color:var(--lime-d)}
+  .ico-sm{width:18px;height:18px;vertical-align:-3px;margin-right:8px;color:var(--lime-d)}
+  h3.sub{display:flex;align-items:flex-start;gap:0}
+  h3.sub .ico-sm{margin-top:2px;flex:0 0 18px}
+  .def .dt{display:flex;align-items:center;gap:6px}
+  .def .dt .ico-xs{width:14px;height:14px;color:var(--lime-d);flex:0 0 14px}
+  .kico{width:16px;height:16px;vertical-align:-3px;margin-right:5px;color:var(--pine2)}
+
+  /* Galeria de cèl·lules */
+  .cell-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:12px 0 6px}
+  .cell-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px 12px;box-shadow:3px 3px 0 rgba(14,58,42,.07);border-left:5px solid var(--cc,var(--lime-d))}
+  .cell-card svg.cellart{width:100%;height:92px;border:0;background:transparent;display:block}
+  .cell-card .cn{font-family:var(--disp);font-weight:800;font-size:1rem;color:var(--cc,var(--pine));margin-top:6px;display:block;line-height:1.05}
+  .cell-card .cn small{display:block;font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.06em;color:var(--ink2);margin-top:2px}
+  .cell-card .cr{font-size:.78rem;color:var(--ink2);line-height:1.44;display:block;margin-top:5px}
+  .cell-card .cr b{color:var(--pine2)}
+
+  /* Portada / contraportada */
+  .cover{align-items:center;justify-content:center;text-align:center;background:
+      radial-gradient(90% 70% at 50% 12%, rgba(173,232,12,.16), transparent 60%), var(--paper)}
+  .cover .pg-in{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+  .cover .logo{font-family:var(--disp);font-weight:800;font-size:1.2rem;color:var(--ink);display:flex;align-items:center;gap:.4rem;margin-bottom:20px}
+  .cover .logo b{color:var(--pine)}
+  .cover .logo .cell{width:18px;height:18px;border:2.5px solid var(--ink);border-radius:50%;background:var(--lime);position:relative}
+  .cover .logo .cell::after{content:"";position:absolute;width:6px;height:6px;background:var(--ink);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+  .cover h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5.4vw,3rem);line-height:1.02;color:var(--pine);letter-spacing:-.02em;max-width:16ch;margin:.4rem 0}
+  .cover .cover-sub{font-family:var(--disp);font-weight:700;color:var(--lime-d);font-size:1.1rem;letter-spacing:.02em}
+  .cover .hint{font-family:var(--mono);font-size:.72rem;color:var(--ink2);margin-top:26px;letter-spacing:.06em}
+
+  /* Controles */
+  .bar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:12px;
+    background:rgba(10,20,15,.82);backdrop-filter:blur(8px);border:1px solid rgba(173,232,12,.25);border-radius:100px;padding:8px 10px}
+  .nav-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:transparent;color:#EAF3E4;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .15s,transform .12s}
+  .nav-btn:hover:not(:disabled){background:rgba(173,232,12,.2);transform:translateY(-1px)}
+  .nav-btn:disabled{opacity:.3;cursor:default}
+  .nav-btn svg{width:20px;height:20px}
+  .counter{font-family:var(--mono);font-size:.8rem;color:#CFE0C6;min-width:66px;text-align:center}
+  .toc-btn{font-family:var(--disp);font-weight:700;font-size:.82rem;color:#0A140F;background:var(--lime);border:0;border-radius:100px;padding:.55rem .9rem;cursor:pointer}
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--lime);z-index:60;transition:width .4s var(--ease)}
+
+  /* Índex (TOC) */
+  .toc{position:fixed;inset:0;z-index:70;background:rgba(6,12,9,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+  .toc.is-on{display:flex}
+  .toc-card{background:var(--paper);border-radius:16px;max-width:520px;width:100%;max-height:82vh;overflow:auto;padding:24px}
+  .toc-card h3{font-family:var(--disp);font-weight:800;color:var(--pine);font-size:1.3rem;margin-bottom:4px}
+  .toc-card .tsub{font-family:var(--mono);font-size:.72rem;color:var(--ink2);margin-bottom:14px}
+  .toc-item{display:flex;justify-content:space-between;gap:12px;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--line);
+    padding:11px 4px;cursor:pointer;font-family:var(--body);font-size:.98rem;color:var(--ink)}
+  .toc-item:hover{background:rgba(173,232,12,.12)}
+  .toc-item .tn{font-family:var(--mono);font-size:.78rem;color:var(--lime-d)}
+
+  @media (max-width:560px){
+    body{padding:8px}
+    .stage{height:90vh}
+    .pg-in{padding:22px 18px 60px 30px}
+    p,ul.notes>li{font-size:.98rem}
+    .bar{gap:8px;padding:7px 9px}
+    .nav-btn{width:38px;height:38px}
+  }
+  .book.no-anim .page{transition:none!important}
+  @media (prefers-reduced-motion:reduce){ .page{transition:none} }
+
+  .ig-card .ig-form{display:block;margin-top:3px}
+  .ig-card .ig-top>div{min-width:0;flex:1 1 auto}
+  .ig-card .ig-name{font-size:1.02rem;line-height:1.05;overflow-wrap:anywhere;word-break:break-word;display:block}
+  .step-row{display:flex;align-items:flex-start;gap:14px;margin:10px 0}
+  .step-n{flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:rgba(173,232,12,.16);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;color:var(--lime-d)}
+  .step-row .st{flex:1}
+  .di-base{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1.5px}
+  .di-ov{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px}
+
+  /* ===== Capa de personalitat ===== */
+  /* Encapçalaments de secció amb medalló i subratllat de degradat */
+  h2.sec{align-items:center;gap:12px;padding-bottom:11px;margin-bottom:15px;position:relative}
+  h2.sec::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;border-radius:3px;
+    background:linear-gradient(90deg,var(--lime) 0%,var(--lime-d) 22%,rgba(124,168,10,0) 62%)}
+  h2.sec .no{order:-1;display:inline-flex;align-items:center;justify-content:center;
+    min-width:1.9em;height:1.9em;padding:0 .35em;border-radius:9px;font-size:.66em;color:var(--pine);
+    background:linear-gradient(180deg,var(--lime),#96cf08);box-shadow:2px 2px 0 rgba(14,58,42,.18);font-weight:700}
+  h2.sec .ico{filter:drop-shadow(1px 1px 0 rgba(173,232,12,.5))}
+  /* Subtítol amb barreta lima */
+  h3.sub{display:flex;align-items:center;gap:9px;padding-left:12px;position:relative}
+  h3.sub::before{content:"";position:absolute;left:0;top:.18em;bottom:.18em;width:4px;border-radius:4px;
+    background:linear-gradient(180deg,var(--lime),var(--lime-d))}
+  h3.sub .ico-sm{margin-left:-2px}
+  /* Figures com esquemes emmarcats */
+  figure{position:relative}
+  figure svg{box-shadow:0 4px 14px rgba(14,58,42,.09), inset 0 0 0 1px rgba(14,58,42,.05);
+    border-top:4px solid var(--lime-d)}
+  /* Definició amb accent puntejat */
+  .def{border-left:5px solid var(--lime-d);box-shadow:3px 3px 0 rgba(14,58,42,.08)}
+  .def::before{content:"";position:absolute}
+  .def{position:relative;overflow:hidden}
+  .def::after{content:"";position:absolute;right:-18px;top:-18px;width:54px;height:54px;border-radius:50%;
+    background:radial-gradient(circle,rgba(173,232,12,.18),transparent 70%)}
+  /* Marcador i terme amb més caràcter */
+  .hl{background:linear-gradient(transparent 52%, rgba(173,232,12,.7) 52%);border-radius:2px}
+  /* Cita bibliogràfica del peu */
+  .figcaption{}
+
+  /* ===== Tema 8: components de mutacions ===== */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .info-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;
+    box-shadow:3px 3px 0 rgba(14,58,42,.07);border-left:5px solid var(--ic2,var(--lime-d))}
+  .info-card .ih{font-family:var(--disp);font-weight:800;font-size:1rem;color:var(--ic2,var(--pine));display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .info-card .ih svg{width:20px;height:20px;color:var(--ic2);flex:0 0 20px}
+  .info-card p{font-size:.86rem;line-height:1.5;color:var(--ink2);margin:0}
+  .info-card p b{color:var(--pine)}
+  .mut-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 4px}
+  .mut-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:11px 13px 13px;
+    box-shadow:3px 3px 0 rgba(14,58,42,.07);border-top:5px solid var(--mc,var(--lime-d))}
+  .mut-card .mh{font-family:var(--disp);font-weight:800;font-size:.98rem;color:var(--mc,var(--pine));display:flex;align-items:center;gap:8px}
+  .mut-card .mh svg{width:19px;height:19px;color:var(--mc);flex:0 0 19px}
+  .mut-card .cds{font-family:var(--mono);font-size:.82rem;margin:9px 0 5px;letter-spacing:.5px;line-height:1.9;color:var(--ink)}
+  .mut-card .aa{font-size:.8rem;color:var(--ink2);line-height:1.4}
+  .mut-card .aa b{color:var(--pine)}
+  .codon-hi{background:rgba(214,86,75,.22);color:#b23f36;font-weight:700;border-radius:4px;padding:1px 3px}
+  .codon-ok{background:rgba(124,168,10,.28);color:#5f7f08;font-weight:700;border-radius:4px;padding:1px 3px}
+  .codon-stop{background:#0E3A2A;color:#ADE80C;font-weight:700;border-radius:4px;padding:1px 4px}
+  .imp{background:rgba(214,86,75,.10);border:1px solid rgba(214,86,75,.4);border-left:5px solid var(--red);
+    border-radius:10px;padding:11px 14px;margin:12px 0;font-size:.94rem;position:relative}
+  .imp .impt{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:700;display:block;margin-bottom:3px}
+  .leg{display:flex;flex-wrap:wrap;gap:6px 15px;justify-content:center;margin-top:8px;font-family:var(--mono);font-size:.66rem;color:var(--ink2)}
+  .leg span{display:inline-flex;align-items:center;gap:6px}
+  .leg i{width:14px;height:10px;border-radius:3px;display:inline-block}
+
+  /* Tema 7 extres */
+  .diff-list{list-style:none;margin:8px 0}
+  .diff-list li{position:relative;padding:7px 0 7px 34px;border-top:1px solid var(--line);line-height:1.5;font-size:.96rem}
+  .diff-list li:first-child{border-top:0}
+  .diff-list li .dn{position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:8px;background:rgba(129,140,248,.18);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:.78rem;color:#5b63d6}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0}
+
+  /* Tema 5 — components */
+  .phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 4px}
+  .phase-card{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px 12px;
+    box-shadow:3px 3px 0 rgba(14,58,42,.07);border-top:5px solid var(--pc,var(--lime-d))}
+  .phase-card .cellsvg{width:100%;height:132px;display:block;background:rgba(14,58,42,.02);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+  .phase-card .pn{font-family:var(--disp);font-weight:800;font-size:1rem;color:var(--pc,var(--pine));display:flex;align-items:center;gap:8px;line-height:1.05}
+  .phase-card .pn .pnum{flex:0 0 22px;width:22px;height:22px;border-radius:7px;background:color-mix(in srgb,var(--pc,#7CA80A) 20%,transparent);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:.72rem;color:var(--pc,var(--pine))}
+  .phase-card p{font-size:.82rem;line-height:1.48;color:var(--ink2);margin:6px 0 0}
+  .phase-card p b{color:var(--pine)}
+  .full-fig .cellsvg{height:150px}
+  /* Taula comparativa */
+  .cmp{width:100%;border-collapse:collapse;margin:12px 0 4px;font-size:.85rem}
+  .cmp th,.cmp td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;line-height:1.4}
+  .cmp thead th{background:rgba(173,232,12,.16);font-family:var(--disp);font-weight:800;color:var(--pine);font-size:.92rem}
+  .cmp thead th.mi{background:rgba(47,134,201,.14)}
+  .cmp thead th.me{background:rgba(124,92,214,.14)}
+  .cmp tbody th{background:var(--paper2);font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;font-weight:700}
+  .cmp td b{color:var(--pine)}
+  .cmp-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+
+<svg class="di-sprite" aria-hidden="true"><defs>
+  <symbol id="ic-virus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5.3"/><path d="M12 6.7V3.2M12 20.8v-3.5M6.7 12H3.2M20.8 12h-3.5M8.2 8.2 5.7 5.7M18.3 18.3l-2.5-2.5M15.8 8.2l2.5-2.5M5.7 18.3l2.5-2.5"/><circle cx="12" cy="3.2" r=".9"/><circle cx="12" cy="20.8" r=".9"/><circle cx="3.2" cy="12" r=".9"/><circle cx="20.8" cy="12" r=".9"/></g></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 20 5.5v6c0 5-3.6 8.6-8 10.5-4.4-1.9-8-5.5-8-10.5v-6z"/></g></symbol>
+  <symbol id="ic-shield-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 20 5.5v6c0 5-3.6 8.6-8 10.5-4.4-1.9-8-5.5-8-10.5v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></g></symbol>
+  <symbol id="ic-wall" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 9.7h18M3 14.3h18M9 5v4.7M15 9.7v4.6M9 14.3V19M15 14.3V19"/></g></symbol>
+  <symbol id="ic-flame" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 5 3.8 10-.7 3-3 5-3.8 8-.8-3-3.1-5-3.8-8C7 8 11 7 12 3Z"/><path d="M12 21c1.6 0 3-1.2 3-3 0-1.6-1.4-2.6-1.8-4-1 1.2-1 2-2.2 2.3-1 .2-2 1-2 2.5 0 1.6 1.4 2.2 3 2.2Z"/></g></symbol>
+  <symbol id="ic-cell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.3"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ic-lymph" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.3"/><circle cx="12" cy="12" r="5" fill="currentColor" stroke="none" opacity=".85"/></g></symbol>
+  <symbol id="ic-organ" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="10" r="3"/><circle cx="11" cy="16.5" r="3"/><path d="M10.4 9.6 14 9.4M9.7 10.6l1 3.2M13.8 12l-2 2.6"/></g></symbol>
+  <symbol id="ic-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 11 4h9v9l-8 8z"/><circle cx="16" cy="8" r="1.4"/></g></symbol>
+  <symbol id="ic-antigen" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4M6 5h11l-2 3.2L17 11.5H6"/></g></symbol>
+  <symbol id="ic-antibody" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9M12 12 6.5 4M12 12l5.5-8"/><circle cx="6.5" cy="4" r="1.2"/><circle cx="17.5" cy="4" r="1.2"/></g></symbol>
+  <symbol id="ic-antibody-multi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22v-6M7 16 3.5 10M7 16l3.5-6M17 22v-6M17 16l-3.5-6M17 16l3.5-6"/></g></symbol>
+  <symbol id="ic-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 12h5"/><path d="M9 8.5a4 4 0 0 0 0 7"/><path d="M15 8.5a4 4 0 0 1 0 7"/></g></symbol>
+  <symbol id="ic-drop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s-6.5 7.3-6.5 11a6.5 6.5 0 0 0 13 0C18.5 10.3 12 3 12 3Z"/></g></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.3"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ic-memory" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v18l-5-4-5 4z"/></g></symbol>
+  <symbol id="ic-clone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="11" height="11" rx="1.6"/><path d="M8 8V6.5A1.5 1.5 0 0 1 9.5 5H18a1.5 1.5 0 0 1 1.5 1.5V15A1.5 1.5 0 0 1 18 16.5h-1.5"/></g></symbol>
+  <symbol id="ic-flask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9.5A1.4 1.4 0 0 0 6.3 21h11.4a1.4 1.4 0 0 0 1.3-2.5L14 9V3"/><path d="M7.5 15h9"/></g></symbol>
+  <symbol id="ic-chain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="5.5" cy="12" r="2.3"/><circle cx="12" cy="12" r="2.3"/><circle cx="18.5" cy="12" r="2.3"/><path d="M7.8 12h1.9M14.3 12h1.9"/></g></symbol>
+  <symbol id="ic-syringe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3.5 20.5 7M18.8 5.2 14 10M9.5 8.5l6 6M11.5 6.5 17.5 12.5 12.5 17.5 6.5 11.5z"/><path d="M6.5 11.5 3.5 14.5M8.5 13.5l-2 2M10.5 15.5l-2 2"/></g></symbol>
+  <symbol id="ic-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.7" r="1.05" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.3"/><path d="M12 7v5.2l3.4 2"/></g></symbol>
+
+  <symbol id="ic-dna" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8 3c0 5 8 6 8 9s-8 4-8 9M16 3c0 5-8 6-8 9s8 4 8 9"/><path d="M9 6h6M9.4 9h5.2M9.4 15h5.2M9 18h6"/></g></symbol>
+  <symbol id="ic-scissors" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M8.2 7.6 20 16M8.2 16.4 20 8"/></g></symbol>
+  <symbol id="ic-vector" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v10l-8 4-8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></g></symbol>
+  <symbol id="ic-cycle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 9A8 8 0 0 1 17.5 6.5L20 9"/><path d="M20 3.6V9h-5.4"/><path d="M19.4 15A8 8 0 0 1 6.5 17.5L4 15"/><path d="M4 20.4V15h5.4"/></g></symbol>
+  <symbol id="ic-gel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><rect x="7" y="10" width="3" height="7"/><rect x="12" y="6" width="3" height="11"/><rect x="17" y="13" width="3" height="4"/></g></symbol>
+  <symbol id="ic-leaf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 6-14 16-14 0 10-6 15-16 14z"/><path d="M4 20c4-6 8-8 12-9"/></g></symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.6 3 14.4 0 18M12 3c-3 3.6-3 14.4 0 18"/></g></symbol>
+  <symbol id="ic-bacteria" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="12" height="8" rx="4" transform="rotate(-20 12 12)"/><path d="M18.5 6.5q3-2 3 1M3.5 16q-2 2 .5 3"/></g></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></g></symbol>
+  <symbol id="ic-wheat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V9"/><path d="M12 9c-3-1-4-4-3-6 2 0 4 2 3 6zM12 9c3-1 4-4 3-6-2 0-4 2-3 6z"/><path d="M12 14c-2.6-1-3.6-3.4-3-5.4 1.8 0 3.6 1.6 3 5.4zM12 14c2.6-1 3.6-3.4 3-5.4-1.8 0-3.6 1.6-3 5.4z"/></g></symbol>
+
+  <symbol id="ic-radiation" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><path d="M12 9.8 9.5 5.2a7 7 0 0 1 5 0z"/><path d="M13.9 13.1 18.6 15a7 7 0 0 1-2.5 4.3z"/><path d="M10.1 13.1 5.4 15a7 7 0 0 0 2.5 4.3z"/></g></symbol>
+  <symbol id="ic-atom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(120 12 12)"/></g></symbol>
+  <symbol id="ic-chromo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3 17 21M17 3 7 21"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ic-swap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></g></symbol>
+  <symbol id="ic-warn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 22 20H2z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.4" r="1" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ic-tree" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V8"/><path d="M12 12 6 7M12 14l6-5"/><circle cx="12" cy="6" r="2.2"/><circle cx="5" cy="6" r="1.8"/><circle cx="19" cy="8" r="1.8"/></g></symbol>
+  <symbol id="ic-map" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2z"/><path d="M9 4v14M15 6v14"/></g></symbol>
+  <symbol id="ic-brain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5A3 3 0 0 0 6.5 7 3 3 0 0 0 5 12a3 3 0 0 0 1.5 5A3 3 0 0 0 12 18.5zM12 5.5A3 3 0 0 1 17.5 7 3 3 0 0 1 19 12a3 3 0 0 1-1.5 5A3 3 0 0 1 12 18.5z"/><path d="M12 5.5v13"/></g></symbol>
+  <symbol id="ic-cross" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6 18 18M18 6 6 18"/></g></symbol>
+  <symbol id="ic-tumor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="10" r="3.4"/><circle cx="15" cy="13" r="3"/><circle cx="11.5" cy="15.5" r="2.4"/></g></symbol>
+  <symbol id="ic-dup" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="11" height="11" rx="2"/><rect x="9" y="9" width="11" height="11" rx="2"/></g></symbol>
+  <symbol id="ic-migrate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h14"/><path d="M12 6l6 6-6 6"/><circle cx="20" cy="12" r="1" fill="currentColor" stroke="none"/></g></symbol>
+
+
+  <symbol id="ic-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></symbol>
+  <symbol id="ic-rna" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14c3-5 6-5 9 0s6 5 9 0"/><path d="M6 11v2M9.5 12.5v2M13 12.5v2M16.5 12.5v2M20 11v2"/></g></symbol>
+  <symbol id="ic-ribosome" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="9.5" rx="6" ry="5"/><ellipse cx="12" cy="15.6" rx="4.6" ry="3"/><path d="M3.5 18h17"/></g></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
+  <symbol id="ic-protein" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="8" r="2.2"/><circle cx="11" cy="12.5" r="2.2"/><circle cx="16" cy="8.5" r="2.2"/><circle cx="19" cy="14.5" r="2.2"/><path d="M7.6 9.3 9.4 11M12.7 11.6 14.3 9.7M17.5 9.8 18.2 12.6"/></g></symbol>
+  <symbol id="ic-pol" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 6 0 0 1 16 0"/><path d="M4 15h16"/><path d="M9 15v-3.5M12 15v-5M15 15v-3.5"/></g></symbol>
+  <symbol id="ic-gene" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><rect x="9" y="8.5" width="6" height="7" rx="1.5"/></g></symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 4h6v15H6a2 2 0 0 0-2 2z"/><path d="M20 5.5A2 2 0 0 0 18 4h-6v15h6a2 2 0 0 1 2 2z"/></g></symbol>
+
+
+  <symbol id="ic-clockcycle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></g></symbol>
+  <symbol id="ic-split" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="4.5"/><circle cx="17" cy="12" r="4.5"/></g></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20S3.5 14.5 3.5 8.8A4.3 4.3 0 0 1 12 6a4.3 4.3 0 0 1 8.5 2.8C20.5 14.5 12 20 12 20z"/></g></symbol>
+  <symbol id="ic-shield2" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 20 5.5v6c0 5-3.6 8.6-8 10.5-4.4-1.9-8-5.5-8-10.5v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></g></symbol>
+
+</defs></svg>
+
+<div class="progress" id="progress"></div>
+
+<div class="stage">
+  <div class="book" id="book">
+
+    <!-- PORTADA -->
+    <section class="page cover"><div class="pg-in">
+      <div class="logo"><span class="cell"></span>bio<b>PAU</b></div>
+      <span class="eyebrow">Tema 5 — Biologia PAU</span>
+      <h1>El cicle cel·lular i el càncer</h1>
+      <div class="cover-sub">Interfase, mitosi, meiosi i control del cicle</div>
+      <svg viewBox="0 0 220 130" style="width:220px;height:auto;margin-top:16px;border:0;background:transparent">
+        <circle cx="110" cy="66" r="46" fill="none" stroke="rgba(14,58,42,.12)" stroke-width="10"/>
+        <path d="M110 20 A46 46 0 0 1 156 66" fill="none" stroke="#7CA80A" stroke-width="10" stroke-linecap="round"/>
+        <path d="M156 66 A46 46 0 0 1 110 112" fill="none" stroke="#2F86C9" stroke-width="10" stroke-linecap="round"/>
+        <path d="M110 112 A46 46 0 0 1 64 66" fill="none" stroke="#D79A16" stroke-width="10" stroke-linecap="round"/>
+        <path d="M64 66 A46 46 0 0 1 110 20" fill="none" stroke="#7C5CD6" stroke-width="10" stroke-linecap="round"/>
+        <g stroke="#0E3A2A" stroke-width="2.6" stroke-linecap="round"><path d="M104 60 116 72M116 60 104 72"/></g>
+      </svg>
+      <div class="hint">Passa les pàgines amb les fletxes o lliscant →</div>
+    </div></section>
+
+    <section class="page" data-toc="1. Introducció al cicle"><span class="marginline"></span><div class="pg-in">
+      <h2 class="sec"><svg class="ico"><use href="#ic-clockcycle"/></svg><span class="no">1.</span> Introducció al cicle cel·lular</h2>
+      <div class="def"><span class="dt">Cicle cel·lular</span>Conjunt de processos pels quals passa una cèl·lula <b>des que s'acaba de dividir fins que torna a dividir-se</b>. Consta de dos períodes: la <span class="hl">interfase</span> i la <span class="hl">fase M</span>.</div>
+      <figure>
+        <svg viewBox="0 0 660 250" role="img" aria-label="Classificació del cicle cel·lular">
+          <defs><marker id="t1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <rect x="14" y="104" width="120" height="40" rx="10" fill="rgba(173,232,12,.18)" stroke="#7CA80A" stroke-width="2"/>
+          <text x="74" y="129" text-anchor="middle" class="di-lead">CICLE CEL·LULAR</text>
+          <path class="di-s" d="M134 124 H176" marker-end="url(#t1)"/>
+          <!-- Interfase -->
+          <rect x="180" y="50" width="120" height="34" rx="9" fill="rgba(47,134,201,.14)" stroke="#2F86C9" stroke-width="2"/>
+          <text x="240" y="72" text-anchor="middle" class="di-t-h">INTERFASE</text>
+          <path class="di-s" d="M300 67 H336" marker-end="url(#t1)"/>
+          <g font-family="Space Mono,monospace" font-size="12" font-weight="700">
+            <rect x="340" y="24" width="54" height="26" rx="7" fill="rgba(47,134,201,.10)" stroke="#2F86C9" stroke-width="1.6"/><text x="367" y="42" text-anchor="middle" fill="#1f6fb0">G1</text>
+            <rect x="340" y="54" width="54" height="26" rx="7" fill="rgba(47,134,201,.10)" stroke="#2F86C9" stroke-width="1.6"/><text x="367" y="72" text-anchor="middle" fill="#1f6fb0">S</text>
+            <rect x="340" y="84" width="54" height="26" rx="7" fill="rgba(47,134,201,.10)" stroke="#2F86C9" stroke-width="1.6"/><text x="367" y="102" text-anchor="middle" fill="#1f6fb0">G2</text>
+          </g>
+          <!-- Fase M -->
+          <rect x="180" y="168" width="120" height="34" rx="9" fill="rgba(124,92,214,.14)" stroke="#7C5CD6" stroke-width="2"/>
+          <text x="240" y="190" text-anchor="middle" class="di-lead-c" fill="#5a3fb0">FASE M</text>
+          <path class="di-s" d="M300 185 H336" marker-end="url(#t1)"/>
+          <g>
+            <rect x="340" y="150" width="150" height="30" rx="8" fill="rgba(124,92,214,.10)" stroke="#7C5CD6" stroke-width="1.6"/>
+            <text x="415" y="169" text-anchor="middle" class="di-label" fill="#5a3fb0">Cariocinesi (nucli)</text>
+            <path class="di-s" d="M490 165 H520" marker-end="url(#t1)"/>
+            <text x="590" y="158" text-anchor="middle" class="di-t-r">Mitosi</text>
+            <text x="590" y="176" text-anchor="middle" class="di-t-r">Meiosi</text>
+            <rect x="340" y="188" width="150" height="30" rx="8" fill="rgba(124,92,214,.10)" stroke="#7C5CD6" stroke-width="1.6"/>
+            <text x="415" y="207" text-anchor="middle" class="di-label" fill="#5a3fb0">Citocinesi (citopl.)</text>
+          </g>
+        </svg>
+        <figcaption>El cicle cel·lular es divideix en interfase (G1, S, G2) i fase M (cariocinesi + citocinesi)</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="page" data-toc="Interfase (G1 — S — G2)"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-clock"/></svg>Interfase — la cèl·lula NO es divideix</h3>
+      <p>És el període més llarg: la cèl·lula creix i <b>duplica el seu contingut</b> per preparar la divisió. Té tres subfases:</p>
+      <div class="phase-grid">
+        <div class="phase-card" style="--pc:#2F86C9"><div class="pn"><span class="pnum">G1</span>Creixement</div><p>Es sintetitza <b>ARN i proteïnes</b> i es dupliquen els <b>orgànuls</b>. Les cèl·lules molt especialitzades (neurones, musculars) es queden aturades en <b>G0</b>.</p></div>
+        <div class="phase-card" style="--pc:#7CA80A"><div class="pn"><span class="pnum">S</span>Síntesi</div><p>Es <b>replica l'ADN</b>: cada cromàtida es duplica i queden <b>dues cromàtides idèntiques</b>. Es fan histones i (en animals) es duplica el <b>centrosoma</b>.</p></div>
+        <div class="phase-card" style="--pc:#D79A16"><div class="pn"><span class="pnum">G2</span>Pre-divisió</div><p>Creixement cel·lular i <b>síntesi de proteïnes</b> necessàries per a la divisió (per exemple, les del fus).</p></div>
+        <div class="phase-card" style="--pc:#7C5CD6"><div class="pn"><span class="pnum">M</span>Fase M</div><p>Ja fora de la interfase: la cèl·lula <b>es divideix</b> (cariocinesi + citocinesi).</p></div>
+      </div>
+      <div class="callout"><svg class="ico-sm" style="color:var(--lime-d)"><use href="#ic-info"/></svg>Les fases <b>G1 i S</b> ocupen aproximadament el <b>80–90%</b> del cicle.</div>
+    </div></section>
+
+    <section class="page" data-toc="Fase M — cariocinesi"><span class="marginline"></span><div class="pg-in">
+      <h2 class="sec"><svg class="ico"><use href="#ic-cell"/></svg><span class="no">2.</span> La fase M</h2>
+      <p>És el període en què la cèl·lula <b>es divideix</b>. Inclou la <b>cariocinesi</b> (divisió del nucli) i la <b>citocinesi</b> (divisió del citoplasma).</p>
+      <div class="two-col">
+        <div class="info-card" style="--ic2:#2F86C9"><div class="ih"><svg><use href="#ic-cell"/></svg>Cèl·lules somàtiques</div><p>Es divideixen per <b>mitosi</b> → 2 cèl·lules filles <b>idèntiques</b> (mateix nombre de cromosomes).</p></div>
+        <div class="info-card" style="--ic2:#7C5CD6"><div class="ih"><svg><use href="#ic-dna"/></svg>Cèl·lules germinals</div><p>Es divideixen per <b>meiosi</b> → <b>4 cèl·lules</b> (gàmetes) <b>haploides</b> a partir d'una cèl·lula mare diploide.</p></div>
+      </div>
+      <figure>
+        <svg viewBox="0 0 660 120" role="img" aria-label="Cariocinesi i citocinesi">
+          <defs><marker id="m5" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <ellipse cx="90" cy="56" rx="46" ry="36" fill="rgba(47,134,201,.05)" stroke="#2F86C9" stroke-width="2"/>
+          <ellipse cx="90" cy="56" rx="20" ry="16" fill="rgba(124,92,214,.12)" stroke="#7C5CD6" stroke-width="1.6"/>
+          <text x="90" y="108" text-anchor="middle" class="di-label">1 cèl·lula mare</text>
+          <path class="di-s" d="M148 56 H210" marker-end="url(#m5)"/>
+          <text x="179" y="46" text-anchor="middle" class="di-label">cariocinesi</text>
+          <ellipse cx="280" cy="56" rx="46" ry="36" fill="rgba(47,134,201,.05)" stroke="#2F86C9" stroke-width="2"/>
+          <ellipse cx="262" cy="56" rx="15" ry="13" fill="rgba(124,92,214,.12)" stroke="#7C5CD6" stroke-width="1.6"/>
+          <ellipse cx="300" cy="56" rx="15" ry="13" fill="rgba(124,92,214,.12)" stroke="#7C5CD6" stroke-width="1.6"/>
+          <text x="280" y="108" text-anchor="middle" class="di-label">2 nuclis</text>
+          <path class="di-s" d="M338 56 H400" marker-end="url(#m5)"/>
+          <text x="369" y="46" text-anchor="middle" class="di-label">citocinesi</text>
+          <ellipse cx="470" cy="56" rx="30" ry="30" fill="rgba(47,134,201,.05)" stroke="#2F86C9" stroke-width="2"/>
+          <ellipse cx="470" cy="56" rx="12" ry="11" fill="rgba(124,92,214,.12)" stroke="#7C5CD6" stroke-width="1.6"/>
+          <ellipse cx="560" cy="56" rx="30" ry="30" fill="rgba(47,134,201,.05)" stroke="#2F86C9" stroke-width="2"/>
+          <ellipse cx="560" cy="56" rx="12" ry="11" fill="rgba(124,92,214,.12)" stroke="#7C5CD6" stroke-width="1.6"/>
+          <text x="515" y="108" text-anchor="middle" class="di-label">2 cèl·lules filles</text>
+        </svg>
+        <figcaption>Primer es divideix el nucli (cariocinesi) i després el citoplasma (citocinesi)</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="page" data-toc="Mitosi — profase i metafase"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-cell"/></svg>La mitosi — divisió en 2 nuclis idèntics (1/2)</h3>
+      <p>Reparteix <b>les dues còpies</b> del material genètic en dos nuclis fills. Té <b>4 fases</b>:</p>
+      <div class="phase-grid">
+        <div class="phase-card" style="--pc:#7CA80A"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Profase">
+          <ellipse cx="80" cy="60" rx="66" ry="48" fill="rgba(14,58,42,.02)" stroke="#0E3A2A" stroke-width="2"/>
+          <ellipse cx="80" cy="58" rx="38" ry="30" fill="none" stroke="#7C5CD6" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <circle cx="20" cy="60" r="4" fill="#D79A16"/><circle cx="140" cy="60" r="4" fill="#D79A16"/>
+          <g opacity=".5" stroke="#D79A16" stroke-width="1"><path d="M24 60 60 48M24 60 60 72M136 60 100 48M136 60 100 72"/></g>
+          <path d="M51 37 L65 51 M65 37 L51 51" stroke="#7CA80A" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M89 45 L103 59 M103 45 L89 59" stroke="#2F86C9" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M63 67 L77 81 M77 67 L63 81" stroke="#D6564B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        </svg><div class="pn"><span class="pnum">1</span>Profase</div><p>Es condensa la cromatina → <b>cromosomes</b> (2 cromàtides unides pel centròmer). Desapareix el nuclèol, apareix el <b>fus acromàtic</b> i es desfà la membrana nuclear. Els cromosomes s'uneixen als microtúbuls pels <b>cinetocors</b>.</p></div>
+        <div class="phase-card" style="--pc:#2F86C9"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Metafase">
+          <ellipse cx="80" cy="60" rx="66" ry="48" fill="rgba(14,58,42,.02)" stroke="#0E3A2A" stroke-width="2"/>
+          <circle cx="20" cy="60" r="4" fill="#D79A16"/><circle cx="140" cy="60" r="4" fill="#D79A16"/>
+          <g stroke="#D79A16" stroke-width="1" opacity=".7"><path d="M24 60 74 34M24 60 74 60M24 60 74 86M136 60 86 34M136 60 86 60M136 60 86 86"/></g>
+          <line x1="80" y1="20" x2="80" y2="100" stroke="rgba(14,58,42,.25)" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <path d="M73 29 L87 43 M87 29 L73 43" stroke="#7CA80A" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M73 53 L87 67 M87 53 L73 67" stroke="#2F86C9" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M73 77 L87 91 M87 77 L73 91" stroke="#D6564B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        </svg><div class="pn"><span class="pnum">2</span>Metafase</div><p><b>Màxim empaquetament</b>. Els microtúbuls situen els cromosomes a l'equador formant la <b>placa equatorial</b>. Cada cromosoma té <b>2 cinetocors</b> units a microtúbuls de pols oposats.</p></div>
+      </div>
+    </div></section>
+
+    <section class="page" data-toc="Mitosi — anafase i telofase"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-cell"/></svg>La mitosi (2/2)</h3>
+      <div class="phase-grid">
+        <div class="phase-card" style="--pc:#D79A16"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Anafase">
+          <ellipse cx="80" cy="60" rx="70" ry="44" fill="rgba(14,58,42,.02)" stroke="#0E3A2A" stroke-width="2"/>
+          <circle cx="16" cy="60" r="4" fill="#D79A16"/><circle cx="144" cy="60" r="4" fill="#D79A16"/>
+          <g stroke="#D79A16" stroke-width="1" opacity=".6"><path d="M20 60 48 42M20 60 48 78M140 60 112 42M140 60 112 78"/></g>
+          <path d="M39 53 L46 44 L53 53" stroke="#7CA80A" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M39 67 L46 58 L53 67" stroke="#2F86C9" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M39 81 L46 72 L53 81" stroke="#D6564B" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M107 39 L114 48 L121 39" stroke="#7CA80A" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M107 53 L114 62 L121 53" stroke="#2F86C9" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M107 67 L114 76 L121 67" stroke="#D6564B" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg><div class="pn"><span class="pnum">3</span>Anafase</div><p><b>Se separen les cromàtides</b> de cada cromosoma i cadascuna migra cap a un pol. Els pols s'allunyen i els cromosomes (ara amb <b>forma de V</b>) es distancien.</p></div>
+        <div class="phase-card" style="--pc:#7C5CD6"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Telofase">
+          <path d="M14 60 Q14 22 56 22 Q74 22 74 42 L74 78 Q74 98 56 98 Q14 98 14 60Z" fill="rgba(14,58,42,.02)" stroke="#0E3A2A" stroke-width="2"/>
+          <path d="M146 60 Q146 22 104 22 Q86 22 86 42 L86 78 Q86 98 104 98 Q146 98 146 60Z" fill="rgba(14,58,42,.02)" stroke="#0E3A2A" stroke-width="2"/>
+          <ellipse cx="46" cy="60" rx="20" ry="18" fill="rgba(124,92,214,.10)" stroke="#7C5CD6" stroke-width="1.5"/>
+          <ellipse cx="114" cy="60" rx="20" ry="18" fill="rgba(124,92,214,.10)" stroke="#7C5CD6" stroke-width="1.5"/>
+          <g stroke="#7CA80A" stroke-width="1.8" opacity=".8"><path d="M38 54q6 6 12 0M38 62q6 6 12 0"/><path d="M106 54q6 6 12 0M106 62q6 6 12 0"/></g>
+        </svg><div class="pn"><span class="pnum">4</span>Telofase</div><p>Desapareix el fus, es formen les <b>membranes nuclears</b> i els cromosomes es descondensen (tornen a ser <b>cromatina</b>). <b>Reapareix el nuclèol</b>.</p></div>
+      </div>
+      <div class="callout"><svg class="ico-sm" style="color:var(--lime-d)"><use href="#ic-info"/></svg>Regla per recordar l'ordre: <b>P</b>rofase → <b>M</b>etafase → <b>A</b>nafase → <b>T</b>elofase (“PMAT”).</div>
+    </div></section>
+
+    <section class="page" data-toc="Citocinesi"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-split"/></svg>Citocinesi — divisió del citoplasma</h3>
+      <p>És la divisió del citoplasma per formar <b>dues cèl·lules filles</b>. Comença a l'anafase i acaba després de la telofase; els orgànuls duplicats es reparteixen <b>equitativament</b>. És diferent en animals i plantes:</p>
+      <div class="phase-grid">
+        <div class="phase-card" style="--pc:#D6564B"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Citocinesi animal">
+          <path d="M30 60 Q30 24 68 24 Q76 40 76 60 Q76 80 68 96 Q30 96 30 60Z" fill="rgba(214,86,75,.05)" stroke="#D6564B" stroke-width="2"/>
+          <path d="M130 60 Q130 24 92 24 Q84 40 84 60 Q84 80 92 96 Q130 96 130 60Z" fill="rgba(214,86,75,.05)" stroke="#D6564B" stroke-width="2"/>
+          <path d="M76 60 Q80 54 84 60 Q80 66 76 60Z" fill="#D6564B"/>
+          <text x="80" y="118" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" font-weight="700" fill="#b23f36">solc de divisió</text>
+        </svg><div class="pn"><svg style="width:18px;height:18px;color:var(--pc)"><use href="#ic-heart"/></svg>En animals</div><p>A l'interior de la membrana apareix un <b>anell contràctil</b> de filaments d'<b>actina</b> que forma el <b>solc de divisió</b> i estrangula la cèl·lula fins partir-la en dues.</p></div>
+        <div class="phase-card" style="--pc:#1BA98C"><svg class="cellsvg" viewBox="0 0 160 132" aria-label="Citocinesi vegetal">
+          <rect x="24" y="26" width="112" height="68" rx="6" fill="rgba(27,169,140,.05)" stroke="#1BA98C" stroke-width="2.4"/>
+          <line x1="80" y1="26" x2="80" y2="94" stroke="#7CA80A" stroke-width="3" stroke-dasharray="6 4"/>
+          <circle cx="80" cy="42" r="2.4" fill="#0E3A2A"/><circle cx="80" cy="60" r="2.4" fill="#0E3A2A"/><circle cx="80" cy="78" r="2.4" fill="#0E3A2A"/>
+          <text x="80" y="116" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" font-weight="700" fill="#0e7a63">fragmoplast + plasmodesmes</text>
+        </svg><div class="pn"><svg style="width:18px;height:18px;color:var(--pc)"><use href="#ic-leaf"/></svg>En plantes</div><p>La <b>paret rígida</b> impedeix l'estrangulament: es forma una <b>nova paret</b> al mig (<b>fragmoplast</b>). Hi queden porus, els <b>plasmodesmes</b>, que comuniquen les dues cèl·lules.</p></div>
+      </div>
+    </div></section>
+
+    <section class="page" data-toc="Significat de la mitosi"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-info"/></svg>Significat biològic de la mitosi</h3>
+      <p>Hi ha <b>3 raons</b> per les quals succeeix la mitosi:</p>
+      <div class="path-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="path-card" style="--pc:#7CA80A"><svg viewBox="0 0 60 60" aria-label="Reproducció asexual"><g fill="none" stroke="#7CA80A" stroke-width="2.2"><circle cx="20" cy="30" r="9"/><circle cx="40" cy="30" r="9"/></g></svg><span class="pn">Reproducció asexual</span><span class="pd">Un individu en genera un altre idèntic (organismes unicel·lulars i alguns pluricel·lulars).</span></div>
+        <div class="path-card" style="--pc:#2F86C9"><svg viewBox="0 0 60 60" aria-label="Creixement"><g fill="none" stroke="#2F86C9" stroke-width="2.2" stroke-linecap="round"><circle cx="18" cy="30" r="5"/><circle cx="32" cy="30" r="6.5"/><circle cx="48" cy="30" r="8"/></g></svg><span class="pn">Creixement</span><span class="pd">L'organisme es fa gran augmentant el <b>nombre</b> de cèl·lules.</span></div>
+        <div class="path-card" style="--pc:#D79A16"><svg viewBox="0 0 60 60" aria-label="Regeneració"><g fill="none" stroke="#D79A16" stroke-width="2.2" stroke-linecap="round"><path d="M14 30a16 16 0 1 1 5 11"/><path d="M14 40v-9h9"/></g></svg><span class="pn">Regeneració i reparació</span><span class="pd">Renova i repara teixits (per exemple, la pell o les ferides).</span></div>
+      </div>
+      <div class="callout">En tots els casos, les cèl·lules filles són <b>genèticament idèntiques</b> a la mare.</div>
+    </div></section>
+
+    <section class="page" data-toc="3. La meiosi"><span class="marginline"></span><div class="pg-in">
+      <h2 class="sec"><svg class="ico"><use href="#ic-dna"/></svg><span class="no">3.</span> La meiosi</h2>
+      <div class="def"><span class="dt">Meiosi</span>Divisió en què, a partir d'una cèl·lula <b>diploide (2n)</b>, s'obtenen <b>4 cèl·lules haploides (n)</b>. Consisteix en <b>dues divisions successives</b>: meiosi I i meiosi II. Es dona a les <b>cèl·lules germinals</b> per formar els <b>gàmetes</b>.</div>
+      <figure>
+        <svg viewBox="0 0 660 130" role="img" aria-label="Visió general de la meiosi">
+          <defs><marker id="me1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <ellipse cx="70" cy="55" rx="40" ry="34" fill="rgba(47,134,201,.05)" stroke="#2F86C9" stroke-width="2"/>
+          <text x="70" y="59" text-anchor="middle" class="di-lead" font-size="13">2n</text>
+          <text x="70" y="108" text-anchor="middle" class="di-label">cèl·lula mare</text>
+          <path class="di-s" d="M114 55 H168" marker-end="url(#me1)"/><text x="141" y="45" text-anchor="middle" class="di-label">Meiosi I</text>
+          <ellipse cx="210" cy="32" rx="26" ry="22" fill="rgba(124,92,214,.06)" stroke="#7C5CD6" stroke-width="1.8"/><text x="210" y="37" text-anchor="middle" class="di-t-r" font-size="11">n</text>
+          <ellipse cx="210" cy="82" rx="26" ry="22" fill="rgba(124,92,214,.06)" stroke="#7C5CD6" stroke-width="1.8"/><text x="210" y="87" text-anchor="middle" class="di-t-r" font-size="11">n</text>
+          <path class="di-s" d="M240 32 H300" marker-end="url(#me1)"/><path class="di-s" d="M240 82 H300" marker-end="url(#me1)"/>
+          <text x="270" y="20" text-anchor="middle" class="di-label">Meiosi II</text>
+          <g fill="rgba(173,232,12,.10)" stroke="#7CA80A" stroke-width="1.8">
+            <ellipse cx="330" cy="20" rx="20" ry="16"/><ellipse cx="330" cy="56" rx="20" ry="16"/><ellipse cx="330" cy="92" rx="20" ry="16"/><ellipse cx="392" cy="56" rx="20" ry="16"/></g>
+          <g font-family="Space Mono,monospace" font-size="10" font-weight="700" fill="#5f7f08" text-anchor="middle"><text x="330" y="24">n</text><text x="330" y="60">n</text><text x="330" y="96">n</text><text x="392" y="60">n</text></g>
+          <text x="470" y="59" text-anchor="middle" class="di-lead">4 gàmetes haploides</text>
+        </svg>
+        <figcaption>Una cèl·lula diploide origina quatre cèl·lules haploides en dues divisions</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="page" data-toc="Meiosi I — profase I"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-scissors"/></svg>Meiosi I — Profase I (5 subfases)</h3>
+      <figure>
+        <svg viewBox="0 0 660 150" role="img" aria-label="Bivalent i entrecreuament">
+          <defs><marker id="mx" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <text x="120" y="22" text-anchor="middle" class="di-lead">Bivalent (tètrada)</text>
+          <path d="M96 40 C88 70 88 90 96 120" stroke="#2F86C9" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M108 40 C100 70 100 90 108 120" stroke="#2F86C9" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M132 40 C140 70 140 90 132 120" stroke="#D6564B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M144 40 C152 70 152 90 144 120" stroke="#D6564B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="120" y="140" text-anchor="middle" class="di-label">2 homòlegs = 4 cromàtides</text>
+          <path class="di-s" d="M180 80 H236" marker-end="url(#mx)"/><text x="208" y="70" text-anchor="middle" class="di-label">entrecreuament</text>
+          <text x="380" y="22" text-anchor="middle" class="di-lead">Quiasma (intercanvi)</text>
+          <path d="M320 40 C316 60 350 78 356 100 L356 120" stroke="#2F86C9" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M336 40 C340 60 306 78 300 100 L300 120" stroke="#D6564B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M404 40 C408 60 374 78 368 100 L368 120" stroke="#D6564B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M388 40 C384 60 418 78 424 100 L424 120" stroke="#2F86C9" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="362" cy="78" r="6" fill="none" stroke="#0E3A2A" stroke-width="1.6"/>
+          <text x="372" y="140" text-anchor="middle" class="di-label">s'intercanvien fragments (cromàtides no germanes)</text>
+        </svg>
+        <figcaption>Els homòlegs s'aparellen i intercanvien fragments — clau de la variabilitat genètica</figcaption>
+      </figure>
+      <div class="step-row"><span class="step-n">1</span><span class="st"><b>Leptoté:</b> la cromatina es condensa i es visualitzen els cromosomes.</span></div>
+      <div class="step-row"><span class="step-n">2</span><span class="st"><b>Zigoté:</b> s'aparellen els cromosomes <b>homòlegs</b> (sinapsi).</span></div>
+      <div class="step-row"><span class="step-n">3</span><span class="st"><b>Paquité:</b> es forma el <b>bivalent</b> (4 cromàtides) i es produeix l'<b>entrecreuament</b>.</span></div>
+      <div class="step-row"><span class="step-n">4</span><span class="st"><b>Diploté:</b> els homòlegs comencen a separar-se però segueixen units pel <b>quiasma</b>.</span></div>
+      <div class="step-row"><span class="step-n">5</span><span class="st"><b>Diacinesi:</b> desapareix la membrana nuclear i el nuclèol; es forma el fus.</span></div>
+    </div></section>
+
+    <section class="page" data-toc="Meiosi I i II"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-dna"/></svg>Meiosi I (metafase → telofase) i Meiosi II</h3>
+      <div class="step-row"><span class="step-n">M</span><span class="st"><b>Metafase I:</b> al pla equatorial se situen <b>parelles de cromosomes homòlegs</b>. Cada bivalent orienta els cromosomes patern i matern <b>a l'atzar</b>.</span></div>
+      <div class="step-row"><span class="step-n">A</span><span class="st"><b>Anafase I:</b> es trenquen els quiasmes i cada cromosoma sencer va cap a un pol → <span class="hl">segregació</span>.</span></div>
+      <div class="step-row"><span class="step-n">T</span><span class="st"><b>Telofase I:</b> es regenera la membrana i el nuclèol; els nuclis queden <b>haploides</b>.</span></div>
+      <div class="imp"><span class="impt">Meiosi II</span>És pràcticament una <b>mitosi</b> (profase, metafase, anafase i telofase II). La <b>diferència clau</b>: abans hi ha una interfase <b>breu en què NO es duplica l'ADN</b> (ja estava duplicat). Ara se separen les <b>cromàtides germanes</b>.</div>
+      <div class="two-col">
+        <div class="info-card" style="--ic2:#7C5CD6"><div class="ih"><svg><use href="#ic-dna"/></svg>Meiosi I</div><p>Se separen els <b>cromosomes homòlegs</b> (reductora: 2n → n).</p></div>
+        <div class="info-card" style="--ic2:#7CA80A"><div class="ih"><svg><use href="#ic-cell"/></svg>Meiosi II</div><p>Se separen les <b>cromàtides germanes</b> (com una mitosi).</p></div>
+      </div>
+    </div></section>
+
+    <section class="page" data-toc="Significat de la meiosi"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-info"/></svg>Significat biològic de la meiosi</h3>
+      <div class="two-col">
+        <div class="info-card" style="--ic2:#2F86C9"><div class="ih"><svg><use href="#ic-shield2"/></svg>1) Manté el nombre de cromosomes</div><p>En reduir a la meitat (2n→n), en unir-se dos gàmetes es recupera el <b>2n</b>. Sense meiosi, es duplicaria cada generació.</p></div>
+        <div class="info-card" style="--ic2:#7C5CD6"><div class="ih"><svg><use href="#ic-scissors"/></svg>2) Genera variabilitat</div><p>Els gàmetes són <b>tots diferents</b>, pels <b>entrecreuaments</b> i per l'orientació <b>a l'atzar</b> dels bivalents. És la base de la diversitat i l'adaptació.</p></div>
+      </div>
+      <figure>
+        <svg viewBox="0 0 660 120" role="img" aria-label="La meiosi manté el nombre de cromosomes">
+          <text x="330" y="22" text-anchor="middle" class="di-lead">La fecundació recupera el 2n</text>
+          <ellipse cx="150" cy="66" rx="26" ry="22" fill="rgba(124,92,214,.08)" stroke="#7C5CD6" stroke-width="1.8"/><text x="150" y="71" text-anchor="middle" class="di-t-r" font-size="12">n</text>
+          <text x="150" y="104" text-anchor="middle" class="di-label">gàmeta</text>
+          <text x="222" y="72" text-anchor="middle" class="di-lead" font-size="18">+</text>
+          <ellipse cx="290" cy="66" rx="26" ry="22" fill="rgba(47,134,201,.08)" stroke="#2F86C9" stroke-width="1.8"/><text x="290" y="71" text-anchor="middle" class="di-t-h" font-size="12">n</text>
+          <text x="290" y="104" text-anchor="middle" class="di-label">gàmeta</text>
+          <text x="360" y="72" text-anchor="middle" class="di-lead" font-size="16">→</text>
+          <ellipse cx="450" cy="66" rx="34" ry="28" fill="rgba(173,232,12,.10)" stroke="#7CA80A" stroke-width="2"/><text x="450" y="72" text-anchor="middle" class="di-lead" font-size="15">2n</text>
+          <text x="450" y="108" text-anchor="middle" class="di-label">zigot</text>
+        </svg>
+        <figcaption>Dos gàmetes haploides (n) formen un zigot diploide (2n)</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="page" data-toc="Mitosi vs meiosi"><span class="marginline"></span><div class="pg-in">
+      <h2 class="sec"><svg class="ico"><use href="#ic-swap"/></svg><span class="no">4.</span> Mitosi vs meiosi</h2>
+      <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th class="mi">MITOSI</th><th class="me">MEIOSI</th></tr></thead>
+        <tbody>
+          <tr><th>On es produeix</th><td>Cèl·lules <b>somàtiques</b> (i germinals)</td><td>Només cèl·lules <b>germinals</b></td></tr>
+          <tr><th>Què dona</th><td>2 cèl·lules filles <b>idèntiques</b></td><td>4 cèl·lules <b>haploides diferents</b></td></tr>
+          <tr><th>A la metafase</th><td>Cromosomes <b>individuals</b> a la placa</td><td>Parelles de <b>homòlegs</b> a la placa</td></tr>
+          <tr><th>Què se separa</th><td><b>Cromàtides germanes</b></td><td><b>Cromosomes homòlegs</b> (a la meiosi I)</td></tr>
+          <tr><th>Funció</th><td>Reproducció asexual, creixement, reparació</td><td>Reproducció <b>sexual</b></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout"><svg class="ico-sm" style="color:var(--lime-d)"><use href="#ic-info"/></svg>Truc: la <b>mitosi</b> copia (idèntiques); la <b>meiosi</b> barreja i redueix (variades i haploides).</div>
+    </div></section>
+
+    <section class="page" data-toc="Els cicles biològics"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-cycle"/></svg>Els cicles biològics</h3>
+      <p>Segons en quina fase (haploide o diploide) passa la major part de la vida de l'organisme:</p>
+      <div class="three">
+        <div class="info-card" style="--ic2:#2F86C9"><div class="ih">Diplont</div><p>Sempre <b>diploides</b>, excepte els gàmetes. <b>Ex:</b> plantes i animals.</p></div>
+        <div class="info-card" style="--ic2:#D79A16"><div class="ih">Haplont</div><p>Sempre <b>haploides</b>, excepte el zigot. <b>Ex:</b> algunes algues i fongs.</p></div>
+        <div class="info-card" style="--ic2:#7CA80A"><div class="ih">Diplohaplont</div><p>Alterna: adult <b>diploide</b> (esporòfit) → espores <b>haploides</b> → adult haploide.</p></div>
+      </div>
+      <figure>
+        <svg viewBox="0 0 660 96" role="img" aria-label="Cicle diplohaplont">
+          <defs><marker id="cb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <ellipse cx="80" cy="46" rx="34" ry="24" fill="rgba(47,134,201,.08)" stroke="#2F86C9" stroke-width="1.8"/><text x="80" y="42" text-anchor="middle" class="di-t-h" font-size="10">adult</text><text x="80" y="55" text-anchor="middle" class="di-t-h" font-size="10">2n</text>
+          <path class="di-s" d="M116 46 H196" marker-end="url(#cb)"/><text x="156" y="36" text-anchor="middle" class="di-label">meiosi</text>
+          <ellipse cx="250" cy="46" rx="34" ry="24" fill="rgba(215,154,22,.08)" stroke="#D79A16" stroke-width="1.8"/><text x="250" y="42" text-anchor="middle" class="di-t-l" font-size="10">espores</text><text x="250" y="55" text-anchor="middle" class="di-t-l" font-size="10">n</text>
+          <path class="di-s" d="M286 46 H366" marker-end="url(#cb)"/><text x="326" y="36" text-anchor="middle" class="di-label">mitosi</text>
+          <ellipse cx="420" cy="46" rx="34" ry="24" fill="rgba(173,232,12,.10)" stroke="#7CA80A" stroke-width="1.8"/><text x="420" y="42" text-anchor="middle" class="di-t-r" font-size="10">adult</text><text x="420" y="55" text-anchor="middle" class="di-t-r" font-size="10">n</text>
+          <path class="di-s" d="M456 46 H536" marker-end="url(#cb)"/><text x="496" y="36" text-anchor="middle" class="di-label">gàmetes → zigot</text>
+          <ellipse cx="590" cy="46" rx="30" ry="24" fill="rgba(47,134,201,.08)" stroke="#2F86C9" stroke-width="1.8"/><text x="590" y="50" text-anchor="middle" class="di-t-h" font-size="10">2n</text>
+        </svg>
+        <figcaption>Exemple de cicle diplohaplont amb alternança de generacions</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="page" data-toc="5. Control del cicle"><span class="marginline"></span><div class="pg-in">
+      <h2 class="sec"><svg class="ico"><use href="#ic-shield2"/></svg><span class="no">5.</span> El control del cicle cel·lular</h2>
+      <p>El cicle és un procés molt <b>regulat</b>: la cèl·lula no es divideix si detecta condicions desfavorables. Hi ha <b>3 punts de control</b>:</p>
+      <figure>
+        <svg viewBox="0 0 660 180" role="img" aria-label="Punts de control del cicle">
+          <circle cx="150" cy="92" r="60" fill="none" stroke="rgba(14,58,42,.10)" stroke-width="16"/>
+          <path d="M150 32 A60 60 0 0 1 210 92" fill="none" stroke="#2F86C9" stroke-width="16" stroke-linecap="round"/>
+          <path d="M210 92 A60 60 0 0 1 150 152" fill="none" stroke="#7CA80A" stroke-width="16" stroke-linecap="round"/>
+          <path d="M150 152 A60 60 0 0 1 90 92" fill="none" stroke="#D79A16" stroke-width="16" stroke-linecap="round"/>
+          <path d="M90 92 A60 60 0 0 1 150 32" fill="none" stroke="#7C5CD6" stroke-width="16" stroke-linecap="round"/>
+          <text x="180" y="66" class="di-t-h" font-size="11">S</text><text x="176" y="126" class="di-t-r" font-size="11">G2</text><text x="112" y="126" class="di-t-l" font-size="11">M</text><text x="116" y="66" font-family="Space Mono,monospace" font-size="11" font-weight="700" fill="#5a3fb0">G1</text>
+          <circle cx="150" cy="152" r="7" fill="#fff" stroke="#D6564B" stroke-width="2.5"/>
+          <circle cx="210" cy="92" r="7" fill="#fff" stroke="#D6564B" stroke-width="2.5"/>
+          <circle cx="120" cy="145" r="7" fill="#fff" stroke="#D6564B" stroke-width="2.5"/>
+          <text x="332" y="64" class="di-lead">Punts de control</text>
+          <text x="332" y="96" class="di-t-r">● G1/S</text><text x="398" y="96" class="di-label">punt de no retorn</text>
+          <text x="332" y="126" class="di-t-r">● G2/M</text><text x="398" y="126" class="di-label">repara errors de replicació</text>
+          <text x="332" y="152" class="di-t-r">● M</text><text x="398" y="152" class="di-label">espera que tots els cromosomes</text>
+          <text x="398" y="167" class="di-label">estiguin units al fus</text>
+        </svg>
+        <figcaption>Els punts de control asseguren que cada fase acabi bé abans de continuar</figcaption>
+      </figure>
+      <div class="callout"><svg class="ico-sm" style="color:var(--lime-d)"><use href="#ic-info"/></svg>Les molècules que regulen el cicle són les <b>ciclines</b> (van augmentant per fases) juntament amb les <b>quinases</b> dependents de ciclina.</div>
+    </div></section>
+
+    <section class="page" data-toc="Apoptosi i càncer"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-heart"/></svg>Apoptosi — mort cel·lular programada</h3>
+      <figure>
+        <svg viewBox="0 0 660 96" role="img" aria-label="Apoptosi">
+          <defs><marker id="ap" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L6 4 L0 8" fill="none" stroke="#0E3A2A" stroke-width="1.5"/></marker></defs>
+          <ellipse cx="80" cy="48" rx="34" ry="28" fill="rgba(214,86,75,.05)" stroke="#D6564B" stroke-width="2"/><ellipse cx="80" cy="48" rx="12" ry="10" fill="rgba(214,86,75,.2)"/>
+          <text x="80" y="90" text-anchor="middle" class="di-label">cèl·lula</text>
+          <path class="di-s" d="M120 48 H176" marker-end="url(#ap)"/>
+          <g fill="rgba(214,86,75,.14)" stroke="#D6564B" stroke-width="1.6"><circle cx="215" cy="34" r="10"/><circle cx="238" cy="55" r="9"/><circle cx="210" cy="62" r="8"/></g>
+          <text x="222" y="90" text-anchor="middle" class="di-label">es fragmenta</text>
+          <path class="di-s" d="M262 48 H318" marker-end="url(#ap)"/>
+          <path d="M360 48 q10 -22 34 -22 q28 0 28 22 q0 22 -28 22 q-24 0 -34 -22z" fill="rgba(27,169,140,.12)" stroke="#1BA98C" stroke-width="2"/>
+          <circle cx="404" cy="42" r="4" fill="#0E3A2A"/><circle cx="392" cy="54" r="4" fill="#0E3A2A"/>
+          <text x="392" y="90" text-anchor="middle" class="di-label">macròfag fagocita</text>
+        </svg>
+        <figcaption>La cèl·lula es desintegra en trossos de membrana i és fagocitada per macròfags</figcaption>
+      </figure>
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-tumor"/></svg>El càncer i el cicle cel·lular</h3>
+      <p>Les cèl·lules canceroses han <b>perdut el control</b> del cicle: fallen els punts de control i es divideixen sense parar. El càncer sorgeix per <b>acumulació d'errors</b>.</p>
+      <div class="two-col">
+        <div class="info-card" style="--ic2:#7CA80A"><div class="ih"><svg><use href="#ic-shield-check"/></svg>Tumor benigne</div><p>Les cèl·lules es divideixen <b>localment i lentament</b>; no envaeixen altres teixits.</p></div>
+        <div class="info-card" style="--ic2:#D6564B"><div class="ih"><svg><use href="#ic-warn"/></svg>Tumor maligne</div><p>Creix <b>ràpidament</b>; si les cèl·lules migren i envaeixen altres teixits és la <b>metàstasi</b>.</p></div>
+      </div>
+    </div></section>
+
+    <section class="page" data-toc="Agents carcinògens"><span class="marginline"></span><div class="pg-in">
+      <h3 class="sub"><svg class="ico-sm"><use href="#ic-warn"/></svg>Agents carcinògens i hàbits saludables</h3>
+      <p>Els <b>agents carcinògens</b> poden provocar càncer. N'hi ha de tres tipus:</p>
+      <div class="path-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="path-card" style="--pc:#D79A16"><svg viewBox="0 0 60 60" aria-label="Físics"><g fill="none" stroke="#D79A16" stroke-width="2.4" stroke-linecap="round"><circle cx="30" cy="30" r="6"/><path d="M30 18 26 8a12 12 0 0 1 8 0z"/><path d="M40 36 50 41a12 12 0 0 1-4 7z"/><path d="M20 36 10 41a12 12 0 0 0 4 7z"/></g></svg><span class="pn">Físics</span><span class="pd">Radiacions (raigs X, UV).</span></div>
+        <div class="path-card" style="--pc:#7C5CD6"><svg viewBox="0 0 60 60" aria-label="Químics"><g fill="none" stroke="#7C5CD6" stroke-width="2.2"><circle cx="30" cy="30" r="2.6" fill="#7C5CD6"/><ellipse cx="30" cy="30" rx="20" ry="8"/><ellipse cx="30" cy="30" rx="20" ry="8" transform="rotate(60 30 30)"/><ellipse cx="30" cy="30" rx="20" ry="8" transform="rotate(120 30 30)"/></g></svg><span class="pn">Químics</span><span class="pd">Alcohol, tabac, acrilamida, amiant…</span></div>
+        <div class="path-card" style="--pc:#1BA98C"><svg viewBox="0 0 60 60" aria-label="Biològics"><g fill="none" stroke="#1BA98C" stroke-width="2.2" stroke-linecap="round"><circle cx="30" cy="30" r="10"/><path d="M30 20v-6M30 46v-6M20 30h-6M46 30h-6M23 23l-4-4M41 41l-4-4M37 23l4-4M23 37l-4 4"/></g></svg><span class="pn">Biològics</span><span class="pd">Virus del papil·loma, hepatitis B…</span></div>
+      </div>
+      <div class="callout"><svg class="ico-sm" style="color:var(--lime-d)"><use href="#ic-heart"/></svg>Per reduir el risc: <b>vida saludable</b> i una <b>dieta rica en fruites i verdures</b>, evitant tabac i alcohol.</div>
+    </div></section>
+
+    <!-- CONTRAPORTADA -->
+
+    <section class="page cover" data-toc="Fi del tema"><div class="pg-in">
+      <span class="eyebrow">Tema 5 completat</span>
+      <h1 style="font-size:clamp(1.6rem,4vw,2.2rem)">Ho tens.</h1>
+      <p style="max-width:26ch;color:var(--ink2);text-align:center">Repassa els esquemes quan vulguis i posa't a prova amb els tests.</p>
+      <div class="hint">bioPau — El cicle cel·lular i el càncer</div>
+    </div></section>
+
+  </div>
+</div>
+
+
+
+
+<!-- Índex -->
+<div class="toc" id="toc"><div class="toc-card">
+  <h3>Índex del tema</h3>
+  <div class="tsub">Tema 5 — El cicle cel·lular i el càncer</div>
+  <div id="toc-list"></div>
+</div></div>
+
+<!-- Controls -->
+<div class="bar">
+  <button class="nav-btn" id="prev" aria-label="Pàgina anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <span class="counter" id="counter">1 / 1</span>
+  <button class="nav-btn" id="next" aria-label="Pàgina següent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  <button class="toc-btn" id="tocBtn">Índex</button>
+</div>
+
+<script>
+(function(){
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var total = pages.length, cur = 0, animating = false;
+  var elPrev = document.getElementById('prev'), elNext = document.getElementById('next');
+  var elCounter = document.getElementById('counter'), elProg = document.getElementById('progress');
+  var toc = document.getElementById('toc'), tocList = document.getElementById('toc-list');
+
+  function layout(){
+    pages.forEach(function(p,i){
+      p.style.zIndex = i < cur ? i : (total - i);
+      p.style.transform = i < cur ? 'rotateY(-180deg)' : 'rotateY(0deg)';
+    });
+    ui();
+  }
+  function ui(){
+    elCounter.textContent = (cur+1) + ' / ' + total;
+    elProg.style.width = (cur/(total-1)*100) + '%';
+    elPrev.disabled = cur === 0; elNext.disabled = cur === total-1;
+  }
+  function go(dir){
+    if(animating) return;
+    if(dir>0 && cur < total-1){
+      animating = true; var p = pages[cur]; p.style.zIndex = 999; p.style.transform = 'rotateY(-180deg)';
+      cur++; ui(); setTimeout(function(){ animating=false; layout(); }, 810);
+    } else if(dir<0 && cur > 0){
+      animating = true; cur--; var q = pages[cur]; q.style.zIndex = 999; q.style.transform = 'rotateY(0deg)';
+      ui(); setTimeout(function(){ animating=false; layout(); }, 810);
+    }
+  }
+  function jump(i){
+    if(i===cur){ toc.classList.remove('is-on'); return; }
+    var bk = document.getElementById('book');
+    bk.classList.add('no-anim');
+    cur = Math.max(0, Math.min(total-1, i));
+    layout();
+    void bk.offsetWidth;
+    requestAnimationFrame(function(){ bk.classList.remove('no-anim'); });
+    toc.classList.remove('is-on');
+  }
+
+  elNext.addEventListener('click', function(){ go(1); });
+  elPrev.addEventListener('click', function(){ go(-1); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); go(1); }
+    else if(e.key==='ArrowLeft') go(-1);
+    else if(e.key==='Escape') toc.classList.remove('is-on');
+  });
+  // Swipe
+  var sx=0, sy=0;
+  document.querySelector('.stage').addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+  document.querySelector('.stage').addEventListener('touchend', function(e){
+    var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);
+  }, {passive:true});
+  // Tap zones (mitad izquierda/derecha) en la página, sin tapar scroll
+  pages.forEach(function(p){
+    p.addEventListener('click', function(e){
+      if(e.target.closest('a,button')) return;
+      var r=p.getBoundingClientRect(); var x=e.clientX-r.left;
+      if(x > r.width*0.62) go(1); else if(x < r.width*0.38) go(-1);
+    });
+  });
+
+  // Índex
+  pages.forEach(function(p,i){
+    var label = p.getAttribute('data-toc'); if(!label) return;
+    var b=document.createElement('button'); b.className='toc-item';
+    b.innerHTML = '<span>'+label+'</span><span class="tn">'+(i+1)+'</span>';
+    b.addEventListener('click', function(){ jump(i); });
+    tocList.appendChild(b);
+  });
+  document.getElementById('tocBtn').addEventListener('click', function(){ toc.classList.toggle('is-on'); });
+  toc.addEventListener('click', function(e){ if(e.target===toc) toc.classList.remove('is-on'); });
+
+  layout();
+})();
+</script>
+</body>
+</html>
