@@ -123,7 +123,7 @@
             return '<button class="ob-opt'+(a.assistant_tone===x.id?' is-sel':'')+'" data-tone="'+x.id+'">'+
               '<span class="oo-ico">'+x.ico+'</span><div class="oo-t">'+t(x.name)+'</div><div class="oo-s">'+t(x.desc)+'</div></button>';
           }).join('')+'</div>'+
-          '<div class="ob-preview" id="ob-preview"><span class="pv-ico">💬</span><div><span class="pv-t">'+t({es:'Así te hablará',ca:'Així et parlarà'})+'</span><span id="ob-preview-txt"></span></div></div>';
+          '<div class="ob-preview" id="ob-preview"><span class="pv-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 20l1.4-4.2A8.3 8.3 0 0 1 3.5 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span><div><span class="pv-t">'+t({es:'Así te hablará',ca:'Així et parlarà'})+'</span><span id="ob-preview-txt"></span></div></div>';
       },
       wire:function(){
         document.querySelectorAll('#ob-tones .ob-opt').forEach(function(b){

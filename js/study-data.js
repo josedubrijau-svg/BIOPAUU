@@ -48,6 +48,16 @@ window.BIOPAU_DATA = (function () {
       apuntes: []
     },
     {
+      id: 'cicle-cellular',
+      nombre: 'El cicle cel·lular i el càncer',
+      desc: 'Interfase (G1, S, G2), mitosi i citocinesi, meiosi, cicles biològics, control del cicle, apoptosi i càncer.',
+      color: '#22D3EE',
+      icon: 'cellcycle',
+      llibre: '/app/apuntes-cicle-cellular.html',
+      llibreTitol: 'Tema 5 — El cicle cel·lular i el càncer',
+      apuntes: []
+    },
+    {
       id: 'biosintesi',
       nombre: 'Replicació i biosíntesi de proteïnes',
       desc: 'Replicació de l\'ADN, transcripció, codi genètic, traducció i regulació de l\'expressió gènica en procariotes i eucariotes.',

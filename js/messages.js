@@ -15,7 +15,7 @@ window.BPMessages = (function () {
   /* Cada entrada: claves a detectar + {f,m,n} en es y ca + emoji.            */
   var ROLES = [
     { k:['enferm','inferm'], emoji:'', es:{f:'enfermera',m:'enfermero',n:'futur@ enfermer@'}, ca:{f:'infermera',m:'infermer',n:'futur@ inferm@'} },
-    { k:['medicin','medic','metge','médic'], emoji:'👩‍', es:{f:'médica',m:'médico',n:'futur@ metge/essa'}, ca:{f:'metgessa',m:'metge',n:'futur@ metge/essa'} },
+    { k:['medicin','medic','metge','médic'], emoji:'', es:{f:'médica',m:'médico',n:'futur@ metge/essa'}, ca:{f:'metgessa',m:'metge',n:'futur@ metge/essa'} },
     { k:['psicolog','psicòleg','psicolog'], emoji:'', es:{f:'psicóloga',m:'psicólogo',n:'futur@ psicòleg/a'}, ca:{f:'psicòloga',m:'psicòleg',n:'futur@ psicòleg/a'} },
     { k:['derecho','dret','abogad','advoc'], emoji:'', es:{f:'abogada',m:'abogado',n:'futur@ advocat/da'}, ca:{f:'advocada',m:'advocat',n:'futur@ advocat/da'} },
     { k:['veterin'], emoji:'', es:{f:'veterinaria',m:'veterinario',n:'futur@ veterinari@'}, ca:{f:'veterinària',m:'veterinari',n:'futur@ veterinari@'} },

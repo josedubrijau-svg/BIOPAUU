@@ -55,6 +55,44 @@ window.BPEdu = (function () {
   function norm(s) { return (s || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim(); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
 
+  /* ---------- Símbolos originales por carrera (SVG inline, sin emojis) ------ *
+   * Cada carrera detecta su icono por palabra clave. Trazo monocromo que
+   * hereda currentColor, estética coherente (line-icon 24x24).               */
+  var CAREER_PATHS = [
+    { k:['inferm','enferm','nursing'],          d:'<path d="M12 3l6 2.5v5C18 15 15.5 18 12 19c-3.5-1-6-4-6-8.5v-5z"/><path d="M12 8.5v5M9.5 11h5"/>' }, // infermeria: escut + creu
+    { k:['medicin','medic','metge','médic'],    d:'<path d="M7 3v4a4 4 0 0 0 8 0V3"/><path d="M6 3h2M14 3h2"/><path d="M11 15a4 4 0 0 0 8 0v-2"/><path d="M11 11v4"/><circle cx="19" cy="12" r="1.6"/>' }, // medicina: fonendo
+    { k:['psicolog','psico'],                   d:'<path d="M15 20a5 5 0 0 0 3-9 5 5 0 0 0-9.5-2.2A4 4 0 0 0 8 16"/><path d="M12 8v9M12 11l2.2-1.6M12 14l-2.2-1.6"/>' }, // psicologia: cap+ment
+    { k:['biotec'],                             d:'<path d="M9 3v5l-4 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-4-9V3"/><path d="M8.5 3h7"/><path d="M10 13c0 1.5 4 2 4 4M14 13c0 1.5-4 2-4 4"/>' }, // biotecnologia: matràs+DNA
+    { k:['bioquim','bioquím'],                  d:'<path d="M8 5h8l4 7-4 7H8l-4-7z"/><circle cx="12" cy="12" r="3"/>' }, // bioquímica: anell
+    { k:['biomed','biomèd','biomèdi'],          d:'<path d="M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9.5 7.5h5M9.5 16.5h5"/>' }, // biomèdiques: DNA
+    { k:['biolog','biòleg'],                    d:'<path d="M5 20c0-8 6-13 15-13 0 8-6 13-15 13z"/><path d="M5 20c3-6 7-9 12-11"/>' }, // biologia: fulla
+    { k:['farmac','farmàc','pharmacy'],         d:'<path d="M5 11h14"/><path d="M6 11v2a6 6 0 0 0 12 0v-2"/><path d="M12 11V6"/><path d="M9.5 6l5-2.5"/>' }, // farmàcia: morter
+    { k:['veterin','vet'],                      d:'<circle cx="7.5" cy="9.5" r="1.6"/><circle cx="12" cy="7.5" r="1.6"/><circle cx="16.5" cy="9.5" r="1.6"/><path d="M12 11c-3 0-5 2.2-5 4.6C7 18 9 19 12 19s5-1 5-3.4C17 13.2 15 11 12 11z"/>' }, // veterinària: petjada
+    { k:['fisio','physio'],                     d:'<circle cx="9" cy="5" r="1.6"/><path d="M9 8l-2 5 3 1v5"/><path d="M10 14l4-1 3 3"/><path d="M7 13l-2 3"/>' }, // fisioteràpia: cos en moviment
+    { k:['odontolog','dentista','dental'],      d:'<path d="M12 3c4 0 6 2.2 6 5.5 0 3.5-1.2 10.5-3 10.5-1.2 0-1.2-4-3-4s-1.8 4-3 4c-1.8 0-3-7-3-10.5C6 5.2 8 3 12 3z"/>' }, // odontologia: dent
+    { k:['nutri','dietet','dietèt'],            d:'<path d="M12 8c-1.2-2.6-4-2.6-5.2-.6-1 1.8-.4 4.4 1 6.6 1 1.6 2.4 3 4.2 3s3.2-1.4 4.2-3c1.4-2.2 2-4.8 1-6.6-1.2-2-4-2-5.2.6z"/><path d="M12 8V5a2.4 2.4 0 0 1 2.4-2.4"/>' }, // nutrició: poma
+    { k:['quimic','químic','chemistry'],        d:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 15h9"/>' }, // química: erlenmeyer
+    { k:['ambient','environment','medi ambient'],d:'<circle cx="12" cy="12" r="9"/><path d="M12 3c-4 4-4 14 0 18M12 3c4 4 4 14 0 18M3.5 9.5h17M3.5 14.5h17"/>' }, // ambientals: globus
+    { k:['mar','marine'],                       d:'<path d="M3 11c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>' }, // mar: onades
+    { k:['logoped'],                            d:'<path d="M4 12a8 8 0 0 1 16 0"/><path d="M8 12a4 4 0 0 1 8 0"/><path d="M11 12a1 1 0 0 1 2 0"/><path d="M4 12v3M20 12v3"/>' }, // logopèdia: ones de veu
+    { k:['optic','òptic','optometr'],           d:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>' }, // òptica: ull
+    { k:['podolog'],                            d:'<path d="M9 4c-1.2 3.4-1.8 7-1 10.5A3 3 0 0 0 13.8 15c.3-2 3-2.2 3.2-4.6"/><path d="M9 4c2-.8 3.6.4 3.6 3"/>' }, // podologia: peu
+    { k:['educacio infantil','educació infantil','magisteri infantil'], d:'<rect x="4" y="6" width="6" height="6" rx="1"/><rect x="14" y="6" width="6" height="6" rx="1"/><rect x="9" y="14" width="6" height="6" rx="1"/>' }, // ed. infantil: blocs
+    { k:['educacio','educació','educacion','magisteri','mestr'], d:'<path d="M2 9l10-4.5L22 9l-10 4.5z"/><path d="M6 11v5c0 1.2 2.7 3 6 3s6-1.8 6-3v-5"/>' }, // educació: birret
+    { k:['cafe','esport','fisica','física','deporte','activitat'], d:'<path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10"/>' } // CAFE: peses
+  ];
+  var DEFAULT_PATH = '<rect x="3.5" y="8" width="17" height="11" rx="1.6"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>'; // maletí (professió genèrica)
+  function careerPath(name) {
+    var q = norm(name);
+    for (var i = 0; i < CAREER_PATHS.length; i++)
+      for (var j = 0; j < CAREER_PATHS[i].k.length; j++)
+        if (q.indexOf(norm(CAREER_PATHS[i].k[j])) !== -1) return CAREER_PATHS[i].d;
+    return DEFAULT_PATH;
+  }
+  function careerIcon(name, cls) {
+    return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + careerPath(name) + '</svg>';
+  }
+
   function searchUni(q) {
     q = norm(q); if (!q) return UNIS.slice(0, 6);
     var starts = [], contains = [];
@@ -91,6 +129,9 @@ window.BPEdu = (function () {
       '.edu-opt{display:flex;flex-direction:column;gap:2px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--line,rgba(14,58,42,.10))}' +
       '.edu-opt:last-child{border-bottom:0}' +
       '.edu-opt.is-active,.edu-opt:hover{background:rgba(173,232,12,.14)}' +
+      '.edu-opt--career{flex-direction:row;align-items:center;gap:11px}' +
+      '.edu-ic{flex:0 0 30px;width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:rgba(173,232,12,.12);border:1px solid var(--line,rgba(14,58,42,.14));color:var(--lime-d,#7CA80A)}' +
+      '.edu-ic svg{width:18px;height:18px}' +
       '.edu-opt .n{font-family:var(--display,inherit);font-weight:700;font-size:.95rem;color:var(--txt,inherit)}' +
       '.edu-opt .t{font-family:var(--mono,monospace);font-size:.74rem;color:var(--txt-dim,#6b7c72)}' +
       '.edu-slogan{display:none;align-items:center;gap:8px;margin-top:8px;font-size:.86rem;color:var(--txt-soft,#3B4E44)}' +
@@ -121,7 +162,7 @@ window.BPEdu = (function () {
         items = list; active = -1;
         sug.innerHTML = list.map(function (it, i) {
           if (kind === 'uni') return '<div class="edu-opt" role="option" data-i="' + i + '"><span class="n">' + esc(uniLabel(it)) + '</span><span class="t">' + esc(it.tag) + '</span></div>';
-          return '<div class="edu-opt" role="option" data-i="' + i + '"><span class="n">' + esc(it.name) + '</span></div>';
+          return '<div class="edu-opt edu-opt--career" role="option" data-i="' + i + '"><span class="edu-ic">' + careerIcon(it.name) + '</span><span class="n">' + esc(it.name) + '</span></div>';
         }).join('');
         wrap.classList.toggle('is-open', list.length > 0);
         input.setAttribute('aria-expanded', list.length > 0 ? 'true' : 'false');
@@ -160,5 +201,5 @@ window.BPEdu = (function () {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { enhance(document); });
   else enhance(document);
 
-  return { enhance: enhance, UNIS: UNIS, CAREERS: CAREERS, searchUni: searchUni, searchCareer: searchCareer, matchUni: matchUni, matchCareer: matchCareer };
+  return { enhance: enhance, UNIS: UNIS, CAREERS: CAREERS, searchUni: searchUni, searchCareer: searchCareer, matchUni: matchUni, matchCareer: matchCareer, careerIcon: careerIcon, careerPath: careerPath };
 })();

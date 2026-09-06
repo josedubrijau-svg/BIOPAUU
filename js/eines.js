@@ -182,7 +182,7 @@
     }
 
     // Recomanades (destacades, amb color propi)
-    html+='<section class="e-sec" id="sec-reco"><div class="e-sec-h"><span class="n">✦</span><h2>Recomanades per a tu</h2><span class="s">Segons el teu perfil'+(c?' i el teu objectiu de '+esc(c):'')+'.</span></div>'+
+    html+='<section class="e-sec" id="sec-reco"><div class="e-sec-h"><span class="n" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5.5L19.5 10 14 12l-2 5.5L10 12 4.5 10 10 8.5z"/></svg></span><h2>Recomanades per a tu</h2><span class="s">Segons el teu perfil'+(c?' i el teu objectiu de '+esc(c):'')+'.</span></div>'+
       '<div class="e-grid">'+recommended().map(function(t){return toolCardHTML(t,true);}).join('')+'</div></section>';
 
     // Categories (biblioteca organitzada) — número de secció amb color propi

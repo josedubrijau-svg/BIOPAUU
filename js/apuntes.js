@@ -24,6 +24,8 @@
     energy: '<rect x="4" y="8" width="14" height="9" rx="2.2"/><path d="M18 11h2v3h-2"/><path d="M11 9.6l-2.2 3.6H11l-1.2 3.2 3.2-4.1h-2.1z"/>',
     /* Genètica i cicle cel·lular — cèl·lula en divisió */
     celldiv: '<circle cx="8.4" cy="12" r="5"/><circle cx="15.6" cy="12" r="5"/><circle cx="8.4" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.6" cy="12" r="1.1" fill="currentColor" stroke="none"/>',
+    /* Cicle cel·lular i càncer — cicle amb nucli */
+    cellcycle: '<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 3.5v4h-4"/><circle cx="12" cy="12" r="2.4"/>',
     /* Mutacions — DNA amb un travesser "avariat" */
     dnamut: '<path d="M8 3c0 4.5 8 5.5 8 9s-8 4.5-8 9M16 3c0 4.5-8 5.5-8 9s8 4.5 8 9"/><path d="M9.4 7.4h5.2M9.4 16.6h5.2"/><path d="M9.6 12l2-1.1-1 2.2 2-1.1" stroke="#D6564B"/>',
     /* Microorganismes — bacteri amb flagel */

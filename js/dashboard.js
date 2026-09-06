@@ -135,7 +135,12 @@ window.BPDash = (function () {
       e.textContent = v || '—';
       if (hideIfEmpty && e.closest) { var row = e.closest('.obj-row'); if (row) row.style.display = v ? '' : 'none'; }
     };
-    set('obj-career', enter + ' ' + d.career_goal);
+    var careerEl = el('obj-career');
+    if (careerEl) {
+      var ic = (window.BPEdu && window.BPEdu.careerIcon) ? window.BPEdu.careerIcon(d.career_goal, 'obj-career-ic') : '';
+      careerEl.innerHTML = ic + '<span class="obj-career-tx"></span>';
+      careerEl.querySelector('.obj-career-tx').textContent = enter + ' ' + d.career_goal;
+    }
     set('obj-univ', d.university_goal, true);
     set('obj-grade', d.target_grade != null && d.target_grade !== '' ? String(d.target_grade).replace('.', ',') : '', true);
 
@@ -293,6 +298,11 @@ window.BPDash = (function () {
     if (window.BPProfile) {
       try { await window.BPProfile.load(); } catch (e) {}
       if (!onbLocal && window.BPProfile.get('onboarding_completed') !== true) {
+        // Marcamos el flag ANTES de redirigir: la personalización solo se ofrece
+        // automáticamente la PRIMERA vez. Aunque el usuario no la termine o el
+        // backend no la guarde, no se volverá a forzar nunca más. Después siempre
+        // se puede editar desde Ajustes → Objetivo/Personalización (/cuenta.html#personalizar).
+        try { localStorage.setItem('biopau_onboarded', '1'); } catch (e) {}
         window.location.replace('/onboarding.html'); return;
       }
       // aplica el avatar elegido en el onboarding si aún no hay stats
