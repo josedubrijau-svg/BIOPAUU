@@ -41,33 +41,7 @@
         <p id="hello-sub" class="sk hello-msg" data-i18n="dash.preparing">Preparando tu panel</p>
       </section>
 
-      <!-- 1a0. bioPau Daily (reto del día, opcional/no bloqueante) -->
-      <div id="daily-dash"></div>
-
-      <!-- 1a. Centro de control (Hoy) -->
-      <div id="control-hub"></div>
-
-      <!-- 1b. Objetivo personal -->
-      <section class="card obj-card" id="obj-card">
-        <div id="obj-full">
-          <span class="card-sub"><span class="obj-emoji"></span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
-          <h2 id="obj-career" class="obj-career">—</h2>
-          <div class="obj-meta">
-            <div class="obj-row"><span class="obj-k" data-i18n="obj.univ">Universidad objetivo</span><span class="obj-v" id="obj-univ">—</span></div>
-            <div class="obj-row"><span class="obj-k" data-i18n="obj.grade">Nota objetivo</span><span class="obj-v" id="obj-grade">—</span></div>
-            <div class="obj-row"><span class="obj-k" data-i18n="obj.state">Estado</span><span class="obj-v"><span id="obj-state" class="obj-badge">—</span> <span class="obj-pct" id="obj-pct">0%</span></span></div>
-          </div>
-          <div class="obj-track"><span id="obj-bar"></span></div>
-        </div>
-        <div id="obj-empty" class="obj-empty" style="display:none">
-          <span class="card-sub"><span class="obj-emoji"></span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
-          <h3 data-i18n="obj.empty_t">Aún no tienes un objetivo</h3>
-          <p data-i18n="obj.empty_s">Cuéntanos qué quieres estudiar y bioPau se adaptará a ti.</p>
-          <a href="/onboarding.html" class="btn btn--sm"><span data-i18n="obj.empty_cta">Definir mi objetivo</span> <span class="arw">→</span></a>
-        </div>
-      </section>
-
-      <!-- 2. Estado del alumno + 3. Cuenta atrás -->
+      <!-- 2. Tu progreso (%) + cuenta atrás — arriba del todo, en horizontal -->
       <div class="grid grid--top">
 
         <section class="card">
@@ -132,6 +106,29 @@
           <p class="cd-note" data-i18n="dash.cd_note">Fecha orientativa — se ajustará al calendario oficial</p>
         </section>
       </div>
+
+      <!-- 1a. Centro de control (Hoy) -->
+      <div id="control-hub"></div>
+
+      <!-- 1b. Objetivo personal -->
+      <section class="card obj-card" id="obj-card">
+        <div id="obj-full">
+          <span class="card-sub"><span class="obj-emoji"></span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
+          <h2 id="obj-career" class="obj-career">—</h2>
+          <div class="obj-meta">
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.univ">Universidad objetivo</span><span class="obj-v" id="obj-univ">—</span></div>
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.grade">Nota objetivo</span><span class="obj-v" id="obj-grade">—</span></div>
+            <div class="obj-row"><span class="obj-k" data-i18n="obj.state">Estado</span><span class="obj-v"><span id="obj-state" class="obj-badge">—</span> <span class="obj-pct" id="obj-pct">0%</span></span></div>
+          </div>
+          <div class="obj-track"><span id="obj-bar"></span></div>
+        </div>
+        <div id="obj-empty" class="obj-empty" style="display:none">
+          <span class="card-sub"><span class="obj-emoji"></span> <span data-i18n="obj.eyebrow">Tu objetivo</span></span>
+          <h3 data-i18n="obj.empty_t">Aún no tienes un objetivo</h3>
+          <p data-i18n="obj.empty_s">Cuéntanos qué quieres estudiar y bioPau se adaptará a ti.</p>
+          <a href="/onboarding.html" class="btn btn--sm"><span data-i18n="obj.empty_cta">Definir mi objetivo</span> <span class="arw">→</span></a>
+        </div>
+      </section>
 
       <!-- 4. Área de estudio -->
       <section class="area-head">
@@ -210,6 +207,22 @@
   </div>
 </div>
 
+<!-- Reto diario: panel lateral izquierdo desplegable -->
+<div class="daily-drawer" id="daily-drawer">
+  <button class="daily-tab" id="daily-tab" aria-expanded="false" aria-controls="daily-panel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+    <span class="daily-tab-txt" data-i18n="nav.daily">Reto del día</span>
+  </button>
+  <aside class="daily-panel" id="daily-panel" role="region" aria-label="Reto del día">
+    <div class="daily-panel-head">
+      <span data-i18n="nav.daily">Reto del día</span>
+      <button class="daily-close" id="daily-close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div id="daily-dash"></div>
+  </aside>
+</div>
+<div class="daily-backdrop" id="daily-backdrop"></div>
+
 <!-- Modal de avatar -->
 <div class="modal" id="avatar-modal" role="dialog" aria-modal="true" aria-label="Elegir avatar">
   <div class="modal-box">
@@ -233,6 +246,7 @@
 <script src="/js/progress.js"></script>
 <script src="/js/profile-data.js"></script>
 <script src="/js/messages.js"></script>
+<script src="/js/edu-select.js"></script>
 <script src="/js/dashboard.js"></script>
 <!-- Centro de control (Fase D): lee tests + calendario + progreso -->
 <script src="/js/tests-data.js"></script>
@@ -251,6 +265,25 @@
       if (window.BPHub && window.BPData && window.BPData.state) { window.BPHub.init(); }
       else if (tries++ < 50) { setTimeout(wait, 100); }
       else if (window.BPHub) { window.BPHub.init(); }
+    })();
+
+    // Reto diario: panel lateral izquierdo desplegable (abrir/cerrar)
+    (function () {
+      var dr = document.getElementById('daily-drawer'),
+          tab = document.getElementById('daily-tab'),
+          closeBtn = document.getElementById('daily-close'),
+          bd = document.getElementById('daily-backdrop');
+      if (!dr) return;
+      function setOpen(o) {
+        var willOpen = (typeof o === 'boolean') ? o : !dr.classList.contains('is-open');
+        dr.classList.toggle('is-open', willOpen);
+        if (bd) bd.classList.toggle('is-on', willOpen);
+        if (tab) tab.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      }
+      if (tab) tab.addEventListener('click', function () { setOpen(); });
+      if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); });
+      if (bd) bd.addEventListener('click', function () { setOpen(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
     })();
   });
 </script>
