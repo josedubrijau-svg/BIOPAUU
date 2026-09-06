@@ -87,7 +87,9 @@
     var b = D.bloquePorId(id);
     if (!b) return;
     var notas = window.BIOPAU_NOTES && window.BIOPAU_NOTES[id];
-    if (notas && notas.temas) renderListaTemas(b, notas);
+    // Preferim els llibres personalitzats (un per tema) si el bloc en té.
+    if (b.llibres && b.llibres.length) renderGaleria(b);
+    else if (notas && notas.temas) renderListaTemas(b, notas);
     else renderGaleria(b);
     document.getElementById('temario').classList.add('is-hidden');
     root.classList.add('is-open');
@@ -275,8 +277,30 @@
           'background:#ADE80C;border-radius:100px;padding:.5rem .9rem;font-weight:700">Obrir &rarr;</span>' +
         '</a>';
     }
-    // Si hi ha llibre i encara no hi ha apunts escanejats, no mostrem la graella "Pròximament".
-    var gridHtml = (b.llibre && !tieneApuntes) ? '' : '<div class="ap-grid">' + slots + '</div>';
+    // Llista de llibres personalitzats (un per tema) — per a blocs multi-tema (ex: Metabolisme)
+    var llibresHtml = '';
+    if (b.llibres && b.llibres.length) {
+      llibresHtml = '<div style="display:flex;flex-direction:column;gap:10px;margin:8px 0 14px">' +
+        b.llibres.map(function (ll) {
+          var bookIco = '<span style="flex:0 0 44px;width:44px;height:54px;border-radius:5px 9px 9px 5px;background:#FAF7EE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.3)">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A2A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4.5"/></svg></span>';
+          if (ll.url) {
+            return '<a href="' + ll.url + '" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;text-decoration:none;background:linear-gradient(135deg,#12503A,#0E3A2A);border:1px solid rgba(173,232,12,.35);border-radius:16px;padding:13px 16px;box-shadow:0 8px 24px rgba(0,0,0,.22)">' +
+              bookIco +
+              '<span style="flex:1;min-width:0"><span style="display:block;font-family:\'Bricolage Grotesque\',sans-serif;font-weight:800;font-size:.98rem;color:#ADE80C;line-height:1.2">' + ll.titol + '</span>' +
+              '<span style="display:block;font-size:.8rem;color:#CFE0C6;margin-top:2px">Llibre interactiu amb diagrames a color.</span></span>' +
+              '<span style="flex:0 0 auto;font-family:\'Space Mono\',monospace;font-size:.78rem;color:#0E3A2A;background:#ADE80C;border-radius:10px;padding:.45rem .8rem;font-weight:700">Obrir &rarr;</span></a>';
+          }
+          return '<div style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:13px 16px;opacity:.75">' +
+            '<span style="flex:0 0 44px;width:44px;height:54px;border-radius:5px 9px 9px 5px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7f9a8b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6z"/></svg></span>' +
+            '<span style="flex:1;min-width:0"><span style="display:block;font-family:\'Bricolage Grotesque\',sans-serif;font-weight:800;font-size:.98rem;color:var(--txt-soft);line-height:1.2">' + ll.titol + '</span></span>' +
+            '<span style="flex:0 0 auto;font-family:\'Space Mono\',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#FFB067;border:1px solid rgba(255,176,103,.4);border-radius:8px;padding:.34rem .6rem">Pròximament</span></div>';
+        }).join('') + '</div>';
+    }
+
+    // Si hi ha llibre(s) i encara no hi ha apunts escanejats, no mostrem la graella "Pròximament".
+    var gridHtml = ((b.llibre || (b.llibres && b.llibres.length)) && !tieneApuntes) ? '' : '<div class="ap-grid">' + slots + '</div>';
 
     root.style.setProperty('--bc', b.color);
     root.innerHTML =
@@ -288,6 +312,7 @@
         '<span class="bq-pct-lg">' + pct + '% completado</span>' +
       '</div>' +
       llibreCta +
+      llibresHtml +
       gridHtml;
 
     var backBtn = root.querySelector('[data-back-grid]');

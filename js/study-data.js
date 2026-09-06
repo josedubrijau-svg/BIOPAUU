@@ -32,11 +32,12 @@ window.BIOPAU_DATA = (function () {
       desc: 'Catabolisme, anabolisme autòtrof i anabolisme heteròtrof: com la cèl·lula obté i transforma matèria i energia.',
       color: '#2DD4BF',
       icon: 'energy',
-      apuntes: [
-        { titulo: 'Tema 1 — El control del metabolisme' },
-        { titulo: 'Tema 2 — El catabolisme' },
-        { titulo: "Tema 3 — L'anabolisme autòtrof" },
-        { titulo: "Tema 4 — L'anabolisme heteròtrof" }
+      apuntes: [],
+      llibres: [
+        { titol: 'Tema 1 — El control del metabolisme', url: null },
+        { titol: 'Tema 2 — El catabolisme', url: null },
+        { titol: "Tema 3 — L'anabolisme autòtrof", url: null },
+        { titol: "Tema 4 — L'anabolisme heteròtrof", url: '/app/apuntes-anabolisme-heterotrof.html' }
       ]
     },
     {
