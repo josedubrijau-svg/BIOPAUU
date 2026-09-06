@@ -21,7 +21,7 @@
 .e-hero-sub{color:var(--txt-soft);font-size:1.02rem;max-width:46ch}
 .e-hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .e-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--txt-soft);
-  background:rgba(173,232,12,.06);border:1px solid var(--line);border-radius:100px;padding:.42rem .8rem}
+  background:rgba(173,232,12,.06);border:1px solid var(--line);border-radius:10px;padding:.42rem .8rem}
 .e-chip svg{width:14px;height:14px;stroke:var(--lime);fill:none;stroke-width:1.8}
 
 /* Mostra destacada (featured): temporitzador com a peça protagonista */
@@ -91,7 +91,7 @@
 .e-tool--feat .tt{font-size:1.12rem}
 /* accés ràpid (compacte) */
 .e-quick{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 8px}
-.e-qchip{--tc:#ADE80C;display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:.42rem .8rem .42rem .55rem;font-size:.85rem;color:var(--txt-soft);transition:border-color .18s,transform .18s,color .18s}
+.e-qchip{--tc:#ADE80C;display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.42rem .8rem .42rem .55rem;font-size:.85rem;color:var(--txt-soft);transition:border-color .18s,transform .18s,color .18s}
 .e-qchip:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--tc) 55%,var(--line));color:var(--txt)}
 .e-qchip .qd{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--tc) 18%,transparent)}
 .e-qchip .qd svg{width:14px;height:14px;stroke:var(--tc);fill:none;stroke-width:1.9}
@@ -218,15 +218,15 @@ body.e-immersive .content{padding:0;max-width:none}
 .e-tip .tv{font-family:var(--display);font-weight:800}
 .e-tip .td{font-size:.72rem}
 .e-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.e-leg{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--txt-soft);border:1px solid var(--line);border-radius:100px;padding:.32rem .7rem;cursor:pointer}
+.e-leg{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--txt-soft);border:1px solid var(--line);border-radius:10px;padding:.32rem .7rem;cursor:pointer}
 .e-leg .sw{width:12px;height:12px;border-radius:3px}
 .e-leg.off{opacity:.4}
 .e-demo-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:#F0C36B;
-  background:rgba(240,195,107,.08);border:1px solid rgba(240,195,107,.35);border-radius:100px;padding:.34rem .7rem}
+  background:rgba(240,195,107,.08);border:1px solid rgba(240,195,107,.35);border-radius:10px;padding:.34rem .7rem}
 
 /* Multiselect (comparador) */
 .e-checks{display:flex;flex-wrap:wrap;gap:8px}
-.e-check{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:100px;padding:.4rem .8rem;font-size:.85rem;cursor:pointer;color:var(--txt-soft)}
+.e-check{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:.4rem .8rem;font-size:.85rem;cursor:pointer;color:var(--txt-soft)}
 .e-check.on{border-color:var(--lime);color:var(--txt);background:rgba(173,232,12,.08)}
 .e-check .bx{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--txt-dim)}
 .e-check.on .bx{background:var(--lime);border-color:var(--lime)}

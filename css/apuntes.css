@@ -68,7 +68,7 @@
 
 .bq-back{
   font-family:'Space Mono',monospace; font-size:.78rem; color:#9FB6A6; margin-bottom:18px;
-  padding:9px 16px; border:1px solid rgba(255,255,255,.12); border-radius:100px; transition:all .16s ease;
+  padding:9px 16px; border:1px solid rgba(255,255,255,.12); border-radius:10px; transition:all .16s ease;
   display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.03);
 }
 .bq-back:hover{color:#EAF3E4; border-color:rgba(173,232,12,.4); background:rgba(173,232,12,.08); transform:translateX(-3px)}
@@ -125,13 +125,13 @@
 .topic-head p{color:var(--nr-muted)!important; font-size:.96rem}
 .topic-tools .btn{
   font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:700; font-size:.9rem;
-  padding:.7rem 1.2rem; border-radius:100px; border:2px solid var(--nr-forest); background:var(--nr-forest); color:#fff!important;
+  padding:.7rem 1.2rem; border-radius:10px; border:2px solid var(--nr-forest); background:var(--nr-forest); color:#fff!important;
   cursor:pointer; transition:transform .16s ease, box-shadow .16s ease;
 }
 .topic-tools .btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px -8px rgba(14,58,42,.5)}
 .topic-tools .btn.chip--done{background:#6C9D00; border-color:#6C9D00}
 .tema-progress{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
-.tema-progress .chip{font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700; padding:6px 12px; border-radius:100px;
+.tema-progress .chip{font-family:'Space Mono',monospace; font-size:.7rem; font-weight:700; padding:6px 12px; border-radius:8px;
   border:1.5px solid var(--nr-line); background:#fff; color:var(--nr-muted); cursor:pointer; transition:all .15s ease}
 .tema-progress .chip:hover{border-color:#ADE80C; transform:translateY(-1px)}
 .tema-progress .chip.chip--prog{background:#FDF3D6; border-color:#E8C86B; color:#8A6A0E}
@@ -176,7 +176,7 @@
 .formula i{color:#fff!important; margin:0 8px}
 .formula.big{text-align:center; font-size:1.05rem}
 .chips{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0}
-.chips span{padding:7px 12px; border-radius:999px; background:#EEF5E9; color:var(--nr-forest)!important; font-weight:700; font-size:.86rem}
+.chips span{padding:7px 12px; border-radius:10px; background:#EEF5E9; color:var(--nr-forest)!important; font-weight:700; font-size:.86rem}
 .table-like{display:grid; grid-template-columns:1.3fr 1fr 1fr; border:1px solid var(--nr-line); border-radius:12px; overflow:hidden; margin-top:12px; background:#fff}
 .table-like>*{padding:10px; border-right:1px solid var(--nr-line); border-bottom:1px solid var(--nr-line)}
 .energy-card,.graph-card{padding:16px; border-radius:16px; background:#F3EEFC; border:1px solid #E1D6FA}
@@ -208,7 +208,7 @@
 .final-box{display:flex; gap:12px; align-items:flex-start; background:#EEF9D5; border-color:#D6ED9F}
 .final-box span{font-size:1.8rem}
 .section-footer{display:flex; justify-content:space-between; margin-top:32px; padding-top:18px; border-top:1px solid var(--nr-line)}
-.small-btn{border:1px solid var(--nr-line); background:#fff; color:var(--nr-ink)!important; border-radius:100px; padding:9px 16px; font-weight:700; cursor:pointer; transition:all .16s ease}
+.small-btn{border:1px solid var(--nr-line); background:#fff; color:var(--nr-ink)!important; border-radius:10px; padding:9px 16px; font-weight:700; cursor:pointer; transition:all .16s ease}
 .small-btn:hover{background:#F1F5EC}
 
 /* ---------- Quiz modal ------------------------------------------------------ */

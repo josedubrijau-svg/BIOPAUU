@@ -17,7 +17,7 @@
 .reco--info{--reco-c:#38BDF8}
 .reco-head{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px}
 .reco-kicker{font-family:'Space Mono',monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--reco-c)}
-.reco-target{font-family:'Space Mono',monospace; font-size:.7rem; color:#9FB6A6; background:rgba(255,255,255,.05); padding:5px 12px; border-radius:100px}
+.reco-target{font-family:'Space Mono',monospace; font-size:.7rem; color:#9FB6A6; background:rgba(255,255,255,.05); padding:5px 12px; border-radius:10px}
 .reco h2{font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:800; font-size:1.35rem; color:#EAF3E4; margin-bottom:6px}
 .reco-msg{color:#9FB6A6; font-size:.95rem; max-width:70ch}
 .reco-stats{display:flex; gap:18px; flex-wrap:wrap; margin-top:14px; font-size:.84rem; color:#9FB6A6}
@@ -35,10 +35,10 @@
 .cal-head{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:18px; flex-wrap:wrap}
 .cal-head h2{font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:800; font-size:1.3rem; color:#EAF3E4}
 .cal-controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.cal-views{display:flex; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:100px; padding:3px}
-.cal-views button{border:0; background:none; color:#9FB6A6; font-weight:700; font-size:.8rem; padding:7px 15px; border-radius:100px; cursor:pointer; transition:all .16s ease}
+.cal-views{display:flex; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:10px; padding:3px}
+.cal-views button{border:0; background:none; color:#9FB6A6; font-weight:700; font-size:.8rem; padding:7px 15px; border-radius:10px; cursor:pointer; transition:all .16s ease}
 .cal-views button.is-active{background:rgba(173,232,12,.18); color:#ADE80C}
-.cal-today-btn{border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03); color:#9FB6A6; border-radius:100px; padding:8px 16px; font-weight:700; font-size:.8rem; cursor:pointer; transition:all .16s ease}
+.cal-today-btn{border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03); color:#9FB6A6; border-radius:10px; padding:8px 16px; font-weight:700; font-size:.8rem; cursor:pointer; transition:all .16s ease}
 .cal-today-btn:hover{border-color:rgba(173,232,12,.4); color:#ADE80C}
 .cal-nav{display:flex; gap:6px}
 .cal-nav button{width:36px; height:36px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03); color:#9FB6A6; font-size:1.1rem; cursor:pointer; display:grid; place-items:center; transition:all .16s ease}
@@ -91,7 +91,7 @@
 
 .dp-topic{display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.03); border-left:3px solid var(--tc,#ADE80C); border-radius:9px; padding:9px 11px; margin-bottom:7px}
 .dp-topic-name{flex:1; font-size:.88rem; color:#EAF3E4}
-.dp-topic-state{border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04); color:#9FB6A6; border-radius:100px; padding:3px 10px; font-family:'Space Mono',monospace; font-size:.6rem; cursor:pointer; white-space:nowrap}
+.dp-topic-state{border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04); color:#9FB6A6; border-radius:10px; padding:3px 10px; font-family:'Space Mono',monospace; font-size:.6rem; cursor:pointer; white-space:nowrap}
 .dp-topic-state:hover{border-color:#ADE80C; color:#ADE80C}
 .dp-topic-del,.dp-control button,.task-del{border:0; background:none; color:#6E8878; font-size:1.15rem; cursor:pointer; line-height:1; padding:0 2px}
 .dp-topic-del:hover,.dp-control button:hover,.task-del:hover{color:#F87171}
